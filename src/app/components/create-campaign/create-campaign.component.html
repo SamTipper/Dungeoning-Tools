@@ -1,1 +1,64 @@
-<p>create-campaign works!</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="w-full max-w-xs flex flex-col m-auto h-screen">
+        <form 
+          [formGroup]="newCampaignForm"
+          class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-8"
+          (ngSubmit)="onSubmit()"
+         >
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2 text-center">
+              Campaign Name
+            </label>
+            <input 
+                formControlName="name"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-center"
+                type="text"
+            >
+
+            <label class="block text-gray-700 text-sm font-bold mb-2 mt-3 text-center">
+                Players (optional)
+            </label>
+            <input
+                *ngFor="let player of players; let index = index; trackBy: trackByFn;"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-center mt-2"
+                type="text"
+                [ngModelOptions]="{standalone: true}"
+                [(ngModel)]="players[index]"
+                (ngModelChange)="onPlayerChange($event, index)"
+            >
+            <svg 
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke-width="1.5" 
+                stroke="currentColor" 
+                class="cursor-pointer w-6 h-6 ml-auto mr-auto mt-3"
+                type="button"
+                (click)="onAddPlayer()">
+                <path 
+                    stroke-linecap="round"
+                    stroke-linejoin="round" 
+                    d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+            </svg>
+
+          </div>
+          <div class="flex items-center justify-center">
+            <button
+             type="submit"
+             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"> 
+             Get Campaign Data
+            </button>
+          </div>
+        </form>
+    </div>
+</body>
+</html>

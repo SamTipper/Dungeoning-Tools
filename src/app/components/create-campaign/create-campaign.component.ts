@@ -9,7 +9,7 @@ import { Player } from 'src/app/interfaces/player';
 })
 export class CreateCampaignComponent implements OnInit{
   newCampaignForm: FormGroup;
-  players: Player[] = [ <Player>{ name: "" } ];
+  players: Player[] = [ <Player>{} ]; // Adding the initial player to the array
 
   ngOnInit(){
     this.newCampaignForm = new FormGroup({

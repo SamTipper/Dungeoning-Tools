@@ -1,11 +1,14 @@
+/* 
+
+*/
 export interface Player {
 
-    name:         string,
-    strength:     number,
-    dexterity:    number,
-    constitution: number,
-    intelligence: number,
-    wisdom:       number,
-    charisma:     number
+    name:          string,
+    strength?:     number,
+    dexterity?:    number,
+    constitution?: number,
+    intelligence?: number,
+    wisdom?:       number,
+    charisma?:     number
 
 }

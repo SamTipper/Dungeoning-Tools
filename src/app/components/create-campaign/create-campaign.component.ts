@@ -23,7 +23,7 @@ export class CreateCampaignComponent implements OnInit{
   }
 
   onSubmit(){
-
+    console.log(JSON.stringify(this.players));
   }
 
   onAddPlayer(){
@@ -52,7 +52,7 @@ export class CreateCampaignComponent implements OnInit{
     this.players[index].name = event;
   }
 
-  trackByFn(index: number, treatment) {
+  trackByFn(index: number, treatment: object){
     return index;
   }
 

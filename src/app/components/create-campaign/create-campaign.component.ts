@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Player } from 'src/app/interfaces/player';
 
 @Component({
   selector: 'app-create-campaign',
@@ -8,7 +9,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class CreateCampaignComponent implements OnInit{
   newCampaignForm: FormGroup;
-  players: string[] = [null];
+  players: Player[] = [ <Player>{ name: "" } ];
 
   ngOnInit(){
     this.newCampaignForm = new FormGroup({
@@ -21,15 +22,19 @@ export class CreateCampaignComponent implements OnInit{
   }
 
   onAddPlayer(){
-    this.players.push(null);
+    this.players.push(
+      <Player>{
+        name: ""
+      }
+    );
   }
 
-  onPlayerChange(event, index){
-    this.players[index] = event;
+  onPlayerChange(event: string, index: number){
+    this.players[index].name = event;
     console.log(JSON.stringify(this.players));
   }
 
-  trackByFn(index, treatment) {
+  trackByFn(index: number, treatment) {
     return index;
   }
 

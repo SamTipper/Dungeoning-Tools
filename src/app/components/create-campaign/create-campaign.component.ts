@@ -48,6 +48,11 @@ export class CreateCampaignComponent implements OnInit{
     }
   }
 
+  /**
+   * 
+   * @param event The new string that replaces the old player name.
+   * @param index The index of where the edited player is in the "players" array.
+   */
   onPlayerChange(event: string, index: number){
     this.players[index].name = event;
   }

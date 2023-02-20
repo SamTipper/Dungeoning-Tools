@@ -7,6 +7,106 @@
     <title>Document</title>
 </head>
 <body>
+    <div class="container mx-auto">
+        <div class="w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div class="grid grid-rows-1 grid-flow-col w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                <p 
+                class="text-9xl text-center"
+                >
+                    {{ diceValue }}
+                </p>
+
+                <button
+                (click)="toggleSymbol()"
+                >
+                    <p class="text-9xl text-center">{{ currentSymbol }}</p>
+                </button>
+
+                <p class="text-9xl text-center">
+                    {{ modifier }}
+                </p>
+                
+                <p class="text-9xl text-center">
+                    =
+                </p>
+
+                <p class="text-9xl text-center">
+                    {{ totalRoll }}
+                </p>
+            </div>
+
+            <div class="flex flex-row">
+                <div class="m-auto">
+                    <button 
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    (click)="rollDice(4)"
+                    >
+                        D4
+                    </button>
+                </div>
+    
+                <div class="m-auto">
+                    <button 
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    (click)="rollDice(6)"
+                    >
+                        D6
+                    </button>
+                </div>
+    
+                <div class="m-auto">
+                    <button 
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    (click)="rollDice(8)"
+                    >
+                        D8
+                    </button>
+                </div>
+    
+                <div class="m-auto">
+                    <button 
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    (click)="rollDice(12)"
+                    >
+                        D12
+                    </button>
+                </div>
+    
+                <div class="m-auto">
+                    <button 
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    (click)="rollDice(20)"
+                    >
+                        D20
+                    </button>
+                </div>
+    
+                <div class="m-auto">
+                    <button 
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    (click)="rollDice(100)"
+                    >
+                        D100
+                    </button>
+                </div>
+
+                <div class="m-auto">
+                    <button 
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-2"
+                    (click)="onModifierChange('+')"
+                    >
+                        MOD +
+                    </button>
+                    <button 
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    (click)="onModifierChange('-')"
+                    >
+                        MOD -
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     
 </body>
 </html>

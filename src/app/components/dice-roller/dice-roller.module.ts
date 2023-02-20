@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DiceRollerComponent } from './dice-roller.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -8,7 +9,8 @@ import { DiceRollerComponent } from './dice-roller.component';
     DiceRollerComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule
   ]
 })
 export class DiceRollerModule { }

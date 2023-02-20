@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Player } from 'src/app/interfaces/player';
 import { ToastrService } from 'ngx-toastr';
+import { HttpService } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-create-campaign',
@@ -13,7 +14,8 @@ export class CreateCampaignComponent implements OnInit{
   players: Player[] = [ <Player>{ name: "" } ]; // Adding the initial player to the array
 
   constructor(
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private http: HttpService
   ) {}
 
   ngOnInit(){
@@ -23,7 +25,12 @@ export class CreateCampaignComponent implements OnInit{
   }
 
   onSubmit(){
-    console.log(JSON.stringify(this.players));
+    this.http.submitCampaign(this.newCampaignForm.value.name, JSON.stringify(this.players))
+      .subscribe(
+        (res) => {
+          console.log(res);
+        }
+    )
   }
 
   onAddPlayer(){

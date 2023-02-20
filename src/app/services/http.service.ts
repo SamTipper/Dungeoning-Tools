@@ -11,6 +11,22 @@ export class HttpService {
   ) { }
 
   /**
+   * 
+   * @param campaignCode The unqiue identifier that tells the server what campaign data to return
+   * @returns A subscription.
+   */
+  getCampaign(campaignCode: string){
+    return this.http.get(
+      "http://localhost:15212/get_campaign",
+      {
+        headers: {campaignCode: campaignCode},
+        observe: "response",
+        responseType: "text"
+      }
+    )
+  }
+
+  /**
    * @param name The name of the campaign.
    * @param players JSON stringified version of the players array.
    * @returns A subscription.

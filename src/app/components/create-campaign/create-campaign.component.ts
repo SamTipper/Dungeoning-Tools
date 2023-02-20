@@ -50,7 +50,7 @@ export class CreateCampaignComponent implements OnInit{
       player.name = this.title(player.name);
       console.log(player.name);
     });
-    this.http.submitCampaign(this.newCampaignForm.value.name, JSON.stringify(this.players)).subscribe(
+    this.http.submitCampaign(this.title(this.newCampaignForm.value.name), JSON.stringify(this.players)).subscribe(
       (res) => {
         if (res.status === 201){
           this.campaignCode = JSON.parse(res.body)['campaignCode'];

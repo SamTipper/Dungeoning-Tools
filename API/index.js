@@ -22,6 +22,10 @@ function generateCampaignCode(){
     return campaignCode;
 }
 
+function findCampaign(campaignCode, campaignData){
+    return campaignCode = campaignData['campaignCode'];
+}
+
 // END OF HELPER FUNCTIONS
 
 // ENDPOINTS
@@ -54,11 +58,25 @@ app.get('/get_campaign', async (req, res) => {
     try {
         db.collection('campaigns').get().then(
             querysnapshot => {
-            for (let doc of querysnapshot.docs){
-                console.log(doc.data());
+                let found = false;
+                const campaignCode = req.headers['campaigncode'];
+                let campaign = {}
+                for (campaign of querysnapshot.docs){
+                    for (key of Object.keys(campaign.data())){
+                        if (key == campaignCode){
+                            found = true;
+                            campaign = campaign.data();
+                            break;
+                        }
+                    }
+                }
+                if (found){
+                    return res.status(200).send(JSON.stringify(campaign));
+                } else {
+                    return res.status(404).send("Campaign Not Found")
+                }
             }
-            return res.status(200).send("Success");
-        });
+        );
     } catch (error) {
         return res.status(500).send(error);
     }

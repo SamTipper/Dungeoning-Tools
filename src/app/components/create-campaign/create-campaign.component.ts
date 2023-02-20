@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Player } from 'src/app/interfaces/player';
 import { ToastrService } from 'ngx-toastr';
 import { HttpService } from 'src/app/services/http.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-campaign',
@@ -11,11 +12,16 @@ import { HttpService } from 'src/app/services/http.service';
 })
 export class CreateCampaignComponent implements OnInit{
   newCampaignForm: FormGroup;
+  disableForm: boolean = false;
+  campaignCreated: boolean = false;
   players: Player[] = [ <Player>{ name: "" } ]; // Adding the initial player to the array
+  campaignCode: string;
+  userAcknowledged: boolean = false;
 
   constructor(
     private toastr: ToastrService,
-    private http: HttpService
+    private http: HttpService,
+    private router: Router
   ) {}
 
   ngOnInit(){
@@ -24,11 +30,33 @@ export class CreateCampaignComponent implements OnInit{
     })
   }
 
+  /**
+   * 
+   * @param words A string that returns with its first letter of each word capitilised
+   * @returns A new string with its first letter of each word capitilised
+   */
+  title(words: string){
+    const splitName: string[] = words.split(" ");
+    let newWord: string = "";
+    splitName.forEach(word => {
+      newWord += `${word.charAt(0).toUpperCase() + word.substring(1)} `;
+    });
+    return newWord;
+  }
+
   onSubmit(){
-    console.log(this.newCampaignForm.value.name, JSON.stringify(this.players));
+    this.disableForm = true;
+    this.players.forEach((player: Player) => {
+      player.name = this.title(player.name);
+      console.log(player.name);
+    });
     this.http.submitCampaign(this.newCampaignForm.value.name, JSON.stringify(this.players)).subscribe(
       (res) => {
-        console.log(res.status);
+        if (res.status === 201){
+          this.campaignCode = JSON.parse(res.body)['campaignCode'];
+          this.campaignCreated = true;
+        }
+        
       }
     )
   }
@@ -66,6 +94,10 @@ export class CreateCampaignComponent implements OnInit{
 
   trackByFn(index: number, treatment: object){
     return index;
+  }
+
+  backHome(){
+    this.router.navigate(['home']);
   }
 
 }

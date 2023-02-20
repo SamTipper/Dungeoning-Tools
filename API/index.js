@@ -2,6 +2,7 @@ const firebase = require('firebase');
 const express = require('express');
 const bodyParser = require('body-parser')
 const constants = require('./constants');
+const crypto = require('crypto');
 const cors = require('cors')
 
 const app = express();
@@ -14,6 +15,17 @@ app.use(cors());
 
 // END OF API CONFIG
 
+// HELPER FUNCTIONS
+
+function generateCampaignCode(){
+    let campaignCode = crypto.randomBytes(4).toString('hex');
+    return campaignCode;
+}
+
+// END OF HELPER FUNCTIONS
+
+// ENDPOINTS
+
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 })
@@ -24,13 +36,15 @@ app.get('', async (req, res, next) => {
 
 app.post('/set_campaign', jsonParser, async (req, res) => {
     try {
-        console.log(req.body);
         let campaign = {};
-        campaign[req.body.campaignName] = {
+        let campaignCode = generateCampaignCode();
+
+        campaign[campaignCode] = {
+            name: req.body.campaignName,
             players: JSON.parse(req.body.players)
         }
         db.collection('campaigns').doc(constants.docId).update(campaign);
-        return res.status(200).send("Success"); 
+        return res.status(201).send({ campaignCode: campaignCode }); 
     } catch (error) {
         return res.status(500).send(error);
     }

@@ -7,7 +7,9 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="w-full max-w-xs flex flex-col m-auto h-screen">
+    <div
+      *ngIf="!campaignCreated"  
+      class="w-full max-w-xs flex flex-col m-auto h-screen">
         <form 
           [formGroup]="newCampaignForm"
           class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-8"
@@ -77,13 +79,46 @@
           </div>
           <div class="flex items-center justify-center">
             <button
-             [disabled]="newCampaignForm.invalid"
+             [disabled]="newCampaignForm.invalid || disableForm"
              type="submit"
              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"> 
              Create
             </button>
           </div>
         </form>
+    </div>
+    <div
+      *ngIf="campaignCreated" 
+      class="w-full max-w-xs flex flex-col m-auto h-screen items-center">
+      <div class="bg-white flex flex-col shadow-md rounded px-8 pt-6 pb-8 mb-4 m-8 items-center">
+        <label class="block text-gray-700 text-sm mb-2 text-center">
+          Campaign Code
+        </label>
+        <h2 class="block text-gray-700 text-lg font-bold mb-2 text-center">
+          {{ campaignCode }}
+        </h2>
+        <label class="block text-gray-700 text-sm mb-2 text-center">
+          Remember this code as it is the only way you can access your campaign.
+        </label>
+        <br>
+        <hr>
+        <br>
+        <div class="flex items-center">
+          <input 
+            [(ngModel)]="userAcknowledged"
+            type="checkbox" value="" 
+            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 text-center">
+          <label for="link-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300 text-center">I will never forget my campaign code.</label>
+        </div>
+        <br>
+        <button
+          [disabled]="!userAcknowledged"
+          (click)="backHome()"
+          type="button"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"> 
+          Back Home
+        </button>
+      </div>
     </div>
 </body>
 </html>

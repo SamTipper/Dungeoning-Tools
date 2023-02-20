@@ -19,6 +19,11 @@ export class HttpService {
     return this.http.post(
       "http://localhost:15212/set_campaign",
       {
+        campaignName: name,
+        players: players
+      },
+      {
+        headers: {},
         observe: "response",
         responseType: "text"
       }

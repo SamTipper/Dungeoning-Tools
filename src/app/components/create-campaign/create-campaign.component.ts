@@ -25,11 +25,11 @@ export class CreateCampaignComponent implements OnInit{
   }
 
   onSubmit(){
-    this.http.submitCampaign(this.newCampaignForm.value.name, JSON.stringify(this.players))
-      .subscribe(
-        (res) => {
-          console.log(res);
-        }
+    console.log(this.newCampaignForm.value.name, JSON.stringify(this.players));
+    this.http.submitCampaign(this.newCampaignForm.value.name, JSON.stringify(this.players)).subscribe(
+      (res) => {
+        console.log(res.status);
+      }
     )
   }
 

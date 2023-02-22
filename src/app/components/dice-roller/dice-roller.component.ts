@@ -11,6 +11,7 @@ export class DiceRollerComponent {
   modifier: number = 0;
   totalRoll: number = 0;
   currentSymbol: string = "+";
+  rollHistory: number[] = [];
 
   /**
    * 
@@ -22,11 +23,18 @@ export class DiceRollerComponent {
   }
 
   async rollDice(diceMax: number){
-    const rollMax = diceMax > 20 ? 20 : diceMax
     this.rolling = true;
+
+    if (this.rollHistory.length === 10){
+      this.rollHistory = [this.totalRoll];
+    } else if (this.totalRoll !== 0 && this.modifier >= 0 || this.rollHistory.length !== 0){
+      this.rollHistory.push(this.totalRoll);
+    }
+
+    const rollMax = diceMax > 20 ? 20 : diceMax;
     for (let i = 0; i < Math.floor(Math.random() * ((rollMax+1) - 3) + 3); i++){ // Roll for a random amount of times
       this.diceValue = Math.floor(Math.random() * ((diceMax+1) - 1) + 1);
-      this.totalRoll = this.currentSymbol === "+" ? this.diceValue + this.modifier : this.diceValue - this.modifier
+      this.totalRoll = this.currentSymbol === "+" ? this.diceValue + this.modifier : this.diceValue - this.modifier;
       await this.sleep(70);
     }
 
@@ -36,12 +44,8 @@ export class DiceRollerComponent {
   toggleSymbol(){
     this.currentSymbol = this.currentSymbol === "+" ? "-" : "+";
   }
-  
-  onModifierChange(symbol: string){
-    if (symbol === "+"){
-      this.modifier++;
-    } else if (symbol === "-" && this.modifier > 0) {
-      this.modifier--;
-    }
+
+  updateMod(event: object){
+    this.modifier = +event['target'].value;
   }
 }

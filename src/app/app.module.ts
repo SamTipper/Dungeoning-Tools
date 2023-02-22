@@ -9,12 +9,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { DiceRollerComponent } from './components/dice-roller/dice-roller.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    CreateCampaignComponent
+    CreateCampaignComponent,
+    DiceRollerComponent
   ],
   imports: [
     BrowserModule,

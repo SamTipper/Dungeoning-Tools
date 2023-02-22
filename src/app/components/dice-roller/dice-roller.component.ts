@@ -1,17 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CampaignLoaderService } from 'src/app/services/campaign-loader.service';
+import { Player } from 'src/app/interfaces/player';
 
 @Component({
   selector: 'app-dice-roller',
   templateUrl: './dice-roller.component.html',
   styleUrls: ['./dice-roller.component.css']
 })
-export class DiceRollerComponent {
+export class DiceRollerComponent implements OnInit{
   rolling: boolean;
   diceValue: number = 0;
   modifier: number = 0;
   totalRoll: number = 0;
   currentSymbol: string = "+";
   rollHistory: number[] = [];
+  players: Player[]
+
+  constructor(
+    private campaign: CampaignLoaderService
+  ) { }
+
+  ngOnInit(){
+    this.players = this.campaign.players;
+  }
 
   /**
    * 

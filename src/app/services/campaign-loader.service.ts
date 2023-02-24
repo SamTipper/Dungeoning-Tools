@@ -7,7 +7,7 @@ import { Player } from '../interfaces/player';
 export class CampaignLoaderService {
   campaignData: object;
   campaignName: string;
-  players: Player[] = [];
+  players: Player[] = [<Player>{name: "Player 1"}, <Player>{name: "Player 2"}, <Player>{name: "Player 3"},];
 
   constructor() { }
 

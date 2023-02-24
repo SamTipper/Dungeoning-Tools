@@ -16,12 +16,13 @@
         
                     </div>
                 </summary>
-                <div class="p-4">
-                    <div *ngIf="player.stats">
-                        <h1>Strength: {{ player.stats.strength }}</h1>
-                        <h1>Dexterity: {{ player.stats.dexterity }}</h1>
-                        <h1>Constitution: {{ player.stats.constitution }}</h1>
-                    </div>
+                <div class="p-4 flex items-center text-center">
+                    <h1>Strength: <input class="text-center" [(ngModel)]="player.stats.strength" [value]="player.stats ? player.stats.strength : 0"></h1>
+                    <h1>Dexterity: <input class="text-center" [value]="player.stats ? player.stats.dexterity : 0"></h1>
+                    <h1>Constitution: <input class="text-center" [value]="player.stats ? player.stats.constitution : 0"></h1>
+                    <h1>Intelligence: <input class="text-center" [value]="player.stats ? player.stats.intelligence : 0"></h1>
+                    <h1>Wisdom: <input class="text-center" [value]="player.stats ? player.stats.wisdom : 0"></h1>
+                    <h1>Charisma: <input class="text-center" [value]="player.stats ? player.stats.charisma : 0"></h1>
                 </div>
             </details>
         </div>

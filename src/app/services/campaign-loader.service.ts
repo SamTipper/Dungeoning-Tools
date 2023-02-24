@@ -23,12 +23,7 @@ export class CampaignLoaderService {
       this.players.push(
         <Player>{
           name:         player['name'],
-          strength:     player['strength'] ? player['strength'] : "",
-          dexterity:    player['dexterity'] ? player['dexterity'] : "",
-          constitution: player['constitution'] ? player['constitution'] : "",
-          intelligence: player['intelligence'] ? player['intelligence'] : "",
-          wisdom:       player['wisdom'] ? player['wisdom'] : "",
-          charisma:     player['charisma'] ? player['charisma'] : ""
+          class:        null,
         }
       );
     });

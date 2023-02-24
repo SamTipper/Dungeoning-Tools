@@ -10,13 +10,15 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { DiceRollerComponent } from './components/dice-roller/dice-roller.component';
+import { PartyComponent } from './components/party/party.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     CreateCampaignComponent,
-    DiceRollerComponent
+    DiceRollerComponent,
+    PartyComponent
   ],
   imports: [
     BrowserModule,

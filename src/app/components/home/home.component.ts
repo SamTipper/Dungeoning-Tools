@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit{
     this.http.getCampaign(campaignCode).subscribe(
       (res) => {
         if (res.status === 200){
+          console.log(res.body);
           this.campaignLoader.loadCampaign(JSON.parse(res.body), campaignCode);
         }
       }

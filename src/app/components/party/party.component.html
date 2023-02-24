@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container mx-auto">
+        <div *ngIf="players.length > 0">
+            <details class="bg-white shadow rounded group mb-4" *ngFor="let player of players">
+                <summary class="list-none flex flex-wrap items-center cursor-pointer focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-500 rounded group-open:rounded-b-none group-open:z-[1] relative">
+                    <h3 class="flex flex-1 p-4 font-semibold">{{ player.name }}</h3>
+                    <div class="border-8 border-transparent border-l-gray-600 ml-2 group-open:rotate-90 transition-transform origin-left">
+        
+                    </div>
+                </summary>
+                <div class="p-4">
+                    <div *ngIf="player.stats">
+                        <h1>Strength: {{ player.stats.strength }}</h1>
+                        <h1>Dexterity: {{ player.stats.dexterity }}</h1>
+                        <h1>Constitution: {{ player.stats.constitution }}</h1>
+                    </div>
+                </div>
+            </details>
+        </div>
+        <h1 *ngIf="players.length === 0">Please enter a campaign code on the homepage.</h1>
+    </div>
+</body>
+</html>

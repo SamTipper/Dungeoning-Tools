@@ -71,6 +71,7 @@ app.get('/get_campaign', async (req, res) => {
                     }
                 }
                 if (found){
+                    console.log(campaign);
                     return res.status(200).send(JSON.stringify(campaign));
                 } else {
                     return res.status(404).send("Campaign Not Found")

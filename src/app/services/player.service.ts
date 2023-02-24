@@ -71,6 +71,31 @@ export class PlayerService {
     return player;
   }
 
+  /**
+   * 
+   * @param player The player who needs their ability scores generating.
+   * @description Generates the ability scores of a player. The player must have all main ability scores populated for the function to work
+   */
+  generateAbilityScoreModifiers(player: Player){
+    player.stats.strength.modifier = player.stats.strength.score > 0 ?
+     this.findClosestStatMod(player, "strength"): 0;
+    
+    player.stats.dexterity.modifier = player.stats.dexterity.score > 0 ?
+     this.findClosestStatMod(player, "dexterity"): 0;
+
+    player.stats.constitution.modifier = player.stats.constitution.score > 0 ?
+     this.findClosestStatMod(player, "constitution"): 0;
+
+    player.stats.intelligence.modifier = player.stats.intelligence.score > 0 ?
+     this.findClosestStatMod(player, "intelligence"): 0;
+    
+    player.stats.wisdom.modifier = player.stats.wisdom.score > 0 ?
+     this.findClosestStatMod(player, "wisdom"): 0;
+
+    player.stats.charisma.modifier = player.stats.charisma.score > 0 ?
+     this.findClosestStatMod(player, "charisma"): 0;
+  }
+
   findClosestProficiency(level): number{
     let closest = Object.keys(this.levelProficiency).reduce((prev: any, curr: any) => {
       return (Math.abs(curr - level) < Math.abs(prev - level) ? curr : prev);

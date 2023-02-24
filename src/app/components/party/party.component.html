@@ -11,22 +11,30 @@
         <div *ngIf="players.length > 0">
             <details class="bg-white shadow rounded group mb-4" *ngFor="let player of players">
                 <summary class="list-none flex flex-wrap items-center cursor-pointer focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-500 rounded group-open:rounded-b-none group-open:z-[1] relative">
-                    <h3 class="flex flex-1 p-4 font-semibold">{{ player.name }}</h3>
-                    <div class="border-8 border-transparent border-l-gray-600 ml-2 group-open:rotate-90 transition-transform origin-left">
-        
-                    </div>
+                    <h3 class="flex flex-1 p-4 font-semibold text-center m-auto">{{ player.name }}</h3>
+                    <div class="border-8 border-transparent border-l-gray-600 ml-2 group-open:rotate-90 transition-transform origin-left"></div>
                 </summary>
+                <div class="p-4 items-center text-center">
+                    <h1 class="text-5xl p-4">{{ player.name }} </h1>
+                    <h1 class="p-4 text-center ml-44 mr-2">Level&nbsp;<input [value]="player.level"></h1>
+                </div>
                 <div class="p-4 flex items-center text-center">
-                    <h1>Strength: <input class="text-center" [(ngModel)]="player.stats.strength" [value]="player.stats ? player.stats.strength : 0"></h1>
-                    <h1>Dexterity: <input class="text-center" [value]="player.stats ? player.stats.dexterity : 0"></h1>
-                    <h1>Constitution: <input class="text-center" [value]="player.stats ? player.stats.constitution : 0"></h1>
-                    <h1>Intelligence: <input class="text-center" [value]="player.stats ? player.stats.intelligence : 0"></h1>
-                    <h1>Wisdom: <input class="text-center" [value]="player.stats ? player.stats.wisdom : 0"></h1>
-                    <h1>Charisma: <input class="text-center" [value]="player.stats ? player.stats.charisma : 0"></h1>
+                    <h1>Strength: <input class="text-center" [(ngModel)]="player.stats.strength.score" (ngModelChange)="onPlayerChange('abilityScore')" [value]="player.stats ? player.stats.strength.score : 0"></h1>
+                    <h1>Dexterity: <input class="text-center" [(ngModel)]="player.stats.dexterity.score" (ngModelChange)="onPlayerChange('abilityScore')" [value]="player.stats ? player.stats.dexterity.score : 0"></h1>
+                    <h1>Constitution: <input class="text-center" [(ngModel)]="player.stats.constitution.score" (ngModelChange)="onPlayerChange('abilityScore')" [value]="player.stats ? player.stats.constitution.score : 0"></h1>
+                    <h1>Intelligence: <input class="text-center" [(ngModel)]="player.stats.intelligence.score" (ngModelChange)="onPlayerChange('abilityScore')" [value]="player.stats ? player.stats.intelligence.score : 0"></h1>
+                    <h1>Wisdom: <input class="text-center" [(ngModel)]="player.stats.wisdom.score" (ngModelChange)="onPlayerChange('abilityScore')" [value]="player.stats ? player.stats.wisdom.score : 0"></h1>
+                    <h1>Charisma: <input class="text-center" [(ngModel)]="player.stats.charisma.score" (ngModelChange)="onPlayerChange('abilityScore')" [value]="player.stats ? player.stats.charisma.score : 0"></h1>
                 </div>
             </details>
+            <button
+             [disabled]="changes['disableButton']"
+             type="button"
+             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"> 
+             Save All
+            </button>
         </div>
-        <h1 *ngIf="players.length === 0">Please enter a campaign code on the homepage.</h1>
+        <h1 class="text-center" *ngIf="players.length === 0">Please enter a campaign code on the homepage.</h1>
     </div>
 </body>
 </html>

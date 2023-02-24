@@ -10,6 +10,12 @@ import { PlayerService } from 'src/app/services/player.service';
 })
 export class PartyComponent implements OnInit{
   players: Player[];
+  changes: object = {
+    level:         false,
+    abilityScore:  false,
+    skills:        false,
+    disableButton: true
+  };
 
   constructor(
     private campaign: CampaignLoaderService,
@@ -19,4 +25,10 @@ export class PartyComponent implements OnInit{
   ngOnInit(){
     this.players = this.campaign.players;
   }
+
+  onPlayerChange(change: string){
+    this.changes[change] = true;
+    this.changes['disableButton'] = false;
+  }
+
 }

@@ -41,7 +41,6 @@ export class CampaignLoaderService {
         }
       );
     });
-    console.log(this.players);
   }
 
   /**

@@ -52,18 +52,17 @@ export class CreateCampaignComponent implements OnInit{
     this.players.forEach((player: Player) => {
       player.name = this.title(player.name);
       player = this.playerService.setInitialStats(player);
-      console.log(player);
     });
 
-    // this.http.submitCampaign(this.title(this.newCampaignForm.value.name), JSON.stringify(this.players)).subscribe(
-    //   (res) => {
-    //     if (res.status === 201){
-    //       this.campaignCode = JSON.parse(res.body)['campaignCode'];
-    //       this.campaignCreated = true;
-    //     }
+    this.http.submitCampaign(this.title(this.newCampaignForm.value.name), JSON.stringify(this.players)).subscribe(
+      (res) => {
+        if (res.status === 201){
+          this.campaignCode = JSON.parse(res.body)['campaignCode'];
+          this.campaignCreated = true;
+        }
         
-    //   }
-    // )
+      }
+    )
   }
 
   onAddPlayer(){

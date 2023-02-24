@@ -55,16 +55,18 @@
                 placeholder="Player Name"
                 [ngModelOptions]="{standalone: true}"
                 [(ngModel)]="players[index].name"
-                (ngModelChange)="onPlayerChange($event, index)"
+                (ngModelChange)="onPlayerNameChange($event, index)"
               >              
 
               <select 
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mt-2 ml-4 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Player Class"
+              [(ngModel)]="players[index].class"
+              [ngModelOptions]="{standalone: true}"
+              (ngModelChange)="onPlayerClassChange($event, index)"
               >
                 <option class="text-center" value="Artificer">Artificer</option>
                 <option class="text-center" value="Bararian">Bararian</option>
-                <option class="text-center"value="Bard">Bard</option>
+                <option class="text-center" value="Bard">Bard</option>
                 <option class="text-center" value="Cleric">Cleric</option>
                 <option class="text-center" value="Druid">Druid</option>
                 <option class="text-center" value="Fighter">Fighter</option>
@@ -79,9 +81,11 @@
 
               <select 
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mt-2 ml-4 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Player Level"
+              [(ngModel)]="players[index].level"
+              [ngModelOptions]="{standalone: true}"
+              (ngModelChange)="onPlayerLevelChange($event, index)"
               >
-                <option *ngFor="let level of playerLevels" class="text-center" [value]="level">{{ level }}</option>
+                <option *ngFor="let level of playerLevels; let ind = index;" [selected]="index === 0" class="text-center" [value]="level">{{ level }}</option>
               </select>
 
             </div>

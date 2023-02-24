@@ -7,7 +7,7 @@ import { Player } from '../interfaces/player';
 export class CampaignLoaderService {
   campaignData: object;
   campaignName: string;
-  players: Player[] = [<Player>{name: "Player 1"}, <Player>{name: "Player 2"}, <Player>{name: "Player 3"},];
+  players: Player[] = [];
 
   constructor() { }
 
@@ -22,11 +22,26 @@ export class CampaignLoaderService {
     this.campaignData['players'].forEach((player: string) => {
       this.players.push(
         <Player>{
+          // General stats
           name:         player['name'],
-          class:        null,
+          class:        player['class'],
+          health:       player['health'],
+          level:        player['level'],
+          proficiency:  player['proficiency'],
+
+          // Ability Scores
+          stats: {
+            strength:     {score: 0},
+            dexterity:    {score: 0},
+            constitution: {score: 0},
+            intelligence: {score: 0},
+            wisdom:       {score: 0},
+            charisma:     {score: 0},
+          }
         }
       );
     });
+    console.log(this.players);
   }
 
   /**

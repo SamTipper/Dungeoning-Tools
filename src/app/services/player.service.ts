@@ -54,27 +54,28 @@ export class PlayerService {
     campaign: CampaignLoaderService
   ) { }
 
-  setInitialStats(player: Player, playerClass: string, level: number): Player{
+  setInitialStats(player: Player): Player{
     // Stats
     player.health = 0;
-    player.class = playerClass;
-    player.proficiency = this.findClosestProficiency(level);
+    player.proficiency = this.findClosestProficiency(player.level);
 
     // Ability Scores
-    player.stats.strength.score = 0;
-    player.stats.dexterity.score = 0;
-    player.stats.constitution.score = 0;
-    player.stats.intelligence.score = 0;
-    player.stats.wisdom.score = 0;
-    player.stats.charisma.score = 0;
+    player.stats = {
+      strength:     {score: 0},
+      dexterity:    {score: 0},
+      constitution: {score: 0},
+      intelligence: {score: 0},
+      wisdom:       {score: 0},
+      charisma:     {score: 0},
+    }
     return player;
   }
 
   findClosestProficiency(level): number{
     let closest = Object.keys(this.levelProficiency).reduce((prev: any, curr: any) => {
-      return (Math.abs(curr - level) <= Math.abs(prev - level) ? curr : prev);
+      return (Math.abs(curr - level) < Math.abs(prev - level) ? curr : prev);
     });
-    return this.statModifiers[+closest];
+    return this.levelProficiency[+closest];
   }
 
   findClosestStatMod(player: Player, stat: string): number{  

@@ -20,27 +20,52 @@ export class CampaignLoaderService {
     this.campaignName = campaignData[campaignCode]['name'];
     
     this.campaignData['players'].forEach((player: string) => {
+      let stats:  object = {stats: {}};
+      let skills: object = {skills: {}};
+
+      // Ability Scores
+      for (let stat of Object.keys(player['stats'])){
+        stats['stats'][stat] = {
+          score:       stat['score']           ? stat['score'] : undefined,
+          modifier:    stat['modifier']        ? stat['modifier'] : undefined,
+          save:        stat['save']            ? stat['save'] : undefined,
+          proficiency: stat['sproficiencyave'] ? stat['proficiency'] : undefined,
+        }
+      }
+
+      // Skills
+      if (player['skills']){
+        for (let skill of Object.keys(player['skills'])){
+          skills['skills'][skill] = {
+            score:       skill['score']       ? skill['score'] : undefined,
+            proficiency: skill['proficiency'] ? skill['proficiency'] : undefined,
+            expertise:   skill['expertise']   ? skill['expertise'] : undefined
+          }
+        }
+      }
+
       this.players.push(
         <Player>{
           // General stats
-          name:         player['name'],
-          class:        player['class'],
-          health:       player['health'],
-          level:        player['level'],
-          proficiency:  player['proficiency'],
+          name:         player['name']        ? player['name']        : undefined,
+          class:        player['class']       ? player['class']       : undefined,
+          level:        player['level']       ? player['level']       : undefined,
+          race:         player['race']        ? player['race']        : undefined,
+          health:       player['health']      ? player['health']      : undefined,
+          initiative:   player['initiative']  ? player['initiative']  : undefined,
+          speed:        player['speed']       ? player['speed']       : undefined,
+          ac:           player['ac']          ? player['ac']          : undefined,
+          proficiency:  player['proficiency'] ? player['proficiency'] : undefined,
 
-          // Ability Scores
-          stats: {
-            strength:     {score: 0},
-            dexterity:    {score: 0},
-            constitution: {score: 0},
-            intelligence: {score: 0},
-            wisdom:       {score: 0},
-            charisma:     {score: 0},
-          }
+          stats: stats,
+
+          skills: Object.keys(skills).length > 0 ? skills : undefined
         }
       );
+
     });
+    console.log(this.campaignData['players']);
+    
   }
 
   /**

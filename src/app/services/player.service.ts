@@ -23,7 +23,7 @@ export class PlayerService {
     Wizard:    ['Intelligence', 'Wisdom']
   };
 
-  statModifiers = { // Any stat that is below or equal a certain key is the character's modifier
+  statModifiers: object = { // Any stat that is below or equal a certain key is the character's modifier
     1: -5,
     3: -4,
     5: -3,
@@ -42,7 +42,7 @@ export class PlayerService {
     30: 10
   };
 
-  levelProficiency = { // Any level that is below or equal a certain key is the character's proficiency
+  levelProficiency: object = { // Any level that is below or equal a certain key is the character's proficiency
     4: 2,
     8: 3,
     12: 4,
@@ -54,6 +54,29 @@ export class PlayerService {
     campaign: CampaignLoaderService
   ) { }
 
+  setInitialStats(player: Player, playerClass: string, level: number): Player{
+    // Stats
+    player.health = 0;
+    player.class = playerClass;
+    player.proficiency = this.findClosestProficiency(level);
+
+    // Ability Scores
+    player.stats.strength.score = 0;
+    player.stats.dexterity.score = 0;
+    player.stats.constitution.score = 0;
+    player.stats.intelligence.score = 0;
+    player.stats.wisdom.score = 0;
+    player.stats.charisma.score = 0;
+    return player;
+  }
+
+  findClosestProficiency(level): number{
+    let closest = Object.keys(this.levelProficiency).reduce((prev: any, curr: any) => {
+      return (Math.abs(curr - level) <= Math.abs(prev - level) ? curr : prev);
+    });
+    return this.statModifiers[+closest];
+  }
+
   findClosestStatMod(player: Player, stat: string): number{  
     let closest = Object.keys(this.statModifiers).reduce((prev: any, curr: any) => {
       return (Math.abs(curr - player.stats[stat].score) <= Math.abs(prev - player.stats[stat].score) ? curr : prev);
@@ -63,31 +86,32 @@ export class PlayerService {
 
   generatePlayerSkills(player: Player){
 
-      if (!player.initiative){
-        player.initiative = player.stats.dexterity.modifier
-      }
+    if (!player.initiative){
+      player.initiative = player.stats.dexterity.modifier
+    }
 
-      if (!player.skills){
-        player.skills = {
-          acrobatics:        {score: player.stats.dexterity.modifier, proficiency: false, expertise: false},
-          "animal handling": {score: player.stats.wisdom.modifier, proficiency: false, expertise: false},
-          arcana:            {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
-          athletics:         {score: player.stats.strength.modifier, proficiency: false, expertise: false},
-          deception:         {score: player.stats.charisma.modifier, proficiency: false, expertise: false},
-          history:           {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
-          insight:           {score: player.stats.wisdom.modifier, proficiency: false, expertise: false},
-          intimidation:      {score: player.stats.charisma.modifier, proficiency: false, expertise: false},
-          investigation:     {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
-          medicine:          {score: player.stats.wisdom.modifier, proficiency: false, expertise: false},
-          nature:            {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
-          perception:        {score: player.stats.wisdom.modifier, proficiency: false, expertise: false},
-          performance:       {score: player.stats.charisma.modifier, proficiency: false, expertise: false},
-          persuasion:        {score: player.stats.charisma.modifier, proficiency: false, expertise: false},
-          religion:          {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
-          "sleight of hand": {score: player.stats.dexterity.modifier, proficiency: false, expertise: false},
-          stealth:           {score: player.stats.dexterity.modifier, proficiency: false, expertise: false},
-          survival:          {score: player.stats.wisdom.modifier, proficiency: false, expertise: false}
-        };
-      }
+    if (!player.skills){
+      player.skills = {
+        acrobatics:        {score: player.stats.dexterity.modifier, proficiency: false, expertise: false},
+        "animal handling": {score: player.stats.wisdom.modifier, proficiency: false, expertise: false},
+        arcana:            {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
+        athletics:         {score: player.stats.strength.modifier, proficiency: false, expertise: false},
+        deception:         {score: player.stats.charisma.modifier, proficiency: false, expertise: false},
+        history:           {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
+        insight:           {score: player.stats.wisdom.modifier, proficiency: false, expertise: false},
+        intimidation:      {score: player.stats.charisma.modifier, proficiency: false, expertise: false},
+        investigation:     {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
+        medicine:          {score: player.stats.wisdom.modifier, proficiency: false, expertise: false},
+        nature:            {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
+        perception:        {score: player.stats.wisdom.modifier, proficiency: false, expertise: false},
+        performance:       {score: player.stats.charisma.modifier, proficiency: false, expertise: false},
+        persuasion:        {score: player.stats.charisma.modifier, proficiency: false, expertise: false},
+        religion:          {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
+        "sleight of hand": {score: player.stats.dexterity.modifier, proficiency: false, expertise: false},
+        stealth:           {score: player.stats.dexterity.modifier, proficiency: false, expertise: false},
+        survival:          {score: player.stats.wisdom.modifier, proficiency: false, expertise: false}
+      };
     }
   }
+
+}

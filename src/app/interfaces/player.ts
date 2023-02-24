@@ -7,6 +7,7 @@ export interface Player {
     name:          string,
     class?:        string,
     level?:        number,
+    race?:         string,
     health?:       number,
     initiative?:   number,
     speed?:        number,

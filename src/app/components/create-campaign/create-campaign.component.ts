@@ -17,6 +17,7 @@ export class CreateCampaignComponent implements OnInit{
   players: Player[] = [ <Player>{ name: "" } ]; // Adding the initial player to the array
   campaignCode: string;
   userAcknowledged: boolean = false;
+  playerLevels: number[] = Array.from(Array(31).keys()).splice(1);
 
   constructor(
     private toastr: ToastrService,

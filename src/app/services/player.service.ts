@@ -95,7 +95,7 @@ export class PlayerService {
      this.findClosestStatMod(player, "charisma"): 0;
   }
 
-  findClosestProficiency(level): number{
+  findClosestProficiency(level: number): number{
     let closest = Object.keys(this.levelProficiency).reduce((prev: any, curr: any) => {
       return (Math.abs(curr - level) < Math.abs(prev - level) ? curr : prev);
     });

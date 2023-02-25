@@ -33,10 +33,12 @@ export class PartyComponent implements OnInit{
   }
 
   onSaveChanges(){
+    this.changes['disableButton'] = true;
     this.players.forEach((player: Player) => {
       if (this.changes['abilityScore']){
         this.playerService.generateAbilityScoreModifiers(player);
         this.playerService.generatePlayerSkills(player);
+        this.changes['abilityScore'] = false;
       }
     });
 

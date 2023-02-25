@@ -24,10 +24,6 @@ export class DiceRollerComponent implements OnInit{
 
   ngOnInit(){
     this.players = this.campaign.players;
-    this.playerService.generatePlayerSkills(<Player>{
-      name: "noob",
-      class: "Druid",
-    });
   }
 
   /**

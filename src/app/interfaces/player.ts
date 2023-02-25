@@ -13,6 +13,7 @@ export interface Player {
     speed?:        number,
     ac?:           number,
     proficiency?:  number,
+    hitDie?:       number,
 
     stats?: {
         strength:     {score: number, modifier?: number, save?: number, proficiency?: boolean},

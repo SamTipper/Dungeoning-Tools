@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { CampaignLoaderService } from 'src/app/services/campaign-loader.service';
 import { HttpService } from 'src/app/services/http.service';
 
@@ -11,11 +12,13 @@ import { HttpService } from 'src/app/services/http.service';
 })
 export class HomeComponent implements OnInit{
   existingCampaignForm: FormGroup;
+  disableForm: boolean = false;
 
   constructor(
     private router: Router,
     private http: HttpService,
-    private campaignLoader: CampaignLoaderService
+    private campaignLoader: CampaignLoaderService,
+    private toastr: ToastrService,
   ) { }
   
   ngOnInit(){
@@ -25,19 +28,34 @@ export class HomeComponent implements OnInit{
   }
 
   getCampaignAndLoad(campaignCode: string){
+    this.toastr.info("Loading campaign, please wait...");
     this.http.getCampaign(campaignCode).subscribe(
       (res) => {
         if (res.status === 200){
           this.campaignLoader.loadCampaign(JSON.parse(res.body), campaignCode);
+          this.toastr.success(`${this.campaignLoader.campaignName} successfully loaded!`);
+          this.disableForm = false;
         }
-      }
+      },
+      (error) => {
+        console.log(error);
+        this.toastr.error("Campaign failed to load, please try again later.");
+        this.disableForm = false;
+      } 
     );
   }
 
   onSubmit(){
+    this.disableForm = true;
     if (this.existingCampaignForm.value.campCode){
       // User enters a campaign code
-      this.getCampaignAndLoad(this.existingCampaignForm.value.campCode);
+      if (this.existingCampaignForm.value.campCode !== this.campaignLoader.campaignCode){
+        this.getCampaignAndLoad(this.existingCampaignForm.value.campCode);
+      } else {
+        this.toastr.error("The campaign you are trying to load is already loaded");
+        this.disableForm = false;
+      }
+      this.existingCampaignForm.reset();
     } else {
       // User wants to create a campaign
       this.router.navigate(['create-campaign']);

@@ -61,7 +61,12 @@ export class DiceRollerComponent implements OnInit{
   }
 
   onSelectedDiceMod(){
-    this.modifier = +this.selectedDiceMod;
-    console.log(this.modifier);
+    if (+this.selectedDiceMod < 0){
+      this.modifier = Math.abs(+this.selectedDiceMod);
+      this.currentSymbol = "-";
+    } else {
+      this.currentSymbol = "+";
+      this.modifier = +this.selectedDiceMod;
+    }
   }
 }

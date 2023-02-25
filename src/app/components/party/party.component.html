@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container mx-auto">
-        <div *ngIf="players.length > 0">
+        <div *ngIf="players">
             <details class="bg-white shadow rounded group mb-4" *ngFor="let player of players">
                 <summary class="list-none flex flex-wrap items-center cursor-pointer focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-500 rounded group-open:rounded-b-none group-open:z-[1] relative">
                     <h3 class="flex flex-1 p-4 font-semibold text-center m-auto">{{ player.name }}</h3>
@@ -19,7 +19,30 @@
                     <h1 class="p-4 ml-44 mr-2">Level&nbsp;<input [value]=player.level></h1>
                     <h1 class="p-4 ml-30 mr-2">{{ player.class }}</h1>
                 </div>
-                <div class="p-4 flex items-center text-center">
+                <div class="p-4 flex items-center text-center bg-white shadow-xl rounded group mb-4 m-auto">
+                    <h1 class="m-auto">Initiative
+                        <input type="number" class="text-center" [(ngModel)]="player.initiative" [value]="player.initiative ? player.initiative : 0">
+                    </h1>
+                    <h1 class="m-auto">Health
+                        <input type="number" class="text-center" [(ngModel)]="player.health" [value]="player.health ? player.health : 0">
+                    </h1>
+                    <h1 class="m-auto">Speed
+                        <input type="number" class="text-center" [(ngModel)]="player.speed" [value]="player.speed ? player.speed : 0">
+                    </h1>
+                </div>
+                <div class="p-4 flex items-center text-center bg-white shadow-xl rounded group mb-4 m-auto">
+                    <h1 class="m-auto">Hit Dice
+                        <input disabled type="text" class="text-center" value="{{ player.level }}d{{ player.hitDie }}">
+                    </h1>
+                    
+                    <h1 class="m-auto">AC
+                        <input type="number" class="text-center" [(ngModel)]="player.ac" [value]="player.ac ? player.ac : 0">
+                    </h1>
+                    <h1 class="m-auto">Proficiency
+                        <input type="number" class="text-center" [(ngModel)]="player.proficiency" [value]="player.proficiency ? player.proficiency : 0">
+                    </h1>
+                </div>
+                <div class="p-4 flex items-center text-center bg-white shadow-xl rounded group mb-4">
                     <h1>Strength: 
                         <input type="number" class="text-center" [(ngModel)]="player.stats.strength.score" (ngModelChange)="onPlayerChange('abilityScore')" [value]="player.stats ? player.stats.strength.score : 0">
                         <h1>MOD: {{ player.stats.strength.modifier }}</h1>
@@ -49,16 +72,21 @@
                         <h1>SAVE: {{ player.stats.charisma.save }}</h1>
                     </h1>
                 </div>
+                <div class="p-4 flex flex-wrap items-center text-center bg-white shadow-xl rounded group">
+                    <h1 *ngFor="let skill of player.skills | keyvalue">
+                        {{ skill.key }}: <input type="number" class="text-center" [(ngModel)]="player.skills[skill.key].score" (ngModelChange)="onPlayerChange('abilityScore')" [value]="player.skills? player.skills[skill.key].score : 0">
+                    </h1>
+                </div>
             </details>
             <button
              [disabled]="changes['disableButton']"
              (click)="onSaveChanges()"
              type="button"
-             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"> 
+             class="bg-blue-500 hover:bg-blue-700 text-white font-bold sticky bottom-4 py-2 px-4 rounded focus:outline-none focus:shadow-outline"> 
              Save All
             </button>
         </div>
-        <h1 class="text-center" *ngIf="players.length === 0">Please enter a campaign code on the homepage.</h1>
+        <h1 class="text-center" *ngIf="!players">Please enter a campaign code on the homepage.</h1>
     </div>
 </body>
 </html>

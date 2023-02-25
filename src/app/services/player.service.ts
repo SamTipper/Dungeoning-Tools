@@ -23,6 +23,22 @@ export class PlayerService {
     Wizard:    ['intelligence', 'wisdom']
   };
 
+  hitDie: object = {
+    Artificer: 8,
+    Bararian:  12,
+    Bard:      8,
+    Cleric:    8,
+    Druid:     8,
+    Fighter:   10,
+    Monk:      8,
+    Paladin:   10,
+    Ranger:    10,
+    Rogue:     8,
+    Sorcerer:  6,
+    Warlock:   8,
+    Wizard:    6
+  };
+
   statModifiers: object = { // Any stat that is below or equal a certain key is the character's modifier
     1: -5,
     3: -4,
@@ -93,6 +109,18 @@ export class PlayerService {
 
     player.stats.charisma.modifier = player.stats.charisma.score > 0 ?
      this.findClosestStatMod(player, "charisma"): 0;
+  }
+
+  /** 
+   * @description Generates stats initiative, speed, hit die, and sets a temporary value for AC, health and race.
+   */
+  generateGeneralStats(player: Player){
+    player.initiative = player.stats.dexterity.modifier;
+    player.speed = 30;
+    player.ac = 0;
+    player.health = 0;
+    player.race = "Race not set";
+    player.hitDie = this.hitDie[player.class];
   }
 
   findClosestProficiency(level: number): number{

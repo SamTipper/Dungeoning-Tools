@@ -106,7 +106,7 @@
             </div>
 
             <h1 class="text-4xl text-center m-auto mt-10">Character Stats</h1>
-            <div class="flex w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 h-28 items-center" *ngIf="players.length > 0">
+            <div class="flex w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 h-28 items-center" *ngIf="players">
                 <select 
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mt-2 ml-4 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 [(ngModel)]="selectedPlayer">
@@ -118,6 +118,7 @@
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mt-2 ml-4 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 [(ngModel)]="selectedDiceMod"
                 (ngModelChange)="onSelectedDiceMod()">
+                    <option class="text-center" [value]="players[selectedPlayer]['initiative']">Initiative</option>
                     <option class="text-center" [value]="players[selectedPlayer]['stats']['strength']['modifier']">Strength Mod</option>
                     <option class="text-center" [value]="players[selectedPlayer]['stats']['strength']['save']">Strength Save</option>
                     <option class="text-center" [value]="players[selectedPlayer]['stats']['dexterity']['modifier']">Dexterity Mod</option>
@@ -132,7 +133,7 @@
                     <option class="text-center" [value]="players[selectedPlayer]['stats']['charisma']['save']">Charisma Save</option>
                 </select>
             </div>
-            <div class="flex w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 h-28 items-center" *ngIf="players.length === 0">
+            <div class="flex w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 h-28 items-center" *ngIf="!players">
                 <span class="text-2xl text-center m-auto">Please enter a campaign code.</span>
             </div>
         </div>

@@ -12,7 +12,6 @@ import { HttpService } from 'src/app/services/http.service';
 export class PartyComponent implements OnInit{
   players: Player[];
   changes: object = {
-    level:         false,
     abilityScore:  false,
     disableButton: true
   };

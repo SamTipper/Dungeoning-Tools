@@ -9,7 +9,7 @@ export class CampaignLoaderService {
   campaignData: object;
   campaignName: string;
   campaignCode: string;
-  players: Player[] = [];
+  players: Player[];
 
   constructor(
     private playerService: PlayerService
@@ -20,6 +20,12 @@ export class CampaignLoaderService {
    * @param campaignData All data received from the server after the user has entered their campaign code
    */
   loadCampaign(campaignData: object, campaignCode: string){
+    this.campaignData = {};
+    this.campaignName = "";
+    this.campaignCode = "";
+    this.players = [];
+
+
     this.campaignData = campaignData[campaignCode];
     this.campaignName = campaignData[campaignCode]['name'];
     this.campaignCode = campaignCode;
@@ -73,6 +79,7 @@ export class CampaignLoaderService {
     this.players.forEach((player: Player) => {
       this.playerService.generateAbilityScoreModifiers(player);
       this.playerService.generatePlayerSaves(player);
+      this.playerService.generateGeneralStats(player);
       if (player.skills === undefined){
         this.playerService.generatePlayerSkills(player);
       }

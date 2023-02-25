@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CampaignLoaderService } from 'src/app/services/campaign-loader.service';
 import { Player } from 'src/app/interfaces/player';
-import { PlayerService } from 'src/app/services/player.service';
 
 @Component({
   selector: 'app-dice-roller',
@@ -23,8 +22,7 @@ export class DiceRollerComponent implements OnInit{
   };
 
   constructor(
-    private campaign: CampaignLoaderService,
-    private playerService: PlayerService
+    private campaign: CampaignLoaderService
   ) { }
 
   ngOnInit(){

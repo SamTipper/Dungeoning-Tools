@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { DiceRollerComponent } from './components/dice-roller/dice-roller.component';
 import { PartyComponent } from './components/party/party.component';
 import { TitlePipe } from './pipes/title.pipe';
+import { UsefulLinksComponent } from './components/useful-links/useful-links.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { TitlePipe } from './pipes/title.pipe';
     CreateCampaignComponent,
     DiceRollerComponent,
     PartyComponent,
-    TitlePipe
+    TitlePipe,
+    UsefulLinksComponent
   ],
   imports: [
     BrowserModule,

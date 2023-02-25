@@ -19,7 +19,7 @@ export class CampaignLoaderService {
    * 
    * @param campaignData All data received from the server after the user has entered their campaign code
    */
-  loadCampaign(campaignData: object, campaignCode: string){
+  loadCampaign(campaignData: object | string, campaignCode: string){
     this.campaignData = {};
     this.campaignName = "";
     this.campaignCode = "";
@@ -49,9 +49,9 @@ export class CampaignLoaderService {
       if (player['skills']){
         for (let skill of Object.keys(player['skills'])){
           skills[skill] = {
-            score:       player['skills'][skill]['score']       ? player['skills'][skill]['score']       : undefined,
-            proficiency: player['skills'][skill]['proficiency'] ? player['skills'][skill]['proficiency'] : undefined,
-            expertise:   player['skills'][skill]['expertise']   ? player['skills'][skill]['expertise']   : undefined
+            score:       !isNaN(player['skills'][skill]['score'])       ? player['skills'][skill]['score']       : undefined,
+            proficiency: !isNaN(player['skills'][skill]['proficiency']) ? player['skills'][skill]['proficiency'] : undefined,
+            expertise:   !isNaN(player['skills'][skill]['expertise'])   ? player['skills'][skill]['expertise']   : undefined
           }
         }
       }
@@ -80,7 +80,7 @@ export class CampaignLoaderService {
       this.playerService.generateAbilityScoreModifiers(player);
       this.playerService.generatePlayerSaves(player);
       this.playerService.generateGeneralStats(player);
-      if (Object.keys(player.skills).length === 0){
+      if (!player.skills){
         this.playerService.generatePlayerSkills(player);
       }
     });

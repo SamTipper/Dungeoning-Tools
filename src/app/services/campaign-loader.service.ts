@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Player } from '../interfaces/player';
+import { PlayerService } from './player.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,9 +8,12 @@ import { Player } from '../interfaces/player';
 export class CampaignLoaderService {
   campaignData: object;
   campaignName: string;
+  campaignCode: string;
   players: Player[] = [];
 
-  constructor() { }
+  constructor(
+    private playerService: PlayerService
+  ) { }
 
   /**
    * 
@@ -18,28 +22,30 @@ export class CampaignLoaderService {
   loadCampaign(campaignData: object, campaignCode: string){
     this.campaignData = campaignData[campaignCode];
     this.campaignName = campaignData[campaignCode]['name'];
+    this.campaignCode = campaignCode;
     
+    // Player loading
     this.campaignData['players'].forEach((player: string) => {
-      let stats:  object = {stats: {}};
-      let skills: object = {skills: {}};
+      let stats:  object = {};
+      let skills: object = {};
 
       // Ability Scores
       for (let stat of Object.keys(player['stats'])){
-        stats['stats'][stat] = {
-          score:       stat['score']           ? stat['score'] : undefined,
-          modifier:    stat['modifier']        ? stat['modifier'] : undefined,
-          save:        stat['save']            ? stat['save'] : undefined,
-          proficiency: stat['sproficiencyave'] ? stat['proficiency'] : undefined,
+        stats[stat] = {
+          score:       player['stats'][stat]['score']           ? player['stats'][stat]['score']       : 10,
+          modifier:    player['stats'][stat]['modifier']        ? player['stats'][stat]['modifier']    : undefined,
+          save:        player['stats'][stat]['save']            ? player['stats'][stat]['save']        : undefined,
+          proficiency: player['stats'][stat]['proficiency']     ? player['stats'][stat]['proficiency'] : undefined
         }
       }
 
       // Skills
       if (player['skills']){
         for (let skill of Object.keys(player['skills'])){
-          skills['skills'][skill] = {
-            score:       skill['score']       ? skill['score'] : undefined,
-            proficiency: skill['proficiency'] ? skill['proficiency'] : undefined,
-            expertise:   skill['expertise']   ? skill['expertise'] : undefined
+          skills[skill] = {
+            score:       player['skills'][skill]['score']       ? player['skills'][skill]['score']       : undefined,
+            proficiency: player['skills'][skill]['proficiency'] ? player['skills'][skill]['proficiency'] : undefined,
+            expertise:   player['skills'][skill]['expertise']   ? player['skills'][skill]['expertise']   : undefined
           }
         }
       }
@@ -62,10 +68,17 @@ export class CampaignLoaderService {
           skills: Object.keys(skills).length > 0 ? skills : undefined
         }
       );
-
     });
-    console.log(this.campaignData['players']);
-    
+
+    this.players.forEach((player: Player) => {
+      this.playerService.generateAbilityScoreModifiers(player);
+      this.playerService.generatePlayerSaves(player);
+      if (player.skills === undefined){
+        this.playerService.generatePlayerSkills(player);
+      }
+    });
+
+    console.log(this.players);
   }
 
   /**

@@ -45,4 +45,20 @@ export class HttpService {
       }
     )
   }
+
+  updateCampaign(campaignCode: string, name: string, players: string){
+    return this.http.post(
+      "http://localhost:15212/update_campaign",
+      {
+        campaignCode: campaignCode,
+        campaignName: name,
+        players: players
+      },
+      {
+        headers: {},
+        observe: "response",
+        responseType: "text"
+      }
+    )
+  }
 }

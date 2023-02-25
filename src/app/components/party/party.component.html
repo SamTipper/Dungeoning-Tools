@@ -16,19 +16,43 @@
                 </summary>
                 <div class="p-4 items-center text-center">
                     <h1 class="text-5xl p-4">{{ player.name }} </h1>
-                    <h1 class="p-4 text-center ml-44 mr-2">Level&nbsp;<input [value]="player.level"></h1>
+                    <h1 class="p-4 ml-44 mr-2">Level&nbsp;<input [value]=player.level></h1>
+                    <h1 class="p-4 ml-30 mr-2">{{ player.class }}</h1>
                 </div>
                 <div class="p-4 flex items-center text-center">
-                    <h1>Strength: <input class="text-center" [(ngModel)]="player.stats.strength.score" (ngModelChange)="onPlayerChange('abilityScore')" [value]="player.stats ? player.stats.strength.score : 0"></h1>
-                    <h1>Dexterity: <input class="text-center" [(ngModel)]="player.stats.dexterity.score" (ngModelChange)="onPlayerChange('abilityScore')" [value]="player.stats ? player.stats.dexterity.score : 0"></h1>
-                    <h1>Constitution: <input class="text-center" [(ngModel)]="player.stats.constitution.score" (ngModelChange)="onPlayerChange('abilityScore')" [value]="player.stats ? player.stats.constitution.score : 0"></h1>
-                    <h1>Intelligence: <input class="text-center" [(ngModel)]="player.stats.intelligence.score" (ngModelChange)="onPlayerChange('abilityScore')" [value]="player.stats ? player.stats.intelligence.score : 0"></h1>
-                    <h1>Wisdom: <input class="text-center" [(ngModel)]="player.stats.wisdom.score" (ngModelChange)="onPlayerChange('abilityScore')" [value]="player.stats ? player.stats.wisdom.score : 0"></h1>
-                    <h1>Charisma: <input class="text-center" [(ngModel)]="player.stats.charisma.score" (ngModelChange)="onPlayerChange('abilityScore')" [value]="player.stats ? player.stats.charisma.score : 0"></h1>
+                    <h1>Strength: 
+                        <input type="number" class="text-center" [(ngModel)]="player.stats.strength.score" (ngModelChange)="onPlayerChange('abilityScore')" [value]="player.stats ? player.stats.strength.score : 0">
+                        <h1>MOD: {{ player.stats.strength.modifier }}</h1>
+                        <h1>SAVE: {{ player.stats.strength.save }}</h1>
+                    </h1>
+                    <h1>Dexterity: 
+                        <input type="number" class="text-center" [(ngModel)]="player.stats.dexterity.score" (ngModelChange)="onPlayerChange('abilityScore')" [value]="player.stats ? player.stats.dexterity.score : 0">
+                        <h1>MOD: {{ player.stats.dexterity.modifier }}</h1>
+                        <h1>SAVE: {{ player.stats.dexterity.save }}</h1>
+                    </h1>
+                    <h1>Constitution: 
+                        <input type="number" class="text-center" [(ngModel)]="player.stats.constitution.score" (ngModelChange)="onPlayerChange('abilityScore')" [value]="player.stats ? player.stats.constitution.score : 0">
+                        <h1>MOD: {{ player.stats.constitution.modifier }}</h1>
+                        <h1>SAVE: {{ player.stats.constitution.save }}</h1>
+                    </h1>
+                    <h1>Intelligence: 
+                        <input type="number" class="text-center" [(ngModel)]="player.stats.intelligence.score" (ngModelChange)="onPlayerChange('abilityScore')" [value]="player.stats ? player.stats.intelligence.score : 0">
+                        <h1>MOD: {{ player.stats.intelligence.modifier }}</h1>
+                        <h1>SAVE: {{ player.stats.intelligence.save }}</h1>
+                    </h1>
+                    <h1>Wisdom: <input type="number" class="text-center" [(ngModel)]="player.stats.wisdom.score" (ngModelChange)="onPlayerChange('abilityScore')" [value]="player.stats ? player.stats.wisdom.score : 0">
+                        <h1>MOD: {{ player.stats.wisdom.modifier }}</h1>
+                        <h1>SAVE: {{ player.stats.wisdom.save }}</h1>
+                    </h1>
+                    <h1>Charisma: <input type="number" class="text-center" [(ngModel)]="player.stats.charisma.score" (ngModelChange)="onPlayerChange('abilityScore')" [value]="player.stats ? player.stats.charisma.score : 0">
+                        <h1>MOD: {{ player.stats.charisma.modifier }}</h1>
+                        <h1>SAVE: {{ player.stats.charisma.save }}</h1>
+                    </h1>
                 </div>
             </details>
             <button
              [disabled]="changes['disableButton']"
+             (click)="onSaveChanges()"
              type="button"
              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"> 
              Save All

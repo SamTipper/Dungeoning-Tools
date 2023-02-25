@@ -45,6 +45,7 @@ app.post('/set_campaign', jsonParser, async (req, res) => {
 
         campaign[campaignCode] = {
             name: req.body.campaignName,
+            campaignCode: campaignCode,
             players: JSON.parse(req.body.players)
         }
         db.collection('campaigns').doc(constants.docId).update(campaign);
@@ -77,6 +78,23 @@ app.get('/get_campaign', async (req, res) => {
                 }
             }
         );
+    } catch (error) {
+        return res.status(500).send(error);
+    }
+});
+
+app.post('/update_campaign', jsonParser, async (req, res) => {
+    try {
+        let campaign = {};
+        const campaignCode = req.body.campaignCode;
+
+        campaign[campaignCode] = {
+            name: req.body.campaignName,
+            campaignCode: campaignCode,
+            players: JSON.parse(req.body.players)
+        }
+        db.collection('campaigns').doc(constants.docId).update(campaign);
+        return res.status(200).send("Campaign Updated"); 
     } catch (error) {
         return res.status(500).send(error);
     }

@@ -8,19 +8,19 @@ import { CampaignLoaderService } from './campaign-loader.service';
 export class PlayerService {
 
   saveProficiencies: object = {
-    Artificer: ['Constitution', 'Intelligence'],
-    Bararian:  ['Strength', 'Constitution'],
-    Bard:      ['Dexterity', 'Charisma'],
-    Cleric:    ['Wisdom', 'Charisma'],
-    Druid:     ['Intelligence', 'Wisdom'],
-    Fighter:   ['Strength', 'Constitution'],
-    Monk:      ['Strength', 'Dexterity'],
-    Paladin:   ['Wisdom', 'Charisma'],
-    Ranger:    ['Strength', 'Dexterity'],
-    Rogue:     ['Dexterity', 'Intelligence'],
-    Sorcerer:  ['Constitution', 'Charisma'],
-    Warlock:   ['Wisdom', 'Charisma'],
-    Wizard:    ['Intelligence', 'Wisdom']
+    Artificer: ['constitution', 'intelligence'],
+    Bararian:  ['strength', 'constitution'],
+    Bard:      ['dexterity', 'charisma'],
+    Cleric:    ['wisdom', 'charisma'],
+    Druid:     ['intelligence', 'wisdom'],
+    Fighter:   ['strength', 'constitution'],
+    Monk:      ['strength', 'dexterity'],
+    Paladin:   ['wisdom', 'charisma'],
+    Ranger:    ['strength', 'dexterity'],
+    Rogue:     ['dexterity', 'intelligence'],
+    Sorcerer:  ['constitution', 'charisma'],
+    Warlock:   ['wisdom', 'charisma'],
+    Wizard:    ['intelligence', 'wisdom']
   };
 
   statModifiers: object = { // Any stat that is below or equal a certain key is the character's modifier
@@ -51,7 +51,6 @@ export class PlayerService {
   };
 
   constructor(
-    campaign: CampaignLoaderService
   ) { }
 
   setInitialStats(player: Player): Player{
@@ -61,12 +60,12 @@ export class PlayerService {
 
     // Ability Scores
     player.stats = {
-      strength:     {score: 0},
-      dexterity:    {score: 0},
-      constitution: {score: 0},
-      intelligence: {score: 0},
-      wisdom:       {score: 0},
-      charisma:     {score: 0},
+      strength:     {score: 10},
+      dexterity:    {score: 10},
+      constitution: {score: 10},
+      intelligence: {score: 10},
+      wisdom:       {score: 10},
+      charisma:     {score: 10},
     }
     return player;
   }
@@ -111,32 +110,37 @@ export class PlayerService {
   }
 
   generatePlayerSkills(player: Player){
+    player.skills = {
+      acrobatics:        {score: player.stats.dexterity.modifier, proficiency: false, expertise: false},
+      "animal handling": {score: player.stats.wisdom.modifier, proficiency: false, expertise: false},
+      arcana:            {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
+      athletics:         {score: player.stats.strength.modifier, proficiency: false, expertise: false},
+      deception:         {score: player.stats.charisma.modifier, proficiency: false, expertise: false},
+      history:           {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
+      insight:           {score: player.stats.wisdom.modifier, proficiency: false, expertise: false},
+      intimidation:      {score: player.stats.charisma.modifier, proficiency: false, expertise: false},
+      investigation:     {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
+      medicine:          {score: player.stats.wisdom.modifier, proficiency: false, expertise: false},
+      nature:            {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
+      perception:        {score: player.stats.wisdom.modifier, proficiency: false, expertise: false},
+      performance:       {score: player.stats.charisma.modifier, proficiency: false, expertise: false},
+      persuasion:        {score: player.stats.charisma.modifier, proficiency: false, expertise: false},
+      religion:          {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
+      "sleight of hand": {score: player.stats.dexterity.modifier, proficiency: false, expertise: false},
+      stealth:           {score: player.stats.dexterity.modifier, proficiency: false, expertise: false},
+      survival:          {score: player.stats.wisdom.modifier, proficiency: false, expertise: false}
+    };
+  }
 
-    if (!player.initiative){
-      player.initiative = player.stats.dexterity.modifier
-    }
-
-    if (!player.skills){
-      player.skills = {
-        acrobatics:        {score: player.stats.dexterity.modifier, proficiency: false, expertise: false},
-        "animal handling": {score: player.stats.wisdom.modifier, proficiency: false, expertise: false},
-        arcana:            {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
-        athletics:         {score: player.stats.strength.modifier, proficiency: false, expertise: false},
-        deception:         {score: player.stats.charisma.modifier, proficiency: false, expertise: false},
-        history:           {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
-        insight:           {score: player.stats.wisdom.modifier, proficiency: false, expertise: false},
-        intimidation:      {score: player.stats.charisma.modifier, proficiency: false, expertise: false},
-        investigation:     {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
-        medicine:          {score: player.stats.wisdom.modifier, proficiency: false, expertise: false},
-        nature:            {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
-        perception:        {score: player.stats.wisdom.modifier, proficiency: false, expertise: false},
-        performance:       {score: player.stats.charisma.modifier, proficiency: false, expertise: false},
-        persuasion:        {score: player.stats.charisma.modifier, proficiency: false, expertise: false},
-        religion:          {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
-        "sleight of hand": {score: player.stats.dexterity.modifier, proficiency: false, expertise: false},
-        stealth:           {score: player.stats.dexterity.modifier, proficiency: false, expertise: false},
-        survival:          {score: player.stats.wisdom.modifier, proficiency: false, expertise: false}
-      };
+  generatePlayerSaves(player: Player){
+    for (let save of Object.keys(player.stats)){
+      if (this.saveProficiencies[player.class].includes(save)){
+        player.stats[save].proficiency = true;
+        player.stats[save].save = player.stats[save].modifier + player.proficiency;
+      } else {
+        player.stats[save].proficiency = false;
+        player.stats[save].save = player.stats[save].modifier;
+      }
     }
   }
 

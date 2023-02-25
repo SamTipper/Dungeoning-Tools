@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CampaignLoaderService } from 'src/app/services/campaign-loader.service';
 import { Player } from 'src/app/interfaces/player';
 import { PlayerService } from 'src/app/services/player.service';
+import { HttpService } from 'src/app/services/http.service';
 
 @Component({
   selector: 'app-party',
@@ -13,13 +14,13 @@ export class PartyComponent implements OnInit{
   changes: object = {
     level:         false,
     abilityScore:  false,
-    skills:        false,
     disableButton: true
   };
 
   constructor(
     private campaign: CampaignLoaderService,
-    private playerService: PlayerService
+    private playerService: PlayerService,
+    private http: HttpService
   ) { }
 
   ngOnInit(){
@@ -29,6 +30,22 @@ export class PartyComponent implements OnInit{
   onPlayerChange(change: string){
     this.changes[change] = true;
     this.changes['disableButton'] = false;
+  }
+
+  onSaveChanges(){
+    this.players.forEach((player: Player) => {
+      if (this.changes['abilityScore']){
+        this.playerService.generateAbilityScoreModifiers(player);
+        this.playerService.generatePlayerSkills(player);
+      }
+    });
+
+    this.campaign.players = this.players;
+    this.http.updateCampaign(this.campaign.campaignCode, this.campaign.campaignName, JSON.stringify(this.campaign.players)).subscribe(
+      (res) => {
+        console.log(res.status);
+      }
+    )
   }
 
 }

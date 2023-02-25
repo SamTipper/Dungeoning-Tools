@@ -22,7 +22,7 @@
                     <p class="text-9xl text-center">{{ currentSymbol }}</p>
                 </button>
 
-                <input value="0" (input)="updateMod($event)" type="number" min="0" class="text-9xl text-center max-w-xs max-h-28 m-auto">
+                <input value="0" [(ngModel)]="modifier" type="number" min="0" class="text-9xl text-center max-w-xs max-h-28 m-auto">
                 
                 <p class="text-9xl text-center">
                     =
@@ -107,7 +107,30 @@
 
             <h1 class="text-4xl text-center m-auto mt-10">Character Stats</h1>
             <div class="flex w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 h-28 items-center" *ngIf="players.length > 0">
-                <span class="text-2xl text-center m-auto" *ngFor="let player of players">{{ player.name }}</span>
+                <select 
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mt-2 ml-4 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                [(ngModel)]="selectedPlayer">
+                    <option class="text-center" *ngFor="let player of players; let index = index;" [value]="index">{{ player.name }}</option>
+                </select>
+
+                <select 
+                *ngIf="selectedPlayer !== undefined"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mt-2 ml-4 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                [(ngModel)]="selectedDiceMod"
+                (ngModelChange)="onSelectedDiceMod()">
+                    <option class="text-center" [value]="players[selectedPlayer]['stats']['strength']['modifier']">Strength Mod</option>
+                    <option class="text-center" [value]="players[selectedPlayer]['stats']['strength']['save']">Strength Save</option>
+                    <option class="text-center" [value]="players[selectedPlayer]['stats']['dexterity']['modifier']">Dexterity Mod</option>
+                    <option class="text-center" [value]="players[selectedPlayer]['stats']['dexterity']['save']">Dexterity Save</option>
+                    <option class="text-center" [value]="players[selectedPlayer]['stats']['constitution']['modifier']">Constitution Mod</option>
+                    <option class="text-center" [value]="players[selectedPlayer]['stats']['constitution']['save']">Constitution Save</option>
+                    <option class="text-center" [value]="players[selectedPlayer]['stats']['intelligence']['modifier']">Intelligence Mod</option>
+                    <option class="text-center" [value]="players[selectedPlayer]['stats']['intelligence']['save']">Intelligence Save</option>
+                    <option class="text-center" [value]="players[selectedPlayer]['stats']['wisdom']['modifier']">Wisdom Mod</option>
+                    <option class="text-center" [value]="players[selectedPlayer]['stats']['wisdom']['save']">Wisdom Save</option>
+                    <option class="text-center" [value]="players[selectedPlayer]['stats']['charisma']['modifier']">Charisma Mod</option>
+                    <option class="text-center" [value]="players[selectedPlayer]['stats']['charisma']['save']">Charisma Save</option>
+                </select>
             </div>
             <div class="flex w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 h-28 items-center" *ngIf="players.length === 0">
                 <span class="text-2xl text-center m-auto">Please enter a campaign code.</span>

@@ -15,7 +15,9 @@ export class DiceRollerComponent implements OnInit{
   totalRoll: number = 0;
   currentSymbol: string = "+";
   rollHistory: number[] = [];
-  players: Player[]
+  players: Player[];
+  selectedPlayer: number;
+  selectedDiceMod: number;
 
   constructor(
     private campaign: CampaignLoaderService,
@@ -58,7 +60,8 @@ export class DiceRollerComponent implements OnInit{
     this.currentSymbol = this.currentSymbol === "+" ? "-" : "+";
   }
 
-  updateMod(event: object){
-    this.modifier = +event['target'].value;
+  onSelectedDiceMod(){
+    this.modifier = +this.selectedDiceMod;
+    console.log(this.modifier);
   }
 }

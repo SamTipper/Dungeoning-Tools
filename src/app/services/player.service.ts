@@ -171,5 +171,34 @@ export class PlayerService {
       }
     }
   }
+  
+  applyProfOrExp(player: Player, skill: string, proficiency?: boolean, expertise?: boolean){
+    if (proficiency){
+      if (player.skills[skill].proficiency){
+        player.skills[skill].score = player.skills[skill].score + player.proficiency;
+      } else {
+        player.skills[skill].score = player.skills[skill].score - player.proficiency;
+      } 
+    } else if (expertise){
+      if (player.skills[skill].expertise){
+        player.skills[skill].score = player.skills[skill].score + player.proficiency;
+      } else {
+        player.skills[skill].score = player.skills[skill].score - player.proficiency;
+      } 
+    }
+  }
+
+  applyExpertise(player: Player, skill: string){
+    if (player.skills[skill].expertise){
+      const normalSkillScore = player.skills[skill].score - player.proficiency;
+      const newSkillScore = normalSkillScore + (player.proficiency * 2);
+      player.skills[skill].score = newSkillScore;
+
+    } else if (player.skills[skill].proficiency) {
+      player.skills[skill].score = player.skills[skill].score - player.skills[skill].proficiency;
+    } else {
+      player.skills[skill].score = player.skills[skill].score - (player.proficiency * 2);
+    }
+  }
 
 }

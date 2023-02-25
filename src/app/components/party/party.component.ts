@@ -37,16 +37,21 @@ export class PartyComponent implements OnInit{
       if (this.changes['abilityScore']){
         this.playerService.generateAbilityScoreModifiers(player);
         this.playerService.generatePlayerSkills(player);
-        this.changes['abilityScore'] = false;
+        this.playerService.generatePlayerSaves(player);
       }
     });
 
+    this.changes['abilityScore'] = false;
     this.campaign.players = this.players;
     this.http.updateCampaign(this.campaign.campaignCode, this.campaign.campaignName, JSON.stringify(this.campaign.players)).subscribe(
       (res) => {
-        console.log(res.status);
       }
     )
   }
+
+  applyProfOrExp(player: Player, skill: string, proficiency: boolean, expertise: boolean){
+    this.playerService.applyProfOrExp(player, skill, proficiency, expertise);
+  }
+
 
 }

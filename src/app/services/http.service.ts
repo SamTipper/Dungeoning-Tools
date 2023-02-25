@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ConstantsService } from './constants.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,8 @@ import { HttpClient } from '@angular/common/http';
 export class HttpService {
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private constants: ConstantsService
   ) { }
 
   /**
@@ -17,7 +19,7 @@ export class HttpService {
    */
   getCampaign(campaignCode: string){
     return this.http.get(
-      "http://localhost:15212/get_campaign",
+      `${this.constants.API}/get_campaign`,
       {
         headers: {campaignCode: campaignCode},
         observe: "response",
@@ -33,7 +35,7 @@ export class HttpService {
    */
   submitCampaign(name: string, players: string){
     return this.http.post(
-      "http://localhost:15212/set_campaign",
+      `${this.constants.API}/set_campaign`,
       {
         campaignName: name,
         players: players
@@ -48,7 +50,7 @@ export class HttpService {
 
   updateCampaign(campaignCode: string, name: string, players: string){
     return this.http.post(
-      "http://localhost:15212/update_campaign",
+      `${this.constants.API}/update_campaign`,
       {
         campaignCode: campaignCode,
         campaignName: name,

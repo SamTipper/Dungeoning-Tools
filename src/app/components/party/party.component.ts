@@ -3,6 +3,7 @@ import { CampaignLoaderService } from 'src/app/services/campaign-loader.service'
 import { Player } from 'src/app/interfaces/player';
 import { PlayerService } from 'src/app/services/player.service';
 import { HttpService } from 'src/app/services/http.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-party',
@@ -19,7 +20,8 @@ export class PartyComponent implements OnInit{
   constructor(
     private campaign: CampaignLoaderService,
     private playerService: PlayerService,
-    private http: HttpService
+    private http: HttpService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(){
@@ -47,13 +49,19 @@ export class PartyComponent implements OnInit{
     this.campaign.players = this.players;
     this.http.updateCampaign(this.campaign.campaignCode, this.campaign.campaignName, JSON.stringify(this.campaign.players)).subscribe(
       (res) => {
+        if (res.status === 200){
+          this.toastr.success("Changes saved successfully!");
+        }
+      },
+      (error) => {
+        console.log(error);
+        this.toastr.error("An error has occurred when saving character changes, please try again later");
       }
     )
   }
 
   applyProfOrExp(player: Player, skill: string, proficiency: boolean, expertise: boolean){
     this.playerService.applyProfOrExp(player, skill, proficiency, expertise);
-    console.log(player.skills[skill].score, player.skills[skill].proficiency, player.skills[skill].expertise);
     this.changes['disableButton'] = false;
   }
 

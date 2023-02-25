@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CampaignLoaderService } from './services/campaign-loader.service';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,15 @@ import { Component } from '@angular/core';
 export class AppComponent {
   rolling: boolean;
   quickDice: number = 20;
+  campaignName: string;
+
+  constructor(
+    private campaign: CampaignLoaderService
+  ) { 
+    this.campaign.campaignNameListener.subscribe((res) => {
+      this.campaignName = res;
+    })
+  }
 
   /**
    * 
@@ -25,5 +35,9 @@ export class AppComponent {
       await this.sleep(80);
     }
     this.rolling = false;
+  }
+
+  changeCampaignName(campaignName: string){
+    this.campaignName = campaignName;
   }
 }

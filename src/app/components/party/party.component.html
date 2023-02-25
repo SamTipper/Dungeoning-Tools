@@ -17,7 +17,9 @@
                 <div class="p-4 items-center text-center">
                     <h1 class="text-5xl p-4">{{ player.name }} </h1>
                     <h1 class="p-4 ml-44 mr-2">Level&nbsp;<input [value]=player.level></h1>
-                    <h1 class="p-4 ml-30 mr-2">{{ player.class }}</h1>
+                    <h1 class="p-4 mr-16"><input type="text" class="text-center" [(ngModel)]="player.race" (ngModelChange)="changes['disableButton'] = false;" [value]="player.race">
+                        {{ player.class }}
+                    </h1>
                 </div>
                 <div class="p-4 flex items-center text-center bg-white shadow-xl rounded group mb-4 m-auto">
                     <h1 class="m-auto">Initiative
@@ -76,7 +78,7 @@
                     <h1 class="row-span-1" *ngFor="let skill of player.skills | keyvalue">
                         {{ skill.key | title }}: <br> <input disabled type="number" class="text-center" [(ngModel)]="player.skills[skill.key].score" (ngModelChange)="onPlayerChange('abilityScore')" [value]="player.skills[skill.key] ? player.skills[skill.key].score : 0">
                         <br>
-                        <label>Profciency? | Expertise?</label>
+                        <label>Proficiency? | Expertise?</label>
                         <br>
                         <input 
                         [disabled]="player.skills[skill.key].expertise"

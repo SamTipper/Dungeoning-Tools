@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
+import { AppComponent } from '../app.component';
 import { Player } from '../interfaces/player';
 import { PlayerService } from './player.service';
 
@@ -11,8 +12,10 @@ export class CampaignLoaderService {
   campaignCode: string;
   players: Player[];
 
+  @Output() campaignNameListener: EventEmitter<string> = new EventEmitter<string>();
+
   constructor(
-    private playerService: PlayerService
+    private playerService: PlayerService,
   ) { }
 
   /**
@@ -79,6 +82,8 @@ export class CampaignLoaderService {
         this.playerService.generatePlayerSkills(player);
       }
     });
+
+    this.campaignNameListener.emit(this.campaignName);
 
     console.log(this.players);
   }

@@ -187,18 +187,4 @@ export class PlayerService {
       } 
     }
   }
-
-  applyExpertise(player: Player, skill: string){
-    if (player.skills[skill].expertise){
-      const normalSkillScore = player.skills[skill].score - player.proficiency;
-      const newSkillScore = normalSkillScore + (player.proficiency * 2);
-      player.skills[skill].score = newSkillScore;
-
-    } else if (player.skills[skill].proficiency) {
-      player.skills[skill].score = player.skills[skill].score - player.skills[skill].proficiency;
-    } else {
-      player.skills[skill].score = player.skills[skill].score - (player.proficiency * 2);
-    }
-  }
-
 }

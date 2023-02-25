@@ -42,6 +42,8 @@ export class PartyComponent implements OnInit{
     });
 
     this.changes['abilityScore'] = false;
+    this.changes['skills'] = false;
+
     this.campaign.players = this.players;
     this.http.updateCampaign(this.campaign.campaignCode, this.campaign.campaignName, JSON.stringify(this.campaign.players)).subscribe(
       (res) => {
@@ -51,6 +53,8 @@ export class PartyComponent implements OnInit{
 
   applyProfOrExp(player: Player, skill: string, proficiency: boolean, expertise: boolean){
     this.playerService.applyProfOrExp(player, skill, proficiency, expertise);
+    console.log(player.skills[skill].score, player.skills[skill].proficiency, player.skills[skill].expertise);
+    this.changes['disableButton'] = false;
   }
 
 

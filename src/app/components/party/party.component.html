@@ -21,13 +21,13 @@
                 </div>
                 <div class="p-4 flex items-center text-center bg-white shadow-xl rounded group mb-4 m-auto">
                     <h1 class="m-auto">Initiative
-                        <input type="number" class="text-center" [(ngModel)]="player.initiative" [value]="player.initiative ? player.initiative : 0">
+                        <input type="number" class="text-center" [(ngModel)]="player.initiative" (ngModelChange)="changes['disableButton'] = false;" [value]="player.initiative ? player.initiative : 0">
                     </h1>
                     <h1 class="m-auto">Health
-                        <input type="number" class="text-center" [(ngModel)]="player.health" [value]="player.health ? player.health : 0">
+                        <input type="number" class="text-center" [(ngModel)]="player.health" (ngModelChange)="changes['disableButton'] = false;" [value]="player.health ? player.health : 0">
                     </h1>
                     <h1 class="m-auto">Speed
-                        <input type="number" class="text-center" [(ngModel)]="player.speed" [value]="player.speed ? player.speed : 0">
+                        <input type="number" class="text-center" [(ngModel)]="player.speed" (ngModelChange)="changes['disableButton'] = false;" [value]="player.speed ? player.speed : 0">
                     </h1>
                 </div>
                 <div class="p-4 flex items-center text-center bg-white shadow-xl rounded group mb-4 m-auto">
@@ -36,10 +36,10 @@
                     </h1>
                     
                     <h1 class="m-auto">AC
-                        <input type="number" class="text-center" [(ngModel)]="player.ac" [value]="player.ac ? player.ac : 0">
+                        <input type="number" class="text-center" [(ngModel)]="player.ac" (ngModelChange)="changes['disableButton'] = false;" [value]="player.ac ? player.ac : 0">
                     </h1>
                     <h1 class="m-auto">Proficiency
-                        <input type="number" class="text-center" [(ngModel)]="player.proficiency" [value]="player.proficiency ? player.proficiency : 0">
+                        <input type="number" class="text-center" [(ngModel)]="player.proficiency" (ngModelChange)="changes['disableButton'] = false;" [value]="player.proficiency ? player.proficiency : 0">
                     </h1>
                 </div>
                 <div class="p-4 flex items-center text-center bg-white shadow-xl rounded group mb-4">

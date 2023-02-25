@@ -115,12 +115,12 @@ export class PlayerService {
    * @description Generates stats initiative, speed, hit die, and sets a temporary value for AC, health and race.
    */
   generateGeneralStats(player: Player){
-    player.initiative = player.stats.dexterity.modifier;
-    player.speed = 30;
-    player.ac = 0;
-    player.health = 0;
-    player.race = "Race not set";
-    player.hitDie = this.hitDie[player.class];
+    player.initiative = player.initiative ? player.initiative : player.stats.dexterity.modifier;
+    player.speed = player.speed ? player.speed : 0;
+    player.ac = player.ac ? player.ac : 0;
+    player.health = player.health ? player.health : 0;
+    player.race = player.race ? player.race : "Race not set";
+    player.hitDie = player.hitDie ? player.hitDie : this.hitDie[player.class];
   }
 
   findClosestProficiency(level: number): number{

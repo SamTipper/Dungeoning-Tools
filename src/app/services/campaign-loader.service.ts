@@ -80,7 +80,9 @@ export class CampaignLoaderService {
       this.playerService.generateAbilityScoreModifiers(player);
       this.playerService.generatePlayerSaves(player);
       this.playerService.generateGeneralStats(player);
-      this.playerService.generatePlayerSkills(player);
+      if (Object.keys(player.skills).length === 0){
+        this.playerService.generatePlayerSkills(player);
+      }
     });
 
     console.log(this.players);

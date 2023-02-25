@@ -17,7 +17,10 @@ export class DiceRollerComponent implements OnInit{
   rollHistory: number[] = [];
   players: Player[];
   selectedPlayer: number;
-  selectedDiceMod: number;
+  selectedDiceMods: object = {
+    abilityScore: 0,
+    skills: 0
+  };
 
   constructor(
     private campaign: CampaignLoaderService,
@@ -60,13 +63,16 @@ export class DiceRollerComponent implements OnInit{
     this.currentSymbol = this.currentSymbol === "+" ? "-" : "+";
   }
 
-  onSelectedDiceMod(){
-    if (+this.selectedDiceMod < 0){
-      this.modifier = Math.abs(+this.selectedDiceMod);
+  onSelectedDiceMod(branch: string){
+    if (+this.selectedDiceMods[branch] < 0){
+      this.modifier = Math.abs(+this.selectedDiceMods[branch]);
       this.currentSymbol = "-";
     } else {
       this.currentSymbol = "+";
-      this.modifier = +this.selectedDiceMod;
+      this.modifier = +this.selectedDiceMods[branch];
     }
+
+    this.selectedDiceMods['abilityScore'] = branch === 'skills' ? 1 : this.selectedDiceMods['abilityScore'];
+    this.selectedDiceMods['skills'] = branch === 'abilityScore' ? 1 : this.selectedDiceMods['skills'];
   }
 }

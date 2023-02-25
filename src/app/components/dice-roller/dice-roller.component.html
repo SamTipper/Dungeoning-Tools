@@ -113,7 +113,6 @@
                     <select 
                     class="row-span-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mt-2 ml-4 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     [(ngModel)]="selectedPlayer">
-                        <option></option>
                         <option class="text-center" *ngFor="let player of players; let index = index;" [value]="index">{{ player.name }}</option>
                     </select>
     
@@ -121,9 +120,8 @@
                     <select 
                     *ngIf="selectedPlayer !== undefined"
                     class="row-span-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mt-2 ml-4 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    [(ngModel)]="selectedDiceMod"
-                    (ngModelChange)="onSelectedDiceMod()">
-                        <option></option>
+                    [(ngModel)]="selectedDiceMods['abilityScore']"
+                    (ngModelChange)="onSelectedDiceMod('abilityScore')">
                         <option class="text-center" [value]="players[selectedPlayer]['initiative']">Initiative</option>
                         <option class="text-center" [value]="players[selectedPlayer]['stats']['strength']['modifier']">Strength Mod</option>
                         <option class="text-center" [value]="players[selectedPlayer]['stats']['strength']['save']">Strength Save</option>
@@ -143,8 +141,8 @@
                     <select 
                     *ngIf="selectedPlayer !== undefined"
                     class="row-span-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mt-2 ml-4 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    [(ngModel)]="selectedDiceMod"
-                    (ngModelChange)="onSelectedDiceMod()"
+                    [(ngModel)]="selectedDiceMods['skills']"
+                    (ngModelChange)="onSelectedDiceMod('skills')"
                     >
                         <option class="text-center" *ngFor="let skill of players[selectedPlayer].skills | keyvalue" [value]="skill.value.score">{{ skill.key | title }}</option>
                     </select>

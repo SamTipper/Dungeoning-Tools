@@ -19,16 +19,11 @@ export class CampaignLoaderService {
    * 
    * @param campaignData All data received from the server after the user has entered their campaign code
    */
-  loadCampaign(campaignData: object | string, campaignCode: string){
-    this.campaignData = {};
-    this.campaignName = "";
-    this.campaignCode = "";
-    this.players = [];
-
-
+  loadCampaign(campaignData: object, campaignCode: string){
     this.campaignData = campaignData[campaignCode];
     this.campaignName = campaignData[campaignCode]['name'];
     this.campaignCode = campaignCode;
+    this.players = [];
     
     // Player loading
     this.campaignData['players'].forEach((player: string) => {

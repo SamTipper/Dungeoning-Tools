@@ -74,7 +74,7 @@
                 </div>
                 <div class="p-4 grid grid-rows-3 grid-flow-col items-center text-center bg-white shadow-xl rounded group">
                     <h1 class="row-span-1" *ngFor="let skill of player.skills | keyvalue">
-                        {{ skill.key }}: <br> <input disabled type="number" class="text-center" [(ngModel)]="player.skills[skill.key].score" (ngModelChange)="onPlayerChange('abilityScore')" [value]="player.skills[skill.key] ? player.skills[skill.key].score : 0">
+                        {{ skill.key | title }}: <br> <input disabled type="number" class="text-center" [(ngModel)]="player.skills[skill.key].score" (ngModelChange)="onPlayerChange('abilityScore')" [value]="player.skills[skill.key] ? player.skills[skill.key].score : 0">
                         <br>
                         <label>Profciency? | Expertise?</label>
                         <br>

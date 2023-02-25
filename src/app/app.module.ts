@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { DiceRollerComponent } from './components/dice-roller/dice-roller.component';
 import { PartyComponent } from './components/party/party.component';
+import { TitlePipe } from './pipes/title.pipe';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { PartyComponent } from './components/party/party.component';
     HomeComponent,
     CreateCampaignComponent,
     DiceRollerComponent,
-    PartyComponent
+    PartyComponent,
+    TitlePipe
   ],
   imports: [
     BrowserModule,

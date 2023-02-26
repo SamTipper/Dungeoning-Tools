@@ -33,28 +33,14 @@ export class CreateCampaignComponent implements OnInit{
     });
   }
 
-  /**
-   * 
-   * @param words A string that returns with its first letter of each word capitilised
-   * @returns A new string with its first letter of each word capitilised
-   */
-  title(words: string){
-    const splitName: string[] = words.split(" ");
-    let newWord: string = "";
-    splitName.forEach(word => {
-      newWord += `${word.charAt(0).toUpperCase() + word.substring(1)} `;
-    });
-    return newWord.trimEnd();
-  }
-
   onSubmit(){
     this.disableForm = true;
     this.players.forEach((player: Player) => {
-      player.name = this.title(player.name);
+      player.name = this.playerService.title(player.name);
       player = this.playerService.setInitialStats(player);
     });
 
-    this.http.submitCampaign(this.title(this.newCampaignForm.value.name), JSON.stringify(this.players)).subscribe(
+    this.http.submitCampaign(this.playerService.title(this.newCampaignForm.value.name), JSON.stringify(this.players)).subscribe(
       (res) => {
         if (res.status === 201){
           this.campaignCode = JSON.parse(res.body)['campaignCode'];

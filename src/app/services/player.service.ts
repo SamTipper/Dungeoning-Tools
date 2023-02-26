@@ -88,6 +88,20 @@ export class PlayerService {
 
   /**
    * 
+   * @param words A string that returns with its first letter of each word capitilised
+   * @returns A new string with its first letter of each word capitilised
+   */
+  title(words: string){
+    const splitName: string[] = words.split(" ");
+    let newWord: string = "";
+    splitName.forEach(word => {
+      newWord += `${word.charAt(0).toUpperCase() + word.substring(1)} `;
+    });
+    return newWord.trimEnd();
+  }
+
+  /**
+   * 
    * @param player The player who needs their ability scores generating.
    * @description Generates the ability scores of a player. The player must have all main ability scores populated for the function to work
    */
@@ -135,6 +149,17 @@ export class PlayerService {
       return (Math.abs(curr - player.stats[stat].score) <= Math.abs(prev - player.stats[stat].score) ? curr : prev);
     });
     return this.statModifiers[+closest];
+  }
+
+  generatePlayerStats(player: Player){
+    player.stats = {
+      strength:     {score: 10, modifier: 0, save: 0, proficiency: this.saveProficiencies[player.class].includes('strength')     ? true : false},
+      dexterity:    {score: 10, modifier: 0, save: 0, proficiency: this.saveProficiencies[player.class].includes('dexterity')    ? true : false},
+      constitution: {score: 10, modifier: 0, save: 0, proficiency: this.saveProficiencies[player.class].includes('constitution') ? true : false},
+      intelligence: {score: 10, modifier: 0, save: 0, proficiency: this.saveProficiencies[player.class].includes('intelligence') ? true : false},
+      wisdom:       {score: 10, modifier: 0, save: 0, proficiency: this.saveProficiencies[player.class].includes('wisdom')       ? true : false},
+      charisma:     {score: 10, modifier: 0, save: 0, proficiency: this.saveProficiencies[player.class].includes('charisma')     ? true : false}
+    }
   }
 
   generatePlayerSkills(player: Player){

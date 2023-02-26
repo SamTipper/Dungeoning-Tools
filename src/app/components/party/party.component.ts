@@ -16,6 +16,10 @@ export class PartyComponent implements OnInit{
     abilityScore:  false,
     disableButton: true
   };
+  createNewCharacter: boolean = false;
+  deleteCharacter: boolean = false;
+  newCharacter: Player;
+  toDelete: {player: Player, index: number, deletionConfirmation: string};
 
   constructor(
     private campaign: CampaignLoaderService,
@@ -67,6 +71,43 @@ export class PartyComponent implements OnInit{
 
   filterExhaustion(player: Player): object{
    return this.playerService.filterExhaustion(player);
+  }
+
+  onCreateNewCharacter(stats: boolean){
+    if (!stats){
+      if (this.campaign.players.length < 10){
+        this.newCharacter = <Player>{
+          name: "",
+          class: "",
+          level: undefined
+        };
+        this.createNewCharacter = true;
+      } else {
+        this.toastr.error("You may create up to a maximum of 10 players");
+      }
+
+    } else {
+      this.newCharacter.name = this.playerService.title(this.newCharacter.name);
+      this.newCharacter.proficiency = this.playerService.findClosestProficiency(this.newCharacter.level);
+      this.playerService.generatePlayerStats(this.newCharacter);
+      this.playerService.generateGeneralStats(this.newCharacter);
+      this.playerService.generatePlayerSkills(this.newCharacter);
+      this.playerService.generatePlayerSaves(this.newCharacter);
+      this.playerService.generateAbilityScoreModifiers(this.newCharacter);
+      this.playerService.generatePlayerConditions(this.newCharacter);
+      this.campaign.players.push(this.newCharacter);
+      this.createNewCharacter = false;
+    }
+  }
+
+  onBeforeDeleteCharacter(player: Player, index: number){
+    this.toDelete = {player: player, index: index, deletionConfirmation: ""};
+    this.deleteCharacter = true;
+  }
+
+  onDeletion(){
+    this.campaign.players.splice(this.toDelete['index'], 1);
+    this.deleteCharacter = false;
   }
 
 }

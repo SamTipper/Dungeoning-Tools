@@ -9,12 +9,25 @@
 <body>
     <div class="container mx-auto">
         <div *ngIf="players">
-            <details class="bg-white shadow rounded group mb-4" *ngFor="let player of players">
+            <details class="bg-white shadow rounded group mb-4" *ngFor="let player of players; let index = index;">
                 <summary class="list-none flex flex-wrap items-center cursor-pointer focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-500 rounded group-open:rounded-b-none group-open:z-[1] relative">
                     <h3 class="flex flex-1 p-4 font-semibold text-center m-auto">{{ player.name }}</h3>
                     <div class="border-8 border-transparent border-l-gray-600 ml-2 group-open:rotate-90 transition-transform origin-left"></div>
                 </summary>
                 <div class="p-4 items-center text-center">
+                    <svg 
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none" viewBox="0 0 24 24" 
+                    stroke-width="1.5" 
+                    stroke="currentColor" 
+                    class="cursor-pointer w-6 h-6 ml-2"
+                    type="button"
+                    (click)="onBeforeDeleteCharacter(player, index)">
+                        <path 
+                        stroke-linecap="round" 
+                        stroke-linejoin="round" 
+                        d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                    </svg>
                     <h1 class="text-5xl p-4">{{ player.name }} </h1>
                     <h1 class="p-4 ml-44 mr-2">Level&nbsp;<input [value]=player.level></h1>
                     <h1 class="p-4 mr-16"><input type="text" class="text-center" [(ngModel)]="player.race" (ngModelChange)="changes['disableButton'] = false;" [value]="player.race">
@@ -128,11 +141,104 @@
              [disabled]="changes['disableButton']"
              (click)="onSaveChanges()"
              type="button"
-             class="bg-blue-500 hover:bg-blue-700 text-white font-bold sticky bottom-4 py-2 px-4 rounded focus:outline-none focus:shadow-outline"> 
+             class="bg-blue-500 hover:bg-blue-700 text-white font-bold sticky bottom-4 mr-4 py-2 px-4 rounded focus:outline-none focus:shadow-outline"> 
              Save All
+            </button>
+            <button
+             (click)="onCreateNewCharacter(false)"
+             type="button"
+             class="bg-blue-500 hover:bg-blue-700 text-white font-bold sticky bottom-4 py-2 px-4 rounded focus:outline-none focus:shadow-outline"> 
+             New Character
             </button>
         </div>
         <h1 class="w-full flex justify-center flex-col m-auto h-screen text-center text-3xl" *ngIf="!players">Please enter a campaign code on the homepage.</h1>
+
+        <div class="fixed inset-0 z-10 overflow-y-auto" *ngIf="createNewCharacter">
+            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="flex">
+                            <div class="grid grid-rows-3 grid-flow-col mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left items-center">
+                                <div class="row-span-3 text-center ml-auto">
+                                
+                                    <h3 class="text-base font-semibold leading-6 text-gray-900">Create New Character</h3>
+                                    <input placeholder="Character Name" class="text-center shadow-xl background-gray-600 mt-2" type="text" [(ngModel)]="newCharacter.name">
+                                    
+                                    <select class="text-center shadow-xl" [(ngModel)]="newCharacter.class">
+                                        <option class="text-center" value="">Class</option>
+                                        <option class="text-center" value="Artificer">Artificer</option>
+                                        <option class="text-center" value="Bararian">Bararian</option>
+                                        <option class="text-center" value="Bard">Bard</option>
+                                        <option class="text-center" value="Cleric">Cleric</option>
+                                        <option class="text-center" value="Druid">Druid</option>
+                                        <option class="text-center" value="Fighter">Fighter</option>
+                                        <option class="text-center" value="Monk">Monk</option>
+                                        <option class="text-center" value="Paladin">Paladin</option>
+                                        <option class="text-center" value="Ranger">Ranger</option>
+                                        <option class="text-center" value="Rogue">Rogue</option>
+                                        <option class="text-center" value="Sorcerer">Sorcerer</option>
+                                        <option class="text-center" value="Warlock">Warlock</option>
+                                        <option class="text-center" value="Wizard">Wizard</option>
+                                    </select>
+                                    
+                                    <input placeholder="Character Level" class="text-center shadow-xl" type="number" [(ngModel)]="newCharacter.level">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                        <button 
+                        type="button" 
+                        class="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
+                        (click)="onCreateNewCharacter(true)"
+                        >
+                            Create
+                        </button>
+                        <button 
+                        type="button" 
+                        class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                        (click)="createNewCharacter = false;"
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fixed inset-0 z-10 overflow-y-auto" *ngIf="deleteCharacter">
+            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="flex">
+                            <div class="grid grid-rows-3 grid-flow-col mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left items-center">
+                                <div class="row-span-3 text-center ml-auto">
+                                    <h3 class="text-base font-semibold leading-6 text-gray-900 ml-20 mb-4">Please type "{{ toDelete['player']['name'] }}" to delete this character:</h3>
+                                    <input [(ngModel)]="toDelete['deletionConfirmation']" type="text" placeholder="Type to delete" class="text-center shadow-xl border-2 border-black-500/100 ml-20">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                        <button
+                        [disabled]="toDelete['deletionConfirmation'] !== toDelete['player']['name']"
+                        type="button" 
+                        class="inline-flex w-full justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
+                        (click)="onDeletion()"
+                        >
+                            Delete
+                        </button>
+                        <button 
+                        type="button" 
+                        class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                        (click)="deleteCharacter = false;"
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

@@ -30,19 +30,19 @@
                     </svg>
                     <h1 class="text-5xl p-4">{{ player.name }} </h1>
                     <h1 class="p-4 ml-44 mr-2">Level&nbsp;<input [value]=player.level></h1>
-                    <h1 class="p-4 mr-16"><input type="text" class="text-center" [(ngModel)]="player.race" (ngModelChange)="changes['disableButton'] = false;" [value]="player.race">
+                    <h1 class="p-4 mr-16"><input type="text" class="text-center" [(ngModel)]="player.race" (ngModelChange)="onPlayerChange()" [value]="player.race">
                         {{ player.class }}
                     </h1>
                 </div>
                 <div class="p-4 flex items-center text-center bg-white shadow-xl rounded group mb-4 m-auto">
                     <h1 class="m-auto">Initiative
-                        <input type="number" class="text-center" [(ngModel)]="player.initiative" (ngModelChange)="changes['disableButton'] = false;" [value]="player.initiative ? player.initiative : 0">
+                        <input type="number" class="text-center" [(ngModel)]="player.initiative" (ngModelChange)="onPlayerChange()" [value]="player.initiative ? player.initiative : 0">
                     </h1>
                     <h1 class="m-auto">Health
-                        <input type="number" class="text-center" [(ngModel)]="player.health" (ngModelChange)="changes['disableButton'] = false;" [value]="player.health ? player.health : 0">
+                        <input type="number" class="text-center" [(ngModel)]="player.health" (ngModelChange)="onPlayerChange()" [value]="player.health ? player.health : 0">
                     </h1>
                     <h1 class="m-auto">Speed
-                        <input type="number" class="text-center" [(ngModel)]="player.speed" (ngModelChange)="changes['disableButton'] = false;" [value]="player.speed ? player.speed : 0">
+                        <input type="number" class="text-center" [(ngModel)]="player.speed" (ngModelChange)="onPlayerChange()" [value]="player.speed ? player.speed : 0">
                     </h1>
                 </div>
                 <div class="p-4 flex items-center text-center bg-white shadow-xl rounded group mb-4 m-auto">
@@ -51,10 +51,10 @@
                     </h1>
                     
                     <h1 class="m-auto">AC
-                        <input type="number" class="text-center" [(ngModel)]="player.ac" (ngModelChange)="changes['disableButton'] = false;" [value]="player.ac ? player.ac : 0">
+                        <input type="number" class="text-center" [(ngModel)]="player.ac" (ngModelChange)="onPlayerChange()" [value]="player.ac ? player.ac : 0">
                     </h1>
                     <h1 class="m-auto">Proficiency
-                        <input type="number" class="text-center" [(ngModel)]="player.proficiency" (ngModelChange)="changes['disableButton'] = false;" [value]="player.proficiency ? player.proficiency : 0">
+                        <input type="number" class="text-center" [(ngModel)]="player.proficiency" (ngModelChange)="onPlayerChange()" [value]="player.proficiency ? player.proficiency : 0">
                     </h1>
                 </div>
                 <div class="p-4 flex items-center text-center bg-white shadow-xl rounded group mb-4">
@@ -118,7 +118,7 @@
                             <br>
                             <input 
                             [(ngModel)]="player.conditions[condition.key]"
-                            (ngModelChange)="changes['disableButton'] = false;"
+                            (ngModelChange)="onPlayerChange()"
                             type="checkbox" [value]="player.conditions[condition.key]" 
                             class="w-4 h-4 mb-5 mr-3 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 text-center"
                             >
@@ -130,7 +130,7 @@
                     <h1 class="text-center mb-4">
                         Exhaustion
                     </h1>
-                    <input [(ngModel)]="player.conditions.exhaustion" (ngModelChange)="changes['disableButton'] = false;" type="range" min="0" max="6" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+                    <input [(ngModel)]="player.conditions.exhaustion" (ngModelChange)="onPlayerChange()" type="range" min="0" max="6" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
                     <h1 >
                         Level {{ player.conditions.exhaustion }}
                     </h1>
@@ -147,13 +147,20 @@
             <button
              (click)="onCreateNewCharacter(false)"
              type="button"
-             class="bg-blue-500 hover:bg-blue-700 text-white font-bold sticky bottom-4 py-2 px-4 rounded focus:outline-none focus:shadow-outline"> 
+             class="bg-blue-500 hover:bg-blue-700 text-white font-bold sticky bottom-4 mr-4 py-2 px-4 rounded focus:outline-none focus:shadow-outline"> 
              New Character
             </button>
+            <div class="p-2 bg-indigo-800 hover:bg-indigo-1000 items-center sticky bottom-4 text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex cursor-pointer" role="alert" *ngIf="changes['disableButton'] === false"
+            (click)="onSaveChanges()"
+            >
+                <span class="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">Alert</span>
+                <span class="font-semibold mr-2 text-left flex-auto">You have unsaved changes, save now!</span>
+                <svg class="fill-current opacity-75 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M12.95 10.707l.707-.707L8 4.343 6.586 5.757 10.828 10l-4.242 4.243L8 15.657l4.95-4.95z"/></svg>
+            </div>
         </div>
         <h1 class="w-full flex justify-center flex-col m-auto h-screen text-center text-3xl" *ngIf="!players">Please enter a campaign code on the homepage.</h1>
 
-        <div class="fixed inset-0 z-10 overflow-y-auto" *ngIf="createNewCharacter">
+        <div class="backdrop-blur-sm fixed inset-0 z-10 overflow-y-auto" *ngIf="createNewCharacter">
             <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
                 <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                     <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
@@ -197,7 +204,7 @@
                         <button 
                         type="button" 
                         class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                        (click)="createNewCharacter = false;"
+                        (click)="onCancelModal('characterCreation')"
                         >
                             Cancel
                         </button>
@@ -206,15 +213,15 @@
             </div>
         </div>
 
-        <div class="fixed inset-0 z-10 overflow-y-auto" *ngIf="deleteCharacter">
+        <div class="backdrop-blur-sm fixed inset-0 z-10 overflow-y-auto" *ngIf="deleteCharacter">
             <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
                 <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                     <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                         <div class="flex">
                             <div class="grid grid-rows-3 grid-flow-col mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left items-center">
                                 <div class="row-span-3 text-center ml-auto">
-                                    <h3 class="text-base font-semibold leading-6 text-gray-900 ml-20 mb-4">Please type "{{ toDelete['player']['name'] }}" to delete this character:</h3>
-                                    <input [(ngModel)]="toDelete['deletionConfirmation']" type="text" placeholder="Type to delete" class="text-center shadow-xl border-2 border-black-500/100 ml-20">
+                                    <h3 class="text-base font-semibold leading-6 text-gray-900 ml-12 mb-4">Please type "{{ toDelete['player']['name'] }}" to delete this character:</h3>
+                                    <input [(ngModel)]="toDelete['deletionConfirmation']" type="text" placeholder="Type to delete" class="text-center shadow-xl border-2 border-black-500/100 ml-12">
                                 </div>
                             </div>
                         </div>
@@ -231,7 +238,7 @@
                         <button 
                         type="button" 
                         class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                        (click)="deleteCharacter = false;"
+                        (click)="onCancelModal('characterDeletion')"
                         >
                             Cancel
                         </button>

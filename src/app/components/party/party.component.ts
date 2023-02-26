@@ -30,11 +30,15 @@ export class PartyComponent implements OnInit{
 
   ngOnInit(){
     this.players = this.campaign.players;
+    this.changes['disableButton'] = this.playerService.unsavedCharacterChanges ? false : true;
   }
 
-  onPlayerChange(change: string){
-    this.changes[change] = true;
+  onPlayerChange(change?: string){
+    if (change){
+      this.changes[change] = true;
+    }
     this.changes['disableButton'] = false;
+    this.playerService.unsavedCharacterChanges = true;
   }
 
   onSaveChanges(){
@@ -55,6 +59,7 @@ export class PartyComponent implements OnInit{
       (res) => {
         if (res.status === 200){
           this.toastr.success("Changes saved successfully!");
+          this.playerService.unsavedCharacterChanges = false;
         }
       },
       (error) => {
@@ -82,6 +87,9 @@ export class PartyComponent implements OnInit{
           level: undefined
         };
         this.createNewCharacter = true;
+        document.body.style.overflow = "hidden";
+        document.body.style.height = "100%";
+
       } else {
         this.toastr.error("You may create up to a maximum of 10 players");
       }
@@ -97,17 +105,39 @@ export class PartyComponent implements OnInit{
       this.playerService.generatePlayerConditions(this.newCharacter);
       this.campaign.players.push(this.newCharacter);
       this.createNewCharacter = false;
+
+      this.changes['disableButton'] = false;
+      this.playerService.unsavedCharacterChanges = true;
+      document.body.style.overflow = "auto";
+      document.body.style.height = "auto";
     }
   }
 
   onBeforeDeleteCharacter(player: Player, index: number){
     this.toDelete = {player: player, index: index, deletionConfirmation: ""};
     this.deleteCharacter = true;
+    document.body.style.overflow = "hidden";
+    document.body.style.height = "100%";
   }
 
   onDeletion(){
     this.campaign.players.splice(this.toDelete['index'], 1);
     this.deleteCharacter = false;
+    this.changes['disableButton'] = false;
+    this.playerService.unsavedCharacterChanges = true;
+    document.body.style.overflow = "auto";
+    document.body.style.height = "auto";
   }
+
+  onCancelModal(state: string){
+    if (state === 'characterCreation'){
+      this.createNewCharacter = false;
+    } else if(state === 'characterDeletion'){
+      this.deleteCharacter = false;
+    }
+    document.body.style.overflow = "auto";
+    document.body.style.height = "auto";
+  }
+
 
 }

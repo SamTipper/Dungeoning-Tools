@@ -66,6 +66,8 @@ export class PlayerService {
     20: 6
   };
 
+  unsavedCharacterChanges: boolean = false;
+
   constructor(
   ) { }
 

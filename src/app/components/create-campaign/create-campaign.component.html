@@ -7,9 +7,10 @@
     <title>Document</title>
 </head>
 <body>
+  <div class="container mx-auto">
     <div
       *ngIf="!campaignCreated"  
-      class="w-full max-w-xs flex flex-col m-auto h-screen">
+      class="w-full flex flex-col m-auto h-screen">
         <form 
           [formGroup]="newCampaignForm"
           class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-8"
@@ -149,5 +150,6 @@
         </button>
       </div>
     </div>
+  </div>
 </body>
 </html>

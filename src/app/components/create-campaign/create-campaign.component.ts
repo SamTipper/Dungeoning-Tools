@@ -66,7 +66,7 @@ export class CreateCampaignComponent implements OnInit{
   }
 
   onAddPlayer(){
-    if (this.players[this.players.length-1].name !== "" && this.players.length <= 10){
+    if (this.players[this.players.length-1].name !== "" && this.players.length < 10){
       this.players.push(
         <Player>{
           name: "",
@@ -74,7 +74,7 @@ export class CreateCampaignComponent implements OnInit{
           level: 1 
         }
       );
-    } else if (this.players.length <= 10){
+    } else if (this.players.length < 10){
       this.toastr.error('Please fill the empty player name field');
     } else {
       this.toastr.error('Max player size is 10');

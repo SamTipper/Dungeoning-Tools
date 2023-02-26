@@ -82,7 +82,7 @@ export class CampaignLoaderService {
 
           skills: Object.keys(skills).length > 0 ? skills : undefined,
 
-          conditions: conditions
+          conditions: Object.keys(conditions).length > 0 ? conditions : undefined
         }
       );
     });

@@ -160,6 +160,26 @@ export class PlayerService {
     };
   }
 
+  generatePlayerConditions(player: Player){
+    player.conditions = {
+      blinded: false,
+      charmed: false,
+      deafened: false,
+      frightened: false,
+      grappled: false,
+      incapacitated: false,
+      invisible: false,
+      paralyzed: false,
+      petrified: false,
+      poisoned: false,
+      prone: false,
+      restrained: false,
+      stunned: false,
+      unconscious: false,
+      exhaustion: 0
+    }
+  }
+
   generatePlayerSaves(player: Player){
     for (let save of Object.keys(player.stats)){
       if (this.saveProficiencies[player.class].includes(save)){
@@ -186,5 +206,33 @@ export class PlayerService {
         player.skills[skill].score = player.skills[skill].score - player.proficiency;
       } 
     }
+  }
+
+  filterExhaustion(player: Player): object{
+    const allowed: string[] = [
+      "blinded",
+      "charmed",
+      "deafened",
+      "frightened",
+      "grappled",
+      "incapacitated",
+      "invisible",
+      "paralyzed",
+      "petrified",
+      "poisoned",
+      "prone",
+      "restrained",
+      "stunned",
+      "unconscious"
+    ];
+
+    const filtered = Object.keys(player.conditions)
+    .filter(key => allowed.includes(key))
+    .reduce((obj, key) => {
+      obj[key] = player.conditions[key];
+      return obj;
+    }, {});
+
+    return filtered;
   }
 }

@@ -13,6 +13,7 @@ import { HttpService } from 'src/app/services/http.service';
 export class HomeComponent implements OnInit{
   existingCampaignForm: FormGroup;
   disableForm: boolean = false;
+  campaignLoaded: boolean = false;
 
   constructor(
     private router: Router,
@@ -22,9 +23,13 @@ export class HomeComponent implements OnInit{
   ) { }
   
   ngOnInit(){
-    this.existingCampaignForm = new FormGroup({
-      'campCode': new FormControl(null, [Validators.required])
-    })
+    if (this.campaignLoader.campaignName){
+      this.campaignLoaded = true;
+    } else {
+      this.existingCampaignForm = new FormGroup({
+        'campCode': new FormControl(null, [Validators.required])
+      });
+    }
   }
 
   getCampaignAndLoad(campaignCode: string){
@@ -35,6 +40,7 @@ export class HomeComponent implements OnInit{
           this.campaignLoader.loadCampaign(JSON.parse(res.body), campaignCode);
           this.toastr.success(`${this.campaignLoader.campaignName} successfully loaded!`);
           this.disableForm = false;
+          this.campaignLoaded = true;
         }
       },
       (error) => {

@@ -1,5 +1,4 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
-import { AppComponent } from '../app.component';
 import { Player } from '../interfaces/player';
 import { PlayerService } from './player.service';
 
@@ -32,6 +31,7 @@ export class CampaignLoaderService {
     this.campaignData['players'].forEach((player: string) => {
       let stats:  object = {};
       let skills: object = {};
+      let conditions: object = {};
 
       // Ability Scores
       for (let stat of Object.keys(player['stats'])){
@@ -54,6 +54,17 @@ export class CampaignLoaderService {
         }
       }
 
+      // Conditions
+      if (player['conditions']){
+        for (let condition of Object.keys(player['conditions'])){
+          if (condition !== "exhaustion"){
+            conditions[condition] = player['conditions'][condition] ? player['conditions'][condition] : false;
+          } else {
+            conditions[condition] = player['conditions'][condition] ? player['conditions'][condition] : 0;
+          }
+        }
+      }
+
       this.players.push(
         <Player>{
           // General stats
@@ -69,7 +80,9 @@ export class CampaignLoaderService {
 
           stats: stats,
 
-          skills: Object.keys(skills).length > 0 ? skills : undefined
+          skills: Object.keys(skills).length > 0 ? skills : undefined,
+
+          conditions: conditions
         }
       );
     });
@@ -80,6 +93,9 @@ export class CampaignLoaderService {
       this.playerService.generateGeneralStats(player);
       if (!player.skills){
         this.playerService.generatePlayerSkills(player);
+      }
+      if(!player.conditions){
+        this.playerService.generatePlayerConditions(player);
       }
     });
 

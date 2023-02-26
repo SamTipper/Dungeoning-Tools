@@ -42,6 +42,22 @@ export interface Player {
         "sleight of hand": {score: number, proficiency: boolean, expertise: boolean},
         stealth:           {score: number, proficiency: boolean, expertise: boolean},
         survival:          {score: number, proficiency: boolean, expertise: boolean}
+    },
+    conditions?: {
+        blinded: boolean,
+        charmed: boolean,
+        deafened: boolean,
+        frightened: boolean,
+        grappled: boolean,
+        incapacitated: boolean,
+        invisible: boolean,
+        paralyzed: boolean,
+        petrified: boolean,
+        poisoned: boolean,
+        prone: boolean,
+        restrained: boolean,
+        stunned: boolean,
+        unconscious: boolean,
+        exhaustion: number
     }
-
 }

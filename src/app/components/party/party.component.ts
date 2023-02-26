@@ -65,5 +65,8 @@ export class PartyComponent implements OnInit{
     this.changes['disableButton'] = false;
   }
 
+  filterExhaustion(player: Player): object{
+   return this.playerService.filterExhaustion(player);
+  }
 
 }

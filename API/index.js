@@ -87,15 +87,18 @@ app.post('/update_campaign', jsonParser, async (req, res) => {
     try {
         let campaign = {};
         const campaignCode = req.body.campaignCode;
+        console.log(req.body.dmCode);
 
         campaign[campaignCode] = {
             name: req.body.campaignName,
             campaignCode: campaignCode,
-            players: JSON.parse(req.body.players)
+            players: JSON.parse(req.body.players),
+            dmCode: req.body.dmCode ? req.body.dmCode : undefined,
         }
         db.collection('campaigns').doc(constants.docId).update(campaign);
         return res.status(200).send("Campaign Updated"); 
     } catch (error) {
+        console.log(error);
         return res.status(500).send(error);
     }
 });

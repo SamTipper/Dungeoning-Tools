@@ -48,13 +48,14 @@ export class HttpService {
     )
   }
 
-  updateCampaign(campaignCode: string, name: string, players: string){
+  updateCampaign(campaignCode: string, name: string, players: string, dmCode?: string){
     return this.http.post(
       `${this.constants.API}/update_campaign`,
       {
         campaignCode: campaignCode,
         campaignName: name,
-        players: players
+        players: players,
+        dmCode: dmCode ? dmCode : undefined
       },
       {
         headers: {},

@@ -65,6 +65,7 @@ export class PartyComponent implements OnInit{
       (error) => {
         console.log(error);
         this.toastr.error("An error has occurred when saving character changes, please try again later");
+        this.changes['disableButton'] = false;
       }
     )
   }

@@ -9,6 +9,8 @@ export class CampaignLoaderService {
   campaignData: object;
   campaignName: string;
   campaignCode: string;
+  dmCode: string;
+  dmLoggedIn: boolean = false;
   players: Player[];
 
   @Output() campaignNameListener: EventEmitter<string> = new EventEmitter<string>();
@@ -25,6 +27,7 @@ export class CampaignLoaderService {
     this.campaignData = campaignData[campaignCode];
     this.campaignName = campaignData[campaignCode]['name'];
     this.campaignCode = campaignCode;
+    this.dmCode = campaignData[campaignCode]['dmCode'];
     this.players = [];
     
     // Player loading

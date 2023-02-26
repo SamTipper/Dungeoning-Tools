@@ -14,6 +14,13 @@ export class HomeComponent implements OnInit{
   existingCampaignForm: FormGroup;
   disableForm: boolean = false;
   campaignLoaded: boolean = false;
+  dmCode: string;
+  dmPasswords: {password: string, confirmPassword: string, assignDM: boolean} = {
+    password: "",
+    confirmPassword: "",
+    assignDM: false
+  };
+  dmLoggedIn: boolean;
 
   constructor(
     private router: Router,
@@ -38,6 +45,8 @@ export class HomeComponent implements OnInit{
       (res) => {
         if (res.status === 200){
           this.campaignLoader.loadCampaign(JSON.parse(res.body), campaignCode);
+          this.dmCode = this.campaignLoader.dmCode;
+          this.dmLoggedIn = this.campaignLoader.dmLoggedIn;
           this.toastr.success(`${this.campaignLoader.campaignName} successfully loaded!`);
           this.disableForm = false;
           this.campaignLoaded = true;
@@ -65,6 +74,53 @@ export class HomeComponent implements OnInit{
     } else {
       // User wants to create a campaign
       this.router.navigate(['create-campaign']);
+    }
+  }
+
+  toggleDmModal(){
+    this.dmPasswords.assignDM = this.dmPasswords.assignDM ? false : true;
+  }
+
+  validateDMPasswords(): boolean{
+    if (this.dmPasswords.password !== this.dmPasswords.confirmPassword){
+      return true;
+    }
+    if (this.dmPasswords.password.length < 6 && this.dmPasswords.confirmPassword.length < 6){
+      return true;
+    }
+    return false;
+  }
+
+  setDMPassword(){
+    this.http.updateCampaign(this.campaignLoader.campaignCode, this.campaignLoader.campaignName, JSON.stringify(this.campaignLoader.players), btoa(this.dmPasswords.password))
+      .subscribe(
+      (res) => {
+        this.campaignLoader.dmCode = btoa(this.dmPasswords.password);
+        this.dmCode = btoa(this.dmPasswords.password);
+        this.campaignLoader.dmLoggedIn = false;
+        this.dmLoggedIn = false;
+        
+        if (res.status === 200){
+          this.dmPasswords = {
+            password: "",
+            confirmPassword: "",
+            assignDM: false
+          };
+          this.toastr.success("You have successfully set up DM access!");
+        }
+      },
+      (error) => {
+        console.log(error);
+        this.toastr.error("There was a problem communicating to the server, please try again later...");
+      }
+    );
+  }
+
+  validateDM(){
+    if (this.dmPasswords.password === atob(this.campaignLoader.dmCode)){
+      this.dmPasswords.assignDM = false;
+      this.campaignLoader.dmLoggedIn = true;
+      this.dmLoggedIn = true;
     }
   }
 }

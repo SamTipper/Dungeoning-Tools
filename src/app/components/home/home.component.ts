@@ -32,6 +32,8 @@ export class HomeComponent implements OnInit{
   ngOnInit(){
     if (this.campaignLoader.campaignName){
       this.campaignLoaded = true;
+      this.dmCode = this.campaignLoader.dmCode;
+      this.dmLoggedIn = this.campaignLoader.dmLoggedIn;
     } else {
       this.existingCampaignForm = new FormGroup({
         'campCode': new FormControl(null, [Validators.required])
@@ -99,7 +101,7 @@ export class HomeComponent implements OnInit{
         this.dmCode = btoa(this.dmPasswords.password);
         this.campaignLoader.dmLoggedIn = false;
         this.dmLoggedIn = false;
-        
+
         if (res.status === 200){
           this.dmPasswords = {
             password: "",
@@ -121,6 +123,7 @@ export class HomeComponent implements OnInit{
       this.dmPasswords.assignDM = false;
       this.campaignLoader.dmLoggedIn = true;
       this.dmLoggedIn = true;
+      this.toastr.success("You have successfully logged in, welcome back!");
     }
   }
 }

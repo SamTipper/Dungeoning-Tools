@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CreateCampaignComponent } from './components/create-campaign/create-campaign.component';
 import { DiceRollerComponent } from './components/dice-roller/dice-roller.component';
 import { HomeComponent } from './components/home/home.component';
+import { InitiativeTrackerComponent } from './components/initiative-tracker/initiative-tracker.component';
 import { PartyComponent } from './components/party/party.component';
 import { UsefulLinksComponent } from './components/useful-links/useful-links.component';
 
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'create-campaign', component: CreateCampaignComponent },
   { path: 'dice-roller', component: DiceRollerComponent },
   { path: 'party', component: PartyComponent },
+  { path: 'initiative-tracker', component: InitiativeTrackerComponent },
   { path: 'useful-links', component: UsefulLinksComponent }
 ];
 

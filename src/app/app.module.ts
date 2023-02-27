@@ -13,6 +13,7 @@ import { DiceRollerComponent } from './components/dice-roller/dice-roller.compon
 import { PartyComponent } from './components/party/party.component';
 import { TitlePipe } from './pipes/title.pipe';
 import { UsefulLinksComponent } from './components/useful-links/useful-links.component';
+import { InitiativeTrackerComponent } from './components/initiative-tracker/initiative-tracker.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { UsefulLinksComponent } from './components/useful-links/useful-links.com
     DiceRollerComponent,
     PartyComponent,
     TitlePipe,
-    UsefulLinksComponent
+    UsefulLinksComponent,
+    InitiativeTrackerComponent
   ],
   imports: [
     BrowserModule,

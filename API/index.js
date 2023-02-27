@@ -87,7 +87,6 @@ app.post('/update_campaign', jsonParser, async (req, res) => {
     try {
         let campaign = {};
         const campaignCode = req.body.campaignCode;
-        console.log(req.body.dmCode);
 
         campaign[campaignCode] = {
             name: req.body.campaignName,

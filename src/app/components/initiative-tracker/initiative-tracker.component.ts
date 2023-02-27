@@ -9,7 +9,6 @@ import { Player } from 'src/app/interfaces/player';
 })
 export class InitiativeTrackerComponent implements OnInit{
   players: Player[];
-  listItem = document.getElementById('list_item');
 
   constructor(
     private campaign: CampaignLoaderService 

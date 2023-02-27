@@ -1,10 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CampaignLoaderService } from 'src/app/services/campaign-loader.service';
+import { Player } from 'src/app/interfaces/player';
 
 @Component({
   selector: 'app-initiative-tracker',
   templateUrl: './initiative-tracker.component.html',
   styleUrls: ['./initiative-tracker.component.css']
 })
-export class InitiativeTrackerComponent {
+export class InitiativeTrackerComponent implements OnInit{
+  players: Player[];
+  listItem = document.getElementById('list_item');
 
+  constructor(
+    private campaign: CampaignLoaderService 
+  ) { }
+
+  ngOnInit(){
+    this.players = this.campaign.players;
+  }
 }

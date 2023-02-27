@@ -1,0 +1,7 @@
+*,::before,::after{
+    box-sizing: border-box;
+}
+h4{
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+}

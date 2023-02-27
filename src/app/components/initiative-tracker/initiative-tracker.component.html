@@ -1,1 +1,89 @@
-<p>initiative-tracker works!</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section class="container mx-auto">
+        <section class="p-10 h-screen">
+            <div class="text-3xl font-extrabold players">
+                <h4 class="capitalize text-yellow-500 tracking-widest">
+                    Top charts
+                </h4>
+            </div>
+            <section class="my-10">
+                <div class="flex flex-col">
+                    <div class="-my-2 overflow-x-auto">
+                        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                            <div class="overflow-hidden shadow-md bg-white rounded-lg">
+                                <table class="min-w-full divide-y divide-gray-22">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3 text-left text-md text-gray-500 capitalize tracking-wider">
+                                                #
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-left text-md text-gray-500 capitalize tracking-wider">
+                                                Data
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-left text-md text-gray-500 capitalize tracking-wider">
+                                                Data
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-left text-md text-gray-500 capitalize tracking-wider">
+                                                Data
+                                            </th>
+                                            <th scope="col" class="px-6 py-3 text-left text-md text-gray-500 capitalize tracking-wider">
+                                                Data
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="bg-white">
+                                        <tr *ngFor="let player of players">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                01
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex items-center">
+                                                    <div class="flex-shrink-0 h-10 w-10">
+                                                        <img class="" src="" alt="">
+                                                    </div>
+                                                    <div class="ml-4">
+                                                        <div class="text-sm font-medium text-gray-700 capitalize">
+                                                            {{ player }}
+                                                        </div>
+                                                        <div class="text-xs text-gray-400 capitalize">
+                                                            Data
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm text-gray-700 capitalize">
+                                                    Data
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <span class="text-sm text-gray-600 leading-5 px-2 inline-flex">
+                                                    Data
+                                                </span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm text-purple-700 capitalize">
+                                                    Data
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </section>
+</body>
+</html>

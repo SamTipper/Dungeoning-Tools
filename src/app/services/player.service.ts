@@ -218,6 +218,10 @@ export class PlayerService {
       }
     }
   }
+
+  getInitiative(player: Player){
+    player.initiative = player.stats.dexterity.modifier;
+  }
   
   applyProfOrExp(player: Player, skill: string, proficiency?: boolean, expertise?: boolean){
     if (proficiency){

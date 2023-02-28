@@ -48,6 +48,7 @@ export class PartyComponent implements OnInit{
         this.playerService.generateAbilityScoreModifiers(player);
         this.playerService.generatePlayerSkills(player);
         this.playerService.generatePlayerSaves(player);
+        this.playerService.getInitiative(player);
       }
     });
 

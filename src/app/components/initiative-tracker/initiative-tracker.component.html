@@ -7,23 +7,37 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="w-full max-w-lg flex justify-center flex-col m-auto h-screen">
-        <h1 class="text-center mb-4">Drag and Drop to Alter Order</h1>
+    <div *ngIf="players.length > 0" class="w-full max-w-lg flex justify-center flex-col m-auto h-screen">
+        <h1 *ngIf="customOrder" class="text-center mb-4">Drag and Drop to Alter Order</h1>
         <div class="w-full flex flex-col m-auto h-screen">
-            <div *ngIf="!customOrder" cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-                <div class="example-box" *ngFor="let player of sortByRoll()" cdkDrag>{{ player.playerObject.name }} | Roll: {{ player.initiativeRoll }} (Dex Mod: {{ player.playerObject.initiative }})</div>
+            <div *ngIf="!customOrder" class="example-list">
+                <div 
+                class="example-box" 
+                *ngFor="let player of sortByRoll()">
+                    {{ player.playerObject.name }} (Dex Mod: {{ player.playerObject.initiative }})
+                    <div class="text-green font-bold">
+                        Roll: {{ player.initiativeRoll }}
+                    </div>
+                </div>
             </div>
-            <div *ngIf="customOrder" cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-                <div class="example-box" *ngFor="let player of players" cdkDrag>{{ player.playerObject.name }}</div>
+            <div *ngIf="customOrder" cdkDropList class="example-list cursor-grab active:cursor-grabbing" (cdkDropListDropped)="drop($event)">
+                <div class="example-box" *ngFor="let player of players" cdkDrag>
+                    {{ player.playerObject.name }} (Dex Mod: {{ player.playerObject.initiative }})
+                    <div class="text-green font-bold">
+                        Roll:
+                        <input type="number" class="text-right text-green font-bold w-10" [(ngModel)]="player.initiativeRoll">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="container mx-auto sticky bottom-4">
+    <div *ngIf="players.length > 0" class="container mx-auto sticky bottom-4">
         <button 
         (click)="rollInitiativeAllPlayers()"
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 rounded focus:outline-none focus:shadow-outline">
             Roll Initiative!
         </button>
+
         <button 
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 rounded focus:outline-none focus:shadow-outline">
             Add Monster
@@ -31,5 +45,7 @@
 
         <mat-slide-toggle class="ml-2" [(ngModel)]="customOrder">Custom Order?</mat-slide-toggle>
     </div>
+
+    <h1 class="w-full flex justify-center flex-col m-auto h-screen text-center text-3xl" *ngIf="players.length === 0">Please enter a campaign code on the homepage.</h1>
 </body>
 </html>

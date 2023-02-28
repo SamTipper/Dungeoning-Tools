@@ -53,7 +53,6 @@ export class PartyComponent implements OnInit{
     });
 
     this.changes['abilityScore'] = false;
-    this.changes['skills'] = false;
 
     this.campaign.players = this.players;
     this.http.updateCampaign(this.campaign.campaignCode, this.campaign.campaignName, JSON.stringify(this.campaign.players)).subscribe(

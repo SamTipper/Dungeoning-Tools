@@ -33,17 +33,19 @@
     </div>
     <div *ngIf="players.length > 0" class="container mx-auto sticky bottom-4">
         <button 
+        [disabled]="disableButtons"
         (click)="rollInitiativeAllPlayers()"
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 rounded focus:outline-none focus:shadow-outline">
             Roll Initiative!
         </button>
 
-        <button 
+        <button
+        [disabled]="disableButtons"
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 rounded focus:outline-none focus:shadow-outline">
             Add Monster
         </button>
 
-        <mat-slide-toggle class="ml-2" [(ngModel)]="customOrder">Custom Order?</mat-slide-toggle>
+        <mat-slide-toggle [disabled]="disableButtons" class="ml-2" [(ngModel)]="customOrder">Custom Order?</mat-slide-toggle>
     </div>
 
     <h1 class="w-full flex justify-center flex-col m-auto h-screen text-center text-3xl" *ngIf="players.length === 0">Please enter a campaign code on the homepage.</h1>

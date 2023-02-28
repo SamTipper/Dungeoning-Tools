@@ -12,6 +12,7 @@ import { InitiativeTrackerService } from 'src/app/services/initiative-tracker.se
 export class InitiativeTrackerComponent implements OnInit, OnDestroy{
   players: {playerObject: Player, initiativeRoll: number}[] = [];
   customOrder: boolean = false;
+  disableButtons: boolean = false;
   turn: number;
 
   constructor(
@@ -65,6 +66,7 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
   }
 
   async rollInitiativeAllPlayers(){
+    this.disableButtons = true;
     this.customOrder = false;
     for (let i = 0; i < Math.floor(Math.random() * (21 - 1) + 1); i++){
       for (const player of this.players){
@@ -73,5 +75,6 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
       this.sortByRoll();
       await this.sleep(80);
     }
+    this.disableButtons = false;
   }
 }

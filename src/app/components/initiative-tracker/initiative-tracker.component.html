@@ -7,83 +7,29 @@
     <title>Document</title>
 </head>
 <body>
-    <section class="container mx-auto">
-        <section class="p-10 h-screen">
-            <div class="text-3xl font-extrabold players">
-                <h4 class="capitalize text-yellow-500 tracking-widest">
-                    Top charts
-                </h4>
+    <div class="w-full max-w-lg flex justify-center flex-col m-auto h-screen">
+        <h1 class="text-center mb-4">Drag and Drop to Alter Order</h1>
+        <div class="w-full flex flex-col m-auto h-screen">
+            <div *ngIf="!customOrder" cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+                <div class="example-box" *ngFor="let player of sortByRoll()" cdkDrag>{{ player.playerObject.name }} | Roll: {{ player.initiativeRoll }} (Dex Mod: {{ player.playerObject.initiative }})</div>
             </div>
-            <section class="my-10">
-                <div class="flex flex-col">
-                    <div class="-my-2 overflow-x-auto">
-                        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                            <div class="overflow-hidden shadow-md bg-white rounded-lg">
-                                <table class="min-w-full divide-y divide-gray-22">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col" class="px-6 py-3 text-left text-md text-gray-500 capitalize tracking-wider">
-                                                #
-                                            </th>
-                                            <th scope="col" class="px-6 py-3 text-left text-md text-gray-500 capitalize tracking-wider">
-                                                Data
-                                            </th>
-                                            <th scope="col" class="px-6 py-3 text-left text-md text-gray-500 capitalize tracking-wider">
-                                                Data
-                                            </th>
-                                            <th scope="col" class="px-6 py-3 text-left text-md text-gray-500 capitalize tracking-wider">
-                                                Data
-                                            </th>
-                                            <th scope="col" class="px-6 py-3 text-left text-md text-gray-500 capitalize tracking-wider">
-                                                Data
-                                            </th>
-                                        </tr>
-                                    </thead>
+            <div *ngIf="customOrder" cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+                <div class="example-box" *ngFor="let player of players" cdkDrag>{{ player.playerObject.name }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="container mx-auto sticky bottom-4">
+        <button 
+        (click)="rollInitiativeAllPlayers()"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 rounded focus:outline-none focus:shadow-outline">
+            Roll Initiative!
+        </button>
+        <button 
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 rounded focus:outline-none focus:shadow-outline">
+            Add Monster
+        </button>
 
-                                    <tbody class="bg-white">
-                                        <tr *ngFor="let player of players">
-                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                01
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="flex items-center">
-                                                    <div class="flex-shrink-0 h-10 w-10">
-                                                        <img class="" src="" alt="">
-                                                    </div>
-                                                    <div class="ml-4">
-                                                        <div class="text-sm font-medium text-gray-700 capitalize">
-                                                            {{ player.name }}
-                                                        </div>
-                                                        <div class="text-xs text-gray-400 capitalize">
-                                                            Data
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm text-gray-700 capitalize">
-                                                    Data
-                                                </div>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <span class="text-sm text-gray-600 leading-5 px-2 inline-flex">
-                                                    Data
-                                                </span>
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm text-purple-700 capitalize">
-                                                    Data
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </section>
-    </section>
+        <mat-slide-toggle class="ml-2" [(ngModel)]="customOrder">Custom Order?</mat-slide-toggle>
+    </div>
 </body>
 </html>

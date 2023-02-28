@@ -91,8 +91,10 @@ app.post('/update_campaign', jsonParser, async (req, res) => {
         campaign[campaignCode] = {
             name: req.body.campaignName,
             campaignCode: campaignCode,
-            players: JSON.parse(req.body.players),
-            dmCode: req.body.dmCode ? req.body.dmCode : undefined,
+            players: JSON.parse(req.body.players)
+        }
+        if (req.body.dmCode){
+            campaign[campaignCode].dmCode = req.body.dmCode;
         }
         db.collection('campaigns').doc(constants.docId).update(campaign);
         return res.status(200).send("Campaign Updated"); 

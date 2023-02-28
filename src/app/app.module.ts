@@ -14,6 +14,8 @@ import { PartyComponent } from './components/party/party.component';
 import { TitlePipe } from './pipes/title.pipe';
 import { UsefulLinksComponent } from './components/useful-links/useful-links.component';
 import { InitiativeTrackerComponent } from './components/initiative-tracker/initiative-tracker.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { InitiativeTrackerComponent } from './components/initiative-tracker/init
     FormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    HttpClientModule
+    HttpClientModule,
+    DragDropModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

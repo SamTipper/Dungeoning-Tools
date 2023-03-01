@@ -166,44 +166,44 @@ export class PlayerService {
 
   generatePlayerSkills(player: Player){
     player.skills = {
-      acrobatics:        {score: player.stats.dexterity.modifier, proficiency: false, expertise: false},
-      "animal handling": {score: player.stats.wisdom.modifier, proficiency: false, expertise: false},
+      acrobatics:        {score: player.stats.dexterity.modifier,    proficiency: false, expertise: false},
+      "animal handling": {score: player.stats.wisdom.modifier,       proficiency: false, expertise: false},
       arcana:            {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
-      athletics:         {score: player.stats.strength.modifier, proficiency: false, expertise: false},
-      deception:         {score: player.stats.charisma.modifier, proficiency: false, expertise: false},
+      athletics:         {score: player.stats.strength.modifier,     proficiency: false, expertise: false},
+      deception:         {score: player.stats.charisma.modifier,     proficiency: false, expertise: false},
       history:           {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
-      insight:           {score: player.stats.wisdom.modifier, proficiency: false, expertise: false},
-      intimidation:      {score: player.stats.charisma.modifier, proficiency: false, expertise: false},
+      insight:           {score: player.stats.wisdom.modifier,       proficiency: false, expertise: false},
+      intimidation:      {score: player.stats.charisma.modifier,     proficiency: false, expertise: false},
       investigation:     {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
-      medicine:          {score: player.stats.wisdom.modifier, proficiency: false, expertise: false},
+      medicine:          {score: player.stats.wisdom.modifier,       proficiency: false, expertise: false},
       nature:            {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
-      perception:        {score: player.stats.wisdom.modifier, proficiency: false, expertise: false},
-      performance:       {score: player.stats.charisma.modifier, proficiency: false, expertise: false},
-      persuasion:        {score: player.stats.charisma.modifier, proficiency: false, expertise: false},
+      perception:        {score: player.stats.wisdom.modifier,       proficiency: false, expertise: false},
+      performance:       {score: player.stats.charisma.modifier,     proficiency: false, expertise: false},
+      persuasion:        {score: player.stats.charisma.modifier,     proficiency: false, expertise: false},
       religion:          {score: player.stats.intelligence.modifier, proficiency: false, expertise: false},
-      "sleight of hand": {score: player.stats.dexterity.modifier, proficiency: false, expertise: false},
-      stealth:           {score: player.stats.dexterity.modifier, proficiency: false, expertise: false},
-      survival:          {score: player.stats.wisdom.modifier, proficiency: false, expertise: false}
+      "sleight of hand": {score: player.stats.dexterity.modifier,    proficiency: false, expertise: false},
+      stealth:           {score: player.stats.dexterity.modifier,    proficiency: false, expertise: false},
+      survival:          {score: player.stats.wisdom.modifier,       proficiency: false, expertise: false}
     };
   }
 
   generatePlayerConditions(player: Player){
     player.conditions = {
-      blinded: false,
-      charmed: false,
-      deafened: false,
-      frightened: false,
-      grappled: false,
+      blinded:       false,
+      charmed:       false,
+      deafened:      false,
+      frightened:    false,
+      grappled:      false,
       incapacitated: false,
-      invisible: false,
-      paralyzed: false,
-      petrified: false,
-      poisoned: false,
-      prone: false,
-      restrained: false,
-      stunned: false,
-      unconscious: false,
-      exhaustion: 0
+      invisible:     false,
+      paralyzed:     false,
+      petrified:     false,
+      poisoned:      false,
+      prone:         false,
+      restrained:    false,
+      stunned:       false,
+      unconscious:   false,
+      exhaustion:    0
     }
   }
 

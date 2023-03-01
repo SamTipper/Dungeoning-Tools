@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CampaignLoaderService } from 'src/app/services/campaign-loader.service';
 import { Player } from 'src/app/interfaces/player';
+import { Monster } from 'src/app/interfaces/monster'
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { InitiativeTrackerService } from 'src/app/services/initiative-tracker.service';
 
@@ -70,11 +71,22 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
     this.customOrder = false;
     for (let i = 0; i < Math.floor(Math.random() * (21 - 1) + 1); i++){
       for (const player of this.players){
-        player.initiativeRoll = Math.floor(Math.random() * (21 - 1) + 1) + player.playerObject.initiative;
+        player.initiativeRoll = Math.floor(Math.random() * (21 - 1) + 1) + +player.playerObject.initiative;
       }
       this.sortByRoll();
       await this.sleep(80);
     }
     this.disableButtons = false;
+  }
+
+  onCreateMonster(){
+    this.players.push({
+      playerObject: <Monster>{
+        name: "Monster",
+        initiative: 0,
+        monster: true
+      },
+      initiativeRoll: 0
+    });
   }
 }

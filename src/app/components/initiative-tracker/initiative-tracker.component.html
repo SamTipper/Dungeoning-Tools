@@ -35,11 +35,22 @@
             </div>
             <div *ngIf="customOrder" cdkDropList class="example-list cursor-grab active:cursor-grabbing" (cdkDropListDropped)="drop($event)">
                 <div class="example-box" *ngFor="let player of players" cdkDrag>
-                    <div class="mx-auto text-center">
+                    <div *ngIf="!player.playerObject['monster']" class="mx-auto text-center">
                         {{ player.playerObject.name }} (Initiative: {{ player.playerObject.initiative }})
                         <div class="text-green font-bold">
                             Roll:
                             <input type="number" class="text-right text-green font-bold w-10" [(ngModel)]="player.initiativeRoll">
+                        </div>
+                    </div>
+
+                    <div class="mx-auto text-center" *ngIf="player.playerObject['monster']">
+                        <input class="mx-auto text-center mb-4" [(ngModel)]="player.playerObject.name">
+                        <br>
+                        <label class="mx-auto text-center">Initiative:</label>
+                        <br>
+                        <input type="number" class="mx-auto text-center w-10 ml-4" [(ngModel)]="player.playerObject.initiative">
+                        <div class="text-green font-bold">
+                            Roll: {{ player.initiativeRoll }}
                         </div>
                     </div>
                 </div>

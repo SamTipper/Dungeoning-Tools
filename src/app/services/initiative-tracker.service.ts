@@ -8,6 +8,7 @@ export class InitiativeTrackerService {
   players: {playerObject: Player, initiativeRoll: number}[];
   customOrder: boolean;
   turn: number;
+  round: number;
 
   constructor() { }
 }

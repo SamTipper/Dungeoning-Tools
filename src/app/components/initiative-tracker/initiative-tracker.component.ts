@@ -12,9 +12,10 @@ import { InitiativeTrackerService } from 'src/app/services/initiative-tracker.se
 })
 export class InitiativeTrackerComponent implements OnInit, OnDestroy{
   players: {playerObject: Player, initiativeRoll: number}[] = [];
-  customOrder: boolean = false;
+  customOrder: boolean;
   disableButtons: boolean = false;
   turn: number;
+  round: number;
 
   constructor(
     private campaign: CampaignLoaderService ,
@@ -22,8 +23,9 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
   ) { }
 
   ngOnInit(){
-    this.customOrder = this.initiativeService.customOrder ? this.initiativeService.customOrder : undefined;
-    this.turn = this.initiativeService.turn ? this.initiativeService.turn : undefined;
+    this.customOrder = this.initiativeService.customOrder ? this.initiativeService.customOrder : false;
+    this.turn = this.initiativeService.turn ? this.initiativeService.turn : 0;
+    this.round = this.initiativeService.round ? this.initiativeService.round : 1;
 
     if (!this.initiativeService.players){
       this.campaign.players.forEach((player) => {
@@ -69,7 +71,7 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
   async rollInitiativeAllPlayers(){
     this.disableButtons = true;
     this.customOrder = false;
-    for (let i = 0; i < Math.floor(Math.random() * (21 - 1) + 1); i++){
+    for (let i = 0; i < Math.floor(Math.random() * (31 - 5) + 1); i++){
       for (const player of this.players){
         player.initiativeRoll = Math.floor(Math.random() * (21 - 1) + 1) + +player.playerObject.initiative;
       }
@@ -88,5 +90,29 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
       },
       initiativeRoll: 0
     });
+  }
+
+  changeTurn(goingUp: boolean){
+    this.disableButtons = true;
+    if (goingUp){
+      this.turn < this.players.length - 1 ? this.turn++ : this.turn = 0;
+
+      if (this.turn === 0){
+        this.round++;
+      }
+      
+    } else {
+
+      if (this.turn !== 0){
+        this.turn--;
+      } else if (this.turn === 0 && this.round > 1){
+        this.turn = this.players.length - 1;
+        this.round--;
+      }
+    }
+
+    this.initiativeService.turn = this.turn;
+    this.initiativeService.round = this.round;
+    this.disableButtons = false;
   }
 }

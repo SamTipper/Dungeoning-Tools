@@ -67,9 +67,15 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
   sortByRoll(){
     return this.players.sort((a, b) => {
       if (a.initiativeRoll === b.initiativeRoll){
-        return (a.initiativeRoll - a.playerObject.initiative) < (b.initiativeRoll - b.playerObject.initiative) ? -1 : 1
+        return (a.initiativeRoll - a.playerObject.initiative) < (b.initiativeRoll - b.playerObject.initiative) ? -1 : 1;
       }
-      return a.initiativeRoll < b.initiativeRoll ? 1 : -1
+      return a.initiativeRoll < b.initiativeRoll ? 1 : -1;
+    });
+  }
+
+  sortByName(){
+    return this.players.sort((a, b) => {
+      return a.playerObject.name < b.playerObject.name ? -1 : 1;
     });
   }
 
@@ -108,7 +114,7 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
       <Spell>{
         name:       '',
         casterName: '',
-        duration:   0
+        duration:   1
       }
     );
   }

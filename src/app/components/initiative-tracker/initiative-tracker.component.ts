@@ -25,9 +25,10 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
   ) { }
 
   ngOnInit(){
-    this.customOrder = this.initiativeService.customOrder ? this.initiativeService.customOrder : false;
-    this.turn = this.initiativeService.turn ? this.initiativeService.turn : 0;
-    this.round = this.initiativeService.round ? this.initiativeService.round : 1;
+    this.customOrder  = this.initiativeService.customOrder  ? this.initiativeService.customOrder          : false;
+    this.turn         = this.initiativeService.turn         ? this.initiativeService.turn                 : 0;
+    this.round        = this.initiativeService.round        ? this.initiativeService.round                : 1;
+    this.activeSpells = this.initiativeService.activeSpells ? this.initiativeService.activeSpells         : [];
 
     if (!this.initiativeService.players){
       this.campaign.players.forEach((player) => {
@@ -39,6 +40,7 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
         );
       });
       this.initiativeService.players = this.players;
+
     } else {
       this.players = this.initiativeService.players;
     }
@@ -70,6 +72,12 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
     });
   }
 
+  updateSpellOrder(){
+    return this.activeSpells.sort((a, b) => {
+      return a.duration > b.duration ? 1 : -1;
+    });
+  }
+
   async rollInitiativeAllPlayers(){
     this.disableButtons = true;
     this.customOrder = false;
@@ -92,6 +100,16 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
       },
       initiativeRoll: 0
     });
+  }
+
+  onAddSpell(){
+    this.activeSpells.push(
+      <Spell>{
+        name:       '',
+        casterName: '',
+        duration:   0
+      }
+    );
   }
 
   changeTurn(goingUp: boolean){

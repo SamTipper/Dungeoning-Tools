@@ -8,34 +8,26 @@
 </head>
 <body>
     <div class="container flex flex-wrap mx-auto">
-        <div class="w-full max-w-lg mx-auto">
-            <h1>Active Spells</h1>
-            <div cdkDropList class="example-list cursor-grab active:cursor-grabbing" (cdkDropListDropped)="drop($event)">
-                <div class="example-box" *ngFor="let player of players; let index = index;" cdkDrag>
-                    <div *ngIf="!player.playerObject['monster']" class="mx-auto text-center">
-                        {{ player.playerObject.name }} (Initiative: {{ player.playerObject.initiative }})
-                        <div class="text-green font-bold">
-                            Roll:
-                            <input type="number" class="text-right text-green font-bold w-10" [(ngModel)]="player.initiativeRoll">
-                        </div>
-                    </div>
-    
-                    <div class="mx-auto text-center" *ngIf="player.playerObject['monster']">
-                        <input class="mx-auto text-center mb-4" [(ngModel)]="player.playerObject.name">
+        <div *ngIf="activeSpells.length > 0" class="w-full max-w-lg mx-auto">
+            <h1 class="font-bold text-center">Active Spells</h1>
+            <div class="example-list">
+                <div class="example-box" *ngFor="let spell of activeSpells">
+                    <div class="mx-auto text-center">
+                        <input type="text" placeholder="Spell Name" class="mx-auto text-center w-30" [(ngModel)]="spell.name">
                         <br>
-                        <label class="mx-auto text-center">Initiative:</label>
+                        <span class="mx-auto text-center mt-2">Caster:</span>
+                        <select class="mx-auto text-center mt-2" [(ngModel)]="spell.casterName">
+                            <option class="text-center" *ngFor="let player of players; let index = index;" [value]="index">{{ player.playerObject.name }}</option>
+                        </select>
                         <br>
-                        <input type="number" class="mx-auto text-center w-10 ml-4" [(ngModel)]="player.playerObject.initiative">
-                        <div class="text-green font-bold">
-                            Roll:
-                            <input type="number" class="mx-auto text-center w-10 ml-4" [(ngModel)]="player.initiativeRoll">
-                        </div>
+                        <input type="number" class="mx-auto text-center w-10 mt-2" (input)="updateSpellOrder()" [(ngModel)]="spell.duration">
+                        <span class="mx-auto text-center">Rounds remaining</span>
                     </div>
                 </div>
             </div>
         </div>
     
-        <div *ngIf="players.length > 0" class="w-full max-w-lg flex justify-center flex-col h-screen mr-40">
+        <div *ngIf="players.length > 0" class="w-full max-w-lg flex justify-center flex-col h-screen mx-auto">
             <h1 class="font-bold text-center">Round {{ round }} {{ customOrder ? '(Drag and Drop to Alter Order)' : '' }}</h1>
             <div class="w-full flex flex-col m-auto h-screen">
                 <div *ngIf="!customOrder" class="example-list">
@@ -136,6 +128,13 @@
         (click)="onCreateMonster()"
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 rounded focus:outline-none focus:shadow-outline">
             Add Monster
+        </button>
+
+        <button
+        [disabled]="disableButtons"
+        (click)="onAddSpell()"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 rounded focus:outline-none focus:shadow-outline">
+            Add Spell
         </button>
 
         <button

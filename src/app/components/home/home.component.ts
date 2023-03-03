@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { CampaignLoaderService } from 'src/app/services/campaign-loader.service';
 import { HttpService } from 'src/app/services/http.service';
 
@@ -10,7 +11,7 @@ import { HttpService } from 'src/app/services/http.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit, OnDestroy{
   existingCampaignForm: FormGroup;
   disableForm: boolean = false;
   campaignLoaded: boolean = false;
@@ -21,6 +22,7 @@ export class HomeComponent implements OnInit{
     assignDM: false
   };
   dmLoggedIn: boolean;
+  subscriptions: Subscription[] = [];
 
   constructor(
     private router: Router,
@@ -41,9 +43,15 @@ export class HomeComponent implements OnInit{
     }
   }
 
+  ngOnDestroy(){
+    for (const subscription of this.subscriptions){
+      subscription.unsubscribe();
+    }
+  }
+
   getCampaignAndLoad(campaignCode: string){
     this.toastr.info("Loading campaign, please wait...");
-    this.http.getCampaign(campaignCode).subscribe(
+    this.subscriptions.push(this.http.getCampaign(campaignCode).subscribe(
       (res) => {
         if (res.status === 200){
           this.campaignLoader.loadCampaign(JSON.parse(res.body), campaignCode);
@@ -59,7 +67,7 @@ export class HomeComponent implements OnInit{
         this.toastr.error("Campaign failed to load, please try again later.");
         this.disableForm = false;
       } 
-    );
+    ));
   }
 
   onSubmit(){
@@ -94,27 +102,29 @@ export class HomeComponent implements OnInit{
   }
 
   setDMPassword(){
-    this.http.updateCampaign(this.campaignLoader.campaignCode, this.campaignLoader.campaignName, JSON.stringify(this.campaignLoader.players), btoa(this.dmPasswords.password))
-      .subscribe(
-      (res) => {
-        this.campaignLoader.dmCode = btoa(this.dmPasswords.password);
-        this.dmCode = btoa(this.dmPasswords.password);
-        this.campaignLoader.dmLoggedIn = false;
-        this.dmLoggedIn = false;
-
-        if (res.status === 200){
-          this.dmPasswords = {
-            password: "",
-            confirmPassword: "",
-            assignDM: false
-          };
-          this.toastr.success("You have successfully set up DM access!");
+    this.subscriptions.push(
+      this.http.updateCampaign(this.campaignLoader.campaignCode, this.campaignLoader.campaignName, JSON.stringify(this.campaignLoader.players), btoa(this.dmPasswords.password))
+        .subscribe(
+        (res) => {
+          this.campaignLoader.dmCode = btoa(this.dmPasswords.password);
+          this.dmCode = btoa(this.dmPasswords.password);
+          this.campaignLoader.dmLoggedIn = false;
+          this.dmLoggedIn = false;
+  
+          if (res.status === 200){
+            this.dmPasswords = {
+              password: "",
+              confirmPassword: "",
+              assignDM: false
+            };
+            this.toastr.success("You have successfully set up DM access!");
+          }
+        },
+        (error) => {
+          console.log(error);
+          this.toastr.error("There was a problem communicating to the server, please try again later...");
         }
-      },
-      (error) => {
-        console.log(error);
-        this.toastr.error("There was a problem communicating to the server, please try again later...");
-      }
+      )
     );
   }
 

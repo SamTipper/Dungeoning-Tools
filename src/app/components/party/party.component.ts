@@ -55,16 +55,18 @@ export class PartyComponent implements OnInit{
     this.changes['abilityScore'] = false;
 
     this.campaign.players = this.players;
-    this.http.updateCampaign(this.campaign.campaignCode, this.campaign.campaignName, JSON.stringify(this.campaign.players)).subscribe(
+    const changesSubscription = this.http.updateCampaign(this.campaign.campaignCode, this.campaign.campaignName, JSON.stringify(this.campaign.players)).subscribe(
       (res) => {
         if (res.status === 200){
           this.toastr.success("Changes saved successfully!");
           this.playerService.unsavedCharacterChanges = false;
+          changesSubscription.unsubscribe();
         }
       },
       (error) => {
         console.log(error);
         this.toastr.error("An error has occurred when saving character changes, please try again later");
+        changesSubscription.unsubscribe();
         this.changes['disableButton'] = false;
       }
     )

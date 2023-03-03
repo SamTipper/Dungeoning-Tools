@@ -4,6 +4,7 @@ import { Player } from 'src/app/interfaces/player';
 import { Monster } from 'src/app/interfaces/monster'
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { InitiativeTrackerService } from 'src/app/services/initiative-tracker.service';
+import { Spell } from 'src/app/interfaces/spell';
 
 @Component({
   selector: 'app-initiative-tracker',
@@ -12,13 +13,14 @@ import { InitiativeTrackerService } from 'src/app/services/initiative-tracker.se
 })
 export class InitiativeTrackerComponent implements OnInit, OnDestroy{
   players: {playerObject: Player, initiativeRoll: number}[] = [];
+  activeSpells: Spell[];
   customOrder: boolean;
   disableButtons: boolean = false;
   turn: number;
   round: number;
 
   constructor(
-    private campaign: CampaignLoaderService ,
+    private campaign: CampaignLoaderService,
     private initiativeService: InitiativeTrackerService
   ) { }
 

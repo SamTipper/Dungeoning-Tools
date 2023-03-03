@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Player } from 'src/app/interfaces/player';
 import { ToastrService } from 'ngx-toastr';
 import { HttpService } from 'src/app/services/http.service';
 import { Router } from '@angular/router';
 import { PlayerService } from 'src/app/services/player.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-create-campaign',
   templateUrl: './create-campaign.component.html',
   styleUrls: ['./create-campaign.component.css']
 })
-export class CreateCampaignComponent implements OnInit{
+export class CreateCampaignComponent implements OnInit, OnDestroy{
   newCampaignForm: FormGroup;
   disableForm: boolean = false;
   campaignCreated: boolean = false;
@@ -19,6 +20,7 @@ export class CreateCampaignComponent implements OnInit{
   campaignCode: string;
   userAcknowledged: boolean = false;
   playerLevels: number[] = Array.from(Array(31).keys()).splice(1);
+  subscriptions: Subscription[] = [];
 
   constructor(
     private toastr: ToastrService,
@@ -33,6 +35,12 @@ export class CreateCampaignComponent implements OnInit{
     });
   }
 
+  ngOnDestroy(){
+    for (const subscription of this.subscriptions){
+      subscription.unsubscribe();
+    }
+  }
+
   onSubmit(){
     this.disableForm = true;
     this.players.forEach((player: Player) => {
@@ -40,15 +48,17 @@ export class CreateCampaignComponent implements OnInit{
       player = this.playerService.setInitialStats(player);
     });
 
-    this.http.submitCampaign(this.playerService.title(this.newCampaignForm.value.name), JSON.stringify(this.players)).subscribe(
-      (res) => {
-        if (res.status === 201){
-          this.campaignCode = JSON.parse(res.body)['campaignCode'];
-          this.campaignCreated = true;
+    this.subscriptions.push(
+      this.http.submitCampaign(this.playerService.title(this.newCampaignForm.value.name), JSON.stringify(this.players)).subscribe(
+        (res) => {
+          if (res.status === 201){
+            this.campaignCode = JSON.parse(res.body)['campaignCode'];
+            this.campaignCreated = true;
+          }
+          
         }
-        
-      }
-    )
+      )
+    );
   }
 
   onAddPlayer(){

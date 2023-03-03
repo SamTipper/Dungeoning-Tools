@@ -48,6 +48,7 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
 
   ngOnDestroy(){
     this.initiativeService.customOrder = this.customOrder;
+    this.initiativeService.activeSpells = this.activeSpells;
   }
 
   /**
@@ -112,6 +113,24 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
     );
   }
 
+  onRemoveSpell(index: number){
+    this.activeSpells.splice(index, 1);
+  }
+
+  onRemovePlayer(index: number){
+    this.players.splice(index, 1);
+  }
+
+  incOrDecSpellDuration(increment: boolean){
+    for (const spell of this.activeSpells){
+      increment ? spell.duration++ : spell.duration--;
+      if (spell.duration === 0){
+        spell.expiredOn = this.round;
+      }
+    }
+    this.updateSpellOrder();
+  }
+
   changeTurn(goingUp: boolean){
     this.disableButtons = true;
     if (goingUp){
@@ -119,6 +138,7 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
 
       if (this.turn === 0){
         this.round++;
+        this.incOrDecSpellDuration(false);
       }
       
     } else {
@@ -128,6 +148,7 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
       } else if (this.turn === 0 && this.round > 1){
         this.turn = this.players.length - 1;
         this.round--;
+        this.incOrDecSpellDuration(true);
       }
     }
 

@@ -11,8 +11,23 @@
         <div *ngIf="activeSpells.length > 0" class="w-full max-w-lg mx-auto">
             <h1 class="font-bold text-center">Active Spells</h1>
             <div class="example-list">
-                <div class="example-box" *ngFor="let spell of activeSpells">
-                    <div class="mx-auto text-center">
+                <div class="example-box relative" *ngFor="let spell of activeSpells; let index = index;">
+                    <div class="p-4 mx-auto text-center">
+                        <div class="items-center text-center absolute top-3 right-3">
+                            <svg 
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 24 24" 
+                            stroke-width="1.5" 
+                            stroke="currentColor" 
+                            class="cursor-pointer w-6 h-6 ml-auto"
+                            type="button"
+                            (click)="onRemoveSpell(index)">
+                                <path 
+                                stroke-linecap="round" 
+                                stroke-linejoin="round" 
+                                d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                            </svg>
+                        </div>
                         <input type="text" placeholder="Spell Name" class="mx-auto text-center w-30" [(ngModel)]="spell.name">
                         <br>
                         <span class="mx-auto text-center mt-2">Caster:</span>
@@ -20,8 +35,10 @@
                             <option class="text-center" *ngFor="let player of players; let index = index;" [value]="index">{{ player.playerObject.name }}</option>
                         </select>
                         <br>
-                        <input type="number" class="mx-auto text-center w-10 mt-2" (input)="updateSpellOrder()" [(ngModel)]="spell.duration">
+                        <input type="number" class="mx-auto text-center w-10 mt-2" (blur)="updateSpellOrder()" [(ngModel)]="spell.duration">
                         <span class="mx-auto text-center">Rounds remaining</span>
+                        <h1 *ngIf="spell.expiredOn" class="text-red-700">Spell expiried on round {{ spell.expiredOn }}</h1>
+                        <br>
                     </div>
                 </div>
             </div>
@@ -32,7 +49,7 @@
             <div class="w-full flex flex-col m-auto h-screen">
                 <div *ngIf="!customOrder" class="example-list">
                     <div 
-                    class="example-box" 
+                    class="example-box relative" 
                     *ngFor="let player of sortByRoll(); let index = index;">
                         <div class="mx-auto text-center" *ngIf="!player.playerObject['monster']">
                             {{ player.playerObject.name }} (Initiative: {{ player.playerObject.initiative }})
@@ -49,6 +66,21 @@
                             <input type="number" class="mx-auto text-center w-10 ml-4" [(ngModel)]="player.playerObject.initiative">
                             <div class="text-green font-bold">
                                 Roll: {{ player.initiativeRoll }}
+                            </div>
+                            <div class="items-center text-center absolute top-3 right-3">
+                                <svg 
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24" 
+                                stroke-width="1.5" 
+                                stroke="currentColor" 
+                                class="cursor-pointer w-6 h-6 ml-auto"
+                                type="button"
+                                (click)="onRemovePlayer(index)">
+                                    <path 
+                                    stroke-linecap="round" 
+                                    stroke-linejoin="round" 
+                                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                                </svg>
                             </div>
                         </div>
                         
@@ -71,7 +103,7 @@
                         </svg>
                     </div>
                 </div>
-                <div *ngIf="customOrder" cdkDropList class="example-list cursor-grab active:cursor-grabbing" (cdkDropListDropped)="drop($event)">
+                <div *ngIf="customOrder" cdkDropList class="example-list cursor-grab active:cursor-grabbing relative" (cdkDropListDropped)="drop($event)">
                     <div class="example-box" *ngFor="let player of players; let index = index;" cdkDrag>
                         <div *ngIf="!player.playerObject['monster']" class="mx-auto text-center">
                             {{ player.playerObject.name }} (Initiative: {{ player.playerObject.initiative }})
@@ -90,6 +122,21 @@
                             <div class="text-green font-bold">
                                 Roll:
                                 <input type="number" class="mx-auto text-center w-10 ml-4" [(ngModel)]="player.initiativeRoll">
+                            </div>
+                            <div class="items-center text-center absolute top-3 right-3">
+                                <svg 
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24" 
+                                stroke-width="1.5" 
+                                stroke="currentColor" 
+                                class="cursor-pointer w-6 h-6 ml-auto"
+                                type="button"
+                                (click)="onRemovePlayer(index)">
+                                    <path 
+                                    stroke-linecap="round" 
+                                    stroke-linejoin="round" 
+                                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                                </svg>
                             </div>
                         </div>
     

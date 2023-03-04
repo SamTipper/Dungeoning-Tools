@@ -114,6 +114,9 @@
                                 Roll:
                                 <input type="number" class="text-right text-green font-bold w-10" [(ngModel)]="player.initiativeRoll">
                             </div>
+                            <button (click)="openConditionsModal(player.playerObject)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded py-2 px-4 w-25 h-10">
+                                Conditions
+                            </button>
                         </div>
     
                         <div class="mx-auto text-center" *ngIf="player.playerObject['monster']">
@@ -143,7 +146,7 @@
                             </div>
                         </div>
     
-                        <svg *ngIf="index === turn" width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
+                        <svg *ngIf="index === turn" class="absolute right-3" width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
                             <rect width='24' height='24' stroke='none' fill='#000000' opacity='0'/>
                             <g transform="matrix(0.83 0 0 0.83 12 12)" >
                             <g transform="matrix(1 0 0 1 6.18 -5.54)" >

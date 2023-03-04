@@ -13,9 +13,11 @@ import { Spell } from 'src/app/interfaces/spell';
 })
 export class InitiativeTrackerComponent implements OnInit, OnDestroy{
   players: {playerObject: Player, initiativeRoll: number}[] = [];
+  selectedPlayer: Player;
   activeSpells: Spell[];
   customOrder: boolean;
   disableButtons: boolean = false;
+  openConditions: boolean = false;
   turn: number;
   round: number;
 
@@ -56,7 +58,7 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
    * @param ms The amount of milleseconds the program should wait for
    * @returns A timeout promise equal to the time the user passed in milleseconds
    */
-  async sleep(ms: number) {
+  async sleep(ms: number){
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
@@ -162,4 +164,38 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
     this.initiativeService.round = this.round;
     this.disableButtons = false;
   }
+
+  openConditionsModal(player: Player){
+    this.selectedPlayer = player;
+    this.openConditions = true;
+  }
+
+  filterExhaustion(): object{
+    const allowed: string[] = [
+      "blinded",
+      "charmed",
+      "deafened",
+      "frightened",
+      "grappled",
+      "incapacitated",
+      "invisible",
+      "paralyzed",
+      "petrified",
+      "poisoned",
+      "prone",
+      "restrained",
+      "stunned",
+      "unconscious"
+    ];
+
+    const filtered = Object.keys(this.selectedPlayer.conditions)
+    .filter(key => allowed.includes(key))
+    .reduce((obj, key) => {
+      obj[key] = this.selectedPlayer.conditions[key];
+      return obj;
+    }, {});
+
+    return filtered;
+  }
+
 }

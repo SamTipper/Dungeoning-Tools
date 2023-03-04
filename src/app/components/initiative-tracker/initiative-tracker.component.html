@@ -56,6 +56,9 @@
                             <div class="text-green font-bold">
                                 Roll: {{ player.initiativeRoll }}
                             </div>
+                            <button (click)="openConditionsModal(player.playerObject)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded py-2 px-4 w-25 h-10">
+                                Conditions
+                            </button>
                         </div>
                         
                         <div class="mx-auto text-center" *ngIf="player.playerObject['monster']">
@@ -84,7 +87,7 @@
                             </div>
                         </div>
                         
-                        <svg *ngIf="index === turn;" width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
+                        <svg class="absolute right-3" *ngIf="index === turn;" width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
                             <rect width='24' height='24' stroke='none' fill='#000000' opacity='0'/>
                             <g transform="matrix(0.83 0 0 0.83 12 12)" >
                             <g transform="matrix(1 0 0 1 6.18 -5.54)" >
@@ -202,5 +205,35 @@
     </div>
 
     <h1 class="w-full flex justify-center flex-col m-auto h-screen text-center text-3xl" *ngIf="players.length === 0">Please enter a campaign code on the homepage.</h1>
+
+    <!-- CONDITIONS MODAL -->
+    <div class="backdrop-blur-sm fixed inset-0 z-10 overflow-y-auto" *ngIf="openConditions">      
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="flex flex-col">
+                        <div class="flex flex-col mt-3 text-center sm:mt-0 sm:ml-4 items-center">
+                            <svg (click)="openConditions = false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 absolute top-2 right-2 cursor-pointer">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>  
+                            <div class="grid grid-rows-5 grid-flow-col items-center">
+                                <div class="mx-auto" *ngFor="let condition of filterExhaustion() | keyvalue">  
+                                    <label class="mx-auto text-center">
+                                        {{ condition.key | title }}
+                                    </label>
+                                    <br>
+                                    <input
+                                    [(ngModel)]="selectedPlayer.conditions[condition.key]"
+                                    type="checkbox"
+                                    class="mx-auto w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer"
+                                    >
+                                </div>  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

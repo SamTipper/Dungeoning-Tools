@@ -51,13 +51,15 @@
                     <div 
                     class="example-box relative" 
                     *ngFor="let player of sortByRoll(); let index = index;">
-                        <div class="mx-auto text-center" *ngIf="!player.playerObject['monster']">
+                        <div class="mx-auto text-center" *ngIf="!player.playerObject['monster']">    
                             {{ player.playerObject.name }} (Initiative: {{ player.playerObject.initiative }})
                             <div class="text-green font-bold">
                                 Roll: {{ player.initiativeRoll }}
                             </div>
-                            <button (click)="openConditionsModal(player.playerObject)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded py-2 px-4 w-25 h-10">
-                                Conditions
+                            <button 
+                            class="text-center mx-auto mt-2"
+                            (click)="changeSelectedPlayer(index)">
+                                <b>Conditions</b>
                             </button>
                         </div>
                         
@@ -114,8 +116,10 @@
                                 Roll:
                                 <input type="number" class="text-right text-green font-bold w-10" [(ngModel)]="player.initiativeRoll">
                             </div>
-                            <button (click)="openConditionsModal(player.playerObject)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold rounded py-2 px-4 w-25 h-10">
-                                Conditions
+                            <button 
+                            class="text-center mx-auto mt-2"
+                            (click)="changeSelectedPlayer(index)">
+                                <b>Conditions</b>
                             </button>
                         </div>
     
@@ -220,7 +224,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                             </svg>  
                             <div class="grid grid-rows-5 grid-flow-col items-center">
-                                <div class="mx-auto" *ngFor="let condition of filterExhaustion() | keyvalue">  
+                                <div *ngFor="let condition of filterExhaustion() | keyvalue">  
                                     <label class="mx-auto text-center">
                                         {{ condition.key | title }}
                                     </label>

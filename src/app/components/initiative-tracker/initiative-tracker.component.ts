@@ -165,8 +165,7 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
     this.disableButtons = false;
   }
 
-  openConditionsModal(player: Player){
-    this.selectedPlayer = player;
+  openConditionsModal(){
     this.openConditions = true;
   }
 
@@ -196,6 +195,11 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
     }, {});
 
     return filtered;
+  }
+
+  changeSelectedPlayer(index: number){
+    this.selectedPlayer = this.players[index].playerObject;
+    this.openConditions = true;
   }
 
 }

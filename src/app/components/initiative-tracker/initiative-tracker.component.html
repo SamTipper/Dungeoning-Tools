@@ -61,6 +61,11 @@
                             (click)="changeSelectedPlayer(index)">
                                 <b>Conditions</b>
                             </button>
+                            <br>
+                            <span class="text-red-500" *ngFor="let conditions of currentPlayerCondtions(index); let last = last;">
+                                <span *ngIf="!last"><b>{{ conditions | title }}, </b></span>
+                                <span *ngIf="last"><b>{{ conditions | title }}</b></span>
+                            </span>
                         </div>
                         
                         <div class="mx-auto text-center" *ngIf="player.playerObject['monster']">
@@ -121,6 +126,11 @@
                             (click)="changeSelectedPlayer(index)">
                                 <b>Conditions</b>
                             </button>
+                            <br>
+                            <span class="text-red-500" *ngFor="let conditions of currentPlayerCondtions(index); let last = last;">
+                                <span *ngIf="!last"><b>{{ conditions | title }}, </b></span>
+                                <span *ngIf="last"><b>{{ conditions | title }}</b></span>
+                            </span>
                         </div>
     
                         <div class="mx-auto text-center" *ngIf="player.playerObject['monster']">

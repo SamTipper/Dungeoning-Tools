@@ -202,4 +202,14 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
     this.openConditions = true;
   }
 
+  currentPlayerCondtions(index: number){
+    let activeCondtions: string[] = [];
+    for (const [condition, value] of Object.entries(this.players[index].playerObject.conditions)){
+      if (value){
+        activeCondtions.push(condition);
+      }
+    }
+    return activeCondtions;
+  }
+
 }

@@ -20,6 +20,7 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
   openConditions: boolean = false;
   turn: number;
   round: number;
+  math: Math = Math;
 
   constructor(
     private campaign: CampaignLoaderService,

@@ -45,7 +45,7 @@
         </div>
     
         <div *ngIf="players.length > 0" class="w-full max-w-lg flex justify-center flex-col h-screen mx-auto">
-            <h1 class="font-bold text-center">Round {{ round }} {{ customOrder ? '(Drag and Drop to Alter Order)' : '' }}</h1>
+            <h1 class="font-bold text-center">Round {{ round }}&emsp;{{ math.round((turn / players.length) * 100) }}% {{ customOrder ? '(Drag and Drop to Alter Order)' : '' }}</h1>
             <div class="w-full flex flex-col m-auto h-screen">
                 <div *ngIf="!customOrder" class="example-list">
                     <div 

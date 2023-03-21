@@ -26,8 +26,8 @@ export class CampaignLoaderService {
   loadCampaign(campaignData: object, campaignCode: string){
     this.campaignData = campaignData[campaignCode];
     this.campaignName = campaignData[campaignCode]['name'];
+    this.dmCode       = campaignData[campaignCode]['dmCode'];
     this.campaignCode = campaignCode;
-    this.dmCode = campaignData[campaignCode]['dmCode'];
     this.players = [];
     
     // Player loading
@@ -80,6 +80,7 @@ export class CampaignLoaderService {
           speed:        player['speed']       ? player['speed']       : undefined,
           ac:           player['ac']          ? player['ac']          : undefined,
           proficiency:  player['proficiency'] ? player['proficiency'] : undefined,
+          dead:         player['dead']        ? player['dead']        : undefined,
 
           stats: stats,
 

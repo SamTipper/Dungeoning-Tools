@@ -5,6 +5,7 @@ import { Monster } from 'src/app/interfaces/monster'
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { InitiativeTrackerService } from 'src/app/services/initiative-tracker.service';
 import { Spell } from 'src/app/interfaces/spell';
+import { PlayerService } from 'src/app/services/player.service';
 
 @Component({
   selector: 'app-initiative-tracker',
@@ -24,7 +25,8 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
 
   constructor(
     private campaign: CampaignLoaderService,
-    private initiativeService: InitiativeTrackerService
+    private initiativeService: InitiativeTrackerService,
+    private playerService: PlayerService
   ) { }
 
   ngOnInit(){
@@ -33,7 +35,7 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
     this.round        = this.initiativeService.round        ? this.initiativeService.round                : 1;
     this.activeSpells = this.initiativeService.activeSpells ? this.initiativeService.activeSpells         : [];
 
-    if (!this.initiativeService.players){
+    if (!this.initiativeService.players && this.campaign.campaignCode){
       this.campaign.players.forEach((player) => {
         this.players.push(
           {
@@ -44,7 +46,7 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
       });
       this.initiativeService.players = this.players;
 
-    } else {
+    } else if (this.initiativeService.players) {
       this.players = this.initiativeService.players;
     }
   }
@@ -65,6 +67,7 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.players, event.previousIndex, event.currentIndex);
+    console.log(this.players);
   }
 
   sortByRoll(){
@@ -77,11 +80,13 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
   }
 
   sortByName(){
-    return this.players.sort((a, b) => {
+    const clonedPlayers = [];
+    this.players.forEach(val => clonedPlayers.push(Object.assign({}, val)))
+    return clonedPlayers.sort((a, b) => {
       return a.playerObject.name < b.playerObject.name ? -1 : 1;
     });
   }
-
+  
   updateSpellOrder(){
     return this.activeSpells.sort((a, b) => {
       return a.duration > b.duration ? 1 : -1;
@@ -102,14 +107,18 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
   }
 
   onCreateMonster(){
-    this.players.push({
+    let monster = {
       playerObject: <Monster>{
         name: "Monster",
         initiative: 0,
-        monster: true
+        monster: true,
+        dead: false
       },
       initiativeRoll: 0
-    });
+    }
+    this.playerService.generatePlayerConditions(monster.playerObject);
+
+    this.players.push(monster);
   }
 
   onAddSpell(){
@@ -211,6 +220,10 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
       }
     }
     return activeCondtions;
+  }
+
+  killCreature(index: number){
+    this.players[index].playerObject.dead = this.players[index].playerObject.dead ? false : true;
   }
 
 }

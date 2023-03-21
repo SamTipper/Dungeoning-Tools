@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
+    <!-- SPELLS -->
     <div class="container flex flex-wrap mx-auto">
         <div *ngIf="activeSpells.length > 0" class="w-full max-w-lg mx-auto">
             <h1 class="font-bold text-center">Active Spells</h1>
@@ -44,6 +45,7 @@
             </div>
         </div>
     
+        <!-- PLAYER & MONSTER NOT CUSTOM ORDER -->
         <div *ngIf="players.length > 0" class="w-full max-w-lg flex justify-center flex-col h-screen mx-auto">
             <h1 class="font-bold text-center">Round {{ round }}&emsp;{{ math.round((turn / players.length) * 100) }}% {{ customOrder ? '(Drag and Drop to Alter Order)' : '' }}</h1>
             <div class="w-full flex flex-col m-auto h-screen">
@@ -51,8 +53,40 @@
                     <div 
                     class="example-box relative" 
                     *ngFor="let player of sortByRoll(); let index = index;">
-                        <div class="mx-auto text-center" *ngIf="!player.playerObject['monster']">    
-                            {{ player.playerObject.name }} (Initiative: {{ player.playerObject.initiative }})
+                        <div class="mx-auto text-center" *ngIf="!player.playerObject['monster']"> 
+                            <svg (click)="killCreature(index)" class="absolute top-2 left-2 cursor-pointer" width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'><rect width='24' height='24' stroke='none' fill='#000000' opacity='0'/>
+                                <g transform="matrix(0.83 0 0 0.83 12 12)" >
+                                <g>
+                                <g transform="matrix(1 0 0 1 0 0)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-12, -12)" d="M 18.5 11 C 18.500189240635205 8.041316168347098 16.5022540156395 5.455802245144381 13.639197027093264 4.709669058754123 C 10.776140038547029 3.963535872363866 7.770426190282093 5.245062958578645 6.326556143360634 7.827513217363766 C 4.8826860964391745 10.409963476148889 5.365006574928479 13.641680413998426 7.5000000000000036 15.690000000000003 L 7.5 18 C 7.5 18.82842712474619 8.17157287525381 19.5 9 19.5 C 9.82842712474619 19.5 10.5 18.82842712474619 10.5 18 C 10.5 18.82842712474619 11.17157287525381 19.5 12 19.5 C 12.82842712474619 19.5 13.5 18.82842712474619 13.5 18 C 13.5 18.82842712474619 14.17157287525381 19.5 15 19.5 C 15.82842712474619 19.5 16.5 18.82842712474619 16.5 18 L 16.5 15.69 C 17.779730133149485 14.46577759712278 18.50245187436557 12.770995113971056 18.5 10.999999999999998 Z" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 -3 -1)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-9, -11)" d="M 7.5 11 C 7.5 11.82842712474619 8.17157287525381 12.5 9 12.5 C 9.82842712474619 12.5 10.5 11.82842712474619 10.5 11 C 10.5 10.17157287525381 9.82842712474619 9.5 9 9.5 C 8.17157287525381 9.5 7.5 10.17157287525381 7.5 11 Z" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 3 -1)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-15, -11)" d="M 13.5 11 C 13.5 11.82842712474619 14.17157287525381 12.5 15 12.5 C 15.82842712474619 12.5 16.5 11.82842712474619 16.5 11 C 16.5 10.17157287525381 15.82842712474619 9.5 15 9.5 C 14.17157287525381 9.5 13.5 10.17157287525381 13.5 11 Z" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 0 3.15)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-12, -15.15)" d="M 13 15.5 C 12.737 15.106 12.54 14.8 12 14.8 C 11.46 14.8 11.263 15.100000000000001 11 15.5" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 -7.95 7.25)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-4.05, -19.25)" d="M 6.877 15 L 3.3 18.58 C 2.564773791125352 18.02814183758611 1.5278898129581644 18.139237009111895 0.9262660329928298 18.83432969143508 C 0.3246422530274953 19.52942237375827 0.3634026322392203 20.571520331879057 1.0149999999999997 21.22 L 2.78 22.987 C 3.4277524119763196 23.64463803305786 4.474924509391174 23.686073512251163 5.172614428340631 23.081673192312753 C 5.870304347290087 22.477272872374343 5.978577232748017 21.434889409912078 5.42 20.7 L 7.6 18.526" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 -7.75 -7.64)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-4.25, -4.36)" d="M 8 5.877 L 5.42 3.3 C 5.97857723274802 2.5651105900879223 5.870304347290093 1.522727127625656 5.172614428340634 0.9183268076872428 C 4.474924509391176 0.3139264877488297 3.4277524119763187 0.3553619669421346 2.7799999999999994 1.013 L 1.013 2.78 C 0.35536196694213507 3.4277524119763196 0.3139264877488298 4.474924509391177 0.9183268076872431 5.172614428340635 C 1.5227271276256564 5.870304347290093 2.565110590087923 5.9785772327480196 3.3000000000000003 5.42 L 6.115 8.236" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 7.95 7.25)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-19.95, -19.25)" d="M 17.123 15 L 20.7 18.58 C 21.435226208874646 18.02814183758611 22.47211018704183 18.13923700911189 23.07373396700717 18.83432969143508 C 23.6753577469725 19.52942237375827 23.63659736776078 20.571520331879057 22.985 21.22 L 21.22 22.987 C 20.57224758802368 23.644638033057863 19.525075490608824 23.686073512251166 18.827385571659367 23.081673192312753 C 18.12969565270991 22.477272872374343 18.02142276725198 21.434889409912078 18.58 20.7 L 16.404999999999998 18.524" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 7.75 -7.63)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-19.75, -4.37)" d="M 16 5.877 L 18.58 3.3 C 18.02814183758611 2.564773791125352 18.139237009111895 1.5278898129581653 18.83432969143508 0.9262660329928303 C 19.52942237375827 0.3246422530274953 20.571520331879057 0.3634026322392203 21.22 1.0149999999999997 L 22.987 2.78 C 23.64463803305786 3.4277524119763196 23.686073512251163 4.474924509391173 23.081673192312753 5.17261442834063 C 22.477272872374343 5.870304347290087 21.434889409912078 5.978577232748018 20.7 5.42 L 17.885 8.236" stroke-linecap="round" />
+                                </g>
+                                </g>
+                                </g>
+                            </svg>
+                            <a *ngIf="!player.playerObject.dead">{{ player.playerObject.name }} (Initiative: {{ player.playerObject.initiative }})</a>
+                            <a *ngIf="player.playerObject.dead"><s>{{ player.playerObject.name }} (Initiative: {{ player.playerObject.initiative }})</s></a>
+                        
                             <div class="text-green font-bold">
                                 Roll: {{ player.initiativeRoll }}
                             </div>
@@ -69,7 +103,38 @@
                         </div>
                         
                         <div class="mx-auto text-center" *ngIf="player.playerObject['monster']">
-                            <input class="mx-auto text-center mb-4" [(ngModel)]="player.playerObject.name">
+                            <svg (click)="killCreature(index)" class="absolute top-2 left-2 cursor-pointer" width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'><rect width='24' height='24' stroke='none' fill='#000000' opacity='0'/>
+                                <g transform="matrix(0.83 0 0 0.83 12 12)" >
+                                <g>
+                                <g transform="matrix(1 0 0 1 0 0)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-12, -12)" d="M 18.5 11 C 18.500189240635205 8.041316168347098 16.5022540156395 5.455802245144381 13.639197027093264 4.709669058754123 C 10.776140038547029 3.963535872363866 7.770426190282093 5.245062958578645 6.326556143360634 7.827513217363766 C 4.8826860964391745 10.409963476148889 5.365006574928479 13.641680413998426 7.5000000000000036 15.690000000000003 L 7.5 18 C 7.5 18.82842712474619 8.17157287525381 19.5 9 19.5 C 9.82842712474619 19.5 10.5 18.82842712474619 10.5 18 C 10.5 18.82842712474619 11.17157287525381 19.5 12 19.5 C 12.82842712474619 19.5 13.5 18.82842712474619 13.5 18 C 13.5 18.82842712474619 14.17157287525381 19.5 15 19.5 C 15.82842712474619 19.5 16.5 18.82842712474619 16.5 18 L 16.5 15.69 C 17.779730133149485 14.46577759712278 18.50245187436557 12.770995113971056 18.5 10.999999999999998 Z" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 -3 -1)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-9, -11)" d="M 7.5 11 C 7.5 11.82842712474619 8.17157287525381 12.5 9 12.5 C 9.82842712474619 12.5 10.5 11.82842712474619 10.5 11 C 10.5 10.17157287525381 9.82842712474619 9.5 9 9.5 C 8.17157287525381 9.5 7.5 10.17157287525381 7.5 11 Z" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 3 -1)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-15, -11)" d="M 13.5 11 C 13.5 11.82842712474619 14.17157287525381 12.5 15 12.5 C 15.82842712474619 12.5 16.5 11.82842712474619 16.5 11 C 16.5 10.17157287525381 15.82842712474619 9.5 15 9.5 C 14.17157287525381 9.5 13.5 10.17157287525381 13.5 11 Z" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 0 3.15)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-12, -15.15)" d="M 13 15.5 C 12.737 15.106 12.54 14.8 12 14.8 C 11.46 14.8 11.263 15.100000000000001 11 15.5" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 -7.95 7.25)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-4.05, -19.25)" d="M 6.877 15 L 3.3 18.58 C 2.564773791125352 18.02814183758611 1.5278898129581644 18.139237009111895 0.9262660329928298 18.83432969143508 C 0.3246422530274953 19.52942237375827 0.3634026322392203 20.571520331879057 1.0149999999999997 21.22 L 2.78 22.987 C 3.4277524119763196 23.64463803305786 4.474924509391174 23.686073512251163 5.172614428340631 23.081673192312753 C 5.870304347290087 22.477272872374343 5.978577232748017 21.434889409912078 5.42 20.7 L 7.6 18.526" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 -7.75 -7.64)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-4.25, -4.36)" d="M 8 5.877 L 5.42 3.3 C 5.97857723274802 2.5651105900879223 5.870304347290093 1.522727127625656 5.172614428340634 0.9183268076872428 C 4.474924509391176 0.3139264877488297 3.4277524119763187 0.3553619669421346 2.7799999999999994 1.013 L 1.013 2.78 C 0.35536196694213507 3.4277524119763196 0.3139264877488298 4.474924509391177 0.9183268076872431 5.172614428340635 C 1.5227271276256564 5.870304347290093 2.565110590087923 5.9785772327480196 3.3000000000000003 5.42 L 6.115 8.236" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 7.95 7.25)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-19.95, -19.25)" d="M 17.123 15 L 20.7 18.58 C 21.435226208874646 18.02814183758611 22.47211018704183 18.13923700911189 23.07373396700717 18.83432969143508 C 23.6753577469725 19.52942237375827 23.63659736776078 20.571520331879057 22.985 21.22 L 21.22 22.987 C 20.57224758802368 23.644638033057863 19.525075490608824 23.686073512251166 18.827385571659367 23.081673192312753 C 18.12969565270991 22.477272872374343 18.02142276725198 21.434889409912078 18.58 20.7 L 16.404999999999998 18.524" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 7.75 -7.63)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-19.75, -4.37)" d="M 16 5.877 L 18.58 3.3 C 18.02814183758611 2.564773791125352 18.139237009111895 1.5278898129581653 18.83432969143508 0.9262660329928303 C 19.52942237375827 0.3246422530274953 20.571520331879057 0.3634026322392203 21.22 1.0149999999999997 L 22.987 2.78 C 23.64463803305786 3.4277524119763196 23.686073512251163 4.474924509391173 23.081673192312753 5.17261442834063 C 22.477272872374343 5.870304347290087 21.434889409912078 5.978577232748018 20.7 5.42 L 17.885 8.236" stroke-linecap="round" />
+                                </g>
+                                </g>
+                                </g>
+                            </svg>
+                            <a *ngIf="!player.playerObject.dead"><input class="mx-auto text-center mb-2" [(ngModel)]="player.playerObject.name"></a>
+                            <a *ngIf="player.playerObject.dead" class="mx-auto text-center mb-2"><s>{{ player.playerObject.name }}</s></a>
                             <br>
                             <label class="mx-auto text-center">Initiative:</label>
                             <br>
@@ -77,6 +142,17 @@
                             <div class="text-green font-bold">
                                 Roll: {{ player.initiativeRoll }}
                             </div>
+                            <br>
+                            <button 
+                            class="text-center mx-auto"
+                            (click)="changeSelectedPlayer(index)">
+                                <b>Conditions</b>
+                            </button>
+                            <br>
+                            <span class="text-red-500" *ngFor="let conditions of currentPlayerCondtions(index); let last = last;">
+                                <span *ngIf="!last"><b>{{ conditions | title }}, </b></span>
+                                <span *ngIf="last"><b>{{ conditions | title }}</b></span>
+                            </span>
                             <div class="items-center text-center absolute top-3 right-3">
                                 <svg 
                                 xmlns="http://www.w3.org/2000/svg"
@@ -113,13 +189,47 @@
                         </svg>
                     </div>
                 </div>
-                <div *ngIf="customOrder" cdkDropList class="example-list cursor-grab active:cursor-grabbing relative" (cdkDropListDropped)="drop($event)">
-                    <div class="example-box" *ngFor="let player of players; let index = index;" cdkDrag>
+
+                <!-- PLAYER & MONSTER CUSTOM ORDER -->
+                <div *ngIf="customOrder" cdkDropList class="example-list cursor-grab active:cursor-grabbing" (cdkDropListDropped)="drop($event)">
+                    <div class="example-box relative" *ngFor="let player of players; let index = index;" cdkDrag>
+
                         <div *ngIf="!player.playerObject['monster']" class="mx-auto text-center">
-                            {{ player.playerObject.name }} (Initiative: {{ player.playerObject.initiative }})
+                            <svg (click)="killCreature(index)" class="absolute top-2 left-2 cursor-pointer" width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'><rect width='24' height='24' stroke='none' fill='#000000' opacity='0'/>
+                                <g transform="matrix(0.83 0 0 0.83 12 12)" >
+                                <g>
+                                <g transform="matrix(1 0 0 1 0 0)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-12, -12)" d="M 18.5 11 C 18.500189240635205 8.041316168347098 16.5022540156395 5.455802245144381 13.639197027093264 4.709669058754123 C 10.776140038547029 3.963535872363866 7.770426190282093 5.245062958578645 6.326556143360634 7.827513217363766 C 4.8826860964391745 10.409963476148889 5.365006574928479 13.641680413998426 7.5000000000000036 15.690000000000003 L 7.5 18 C 7.5 18.82842712474619 8.17157287525381 19.5 9 19.5 C 9.82842712474619 19.5 10.5 18.82842712474619 10.5 18 C 10.5 18.82842712474619 11.17157287525381 19.5 12 19.5 C 12.82842712474619 19.5 13.5 18.82842712474619 13.5 18 C 13.5 18.82842712474619 14.17157287525381 19.5 15 19.5 C 15.82842712474619 19.5 16.5 18.82842712474619 16.5 18 L 16.5 15.69 C 17.779730133149485 14.46577759712278 18.50245187436557 12.770995113971056 18.5 10.999999999999998 Z" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 -3 -1)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-9, -11)" d="M 7.5 11 C 7.5 11.82842712474619 8.17157287525381 12.5 9 12.5 C 9.82842712474619 12.5 10.5 11.82842712474619 10.5 11 C 10.5 10.17157287525381 9.82842712474619 9.5 9 9.5 C 8.17157287525381 9.5 7.5 10.17157287525381 7.5 11 Z" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 3 -1)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-15, -11)" d="M 13.5 11 C 13.5 11.82842712474619 14.17157287525381 12.5 15 12.5 C 15.82842712474619 12.5 16.5 11.82842712474619 16.5 11 C 16.5 10.17157287525381 15.82842712474619 9.5 15 9.5 C 14.17157287525381 9.5 13.5 10.17157287525381 13.5 11 Z" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 0 3.15)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-12, -15.15)" d="M 13 15.5 C 12.737 15.106 12.54 14.8 12 14.8 C 11.46 14.8 11.263 15.100000000000001 11 15.5" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 -7.95 7.25)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-4.05, -19.25)" d="M 6.877 15 L 3.3 18.58 C 2.564773791125352 18.02814183758611 1.5278898129581644 18.139237009111895 0.9262660329928298 18.83432969143508 C 0.3246422530274953 19.52942237375827 0.3634026322392203 20.571520331879057 1.0149999999999997 21.22 L 2.78 22.987 C 3.4277524119763196 23.64463803305786 4.474924509391174 23.686073512251163 5.172614428340631 23.081673192312753 C 5.870304347290087 22.477272872374343 5.978577232748017 21.434889409912078 5.42 20.7 L 7.6 18.526" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 -7.75 -7.64)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-4.25, -4.36)" d="M 8 5.877 L 5.42 3.3 C 5.97857723274802 2.5651105900879223 5.870304347290093 1.522727127625656 5.172614428340634 0.9183268076872428 C 4.474924509391176 0.3139264877488297 3.4277524119763187 0.3553619669421346 2.7799999999999994 1.013 L 1.013 2.78 C 0.35536196694213507 3.4277524119763196 0.3139264877488298 4.474924509391177 0.9183268076872431 5.172614428340635 C 1.5227271276256564 5.870304347290093 2.565110590087923 5.9785772327480196 3.3000000000000003 5.42 L 6.115 8.236" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 7.95 7.25)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-19.95, -19.25)" d="M 17.123 15 L 20.7 18.58 C 21.435226208874646 18.02814183758611 22.47211018704183 18.13923700911189 23.07373396700717 18.83432969143508 C 23.6753577469725 19.52942237375827 23.63659736776078 20.571520331879057 22.985 21.22 L 21.22 22.987 C 20.57224758802368 23.644638033057863 19.525075490608824 23.686073512251166 18.827385571659367 23.081673192312753 C 18.12969565270991 22.477272872374343 18.02142276725198 21.434889409912078 18.58 20.7 L 16.404999999999998 18.524" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 7.75 -7.63)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-19.75, -4.37)" d="M 16 5.877 L 18.58 3.3 C 18.02814183758611 2.564773791125352 18.139237009111895 1.5278898129581653 18.83432969143508 0.9262660329928303 C 19.52942237375827 0.3246422530274953 20.571520331879057 0.3634026322392203 21.22 1.0149999999999997 L 22.987 2.78 C 23.64463803305786 3.4277524119763196 23.686073512251163 4.474924509391173 23.081673192312753 5.17261442834063 C 22.477272872374343 5.870304347290087 21.434889409912078 5.978577232748018 20.7 5.42 L 17.885 8.236" stroke-linecap="round" />
+                                </g>
+                                </g>
+                                </g>
+                            </svg>
+                            <a *ngIf="!player.playerObject.dead">{{ player.playerObject.name }} (Initiative: {{ player.playerObject.initiative }})</a>
+                            <a *ngIf="player.playerObject.dead"><s>{{ player.playerObject.name }} (Initiative: {{ player.playerObject.initiative }})</s></a>
                             <div class="text-green font-bold">
                                 Roll:
-                                <input type="number" class="text-right text-green font-bold w-10" [(ngModel)]="player.initiativeRoll">
+                                <input type="number" class="text-right text-green font-bold w-10 absolute" [(ngModel)]="player.initiativeRoll">
                             </div>
                             <button 
                             class="text-center mx-auto mt-2"
@@ -134,15 +244,58 @@
                         </div>
     
                         <div class="mx-auto text-center" *ngIf="player.playerObject['monster']">
-                            <input class="mx-auto text-center mb-4" [(ngModel)]="player.playerObject.name">
+                            <svg (click)="killCreature(index)" class="absolute top-2 left-2 cursor-pointer" width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'><rect width='24' height='24' stroke='none' fill='#000000' opacity='0'/>
+                                <g transform="matrix(0.83 0 0 0.83 12 12)" >
+                                <g>
+                                <g transform="matrix(1 0 0 1 0 0)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-12, -12)" d="M 18.5 11 C 18.500189240635205 8.041316168347098 16.5022540156395 5.455802245144381 13.639197027093264 4.709669058754123 C 10.776140038547029 3.963535872363866 7.770426190282093 5.245062958578645 6.326556143360634 7.827513217363766 C 4.8826860964391745 10.409963476148889 5.365006574928479 13.641680413998426 7.5000000000000036 15.690000000000003 L 7.5 18 C 7.5 18.82842712474619 8.17157287525381 19.5 9 19.5 C 9.82842712474619 19.5 10.5 18.82842712474619 10.5 18 C 10.5 18.82842712474619 11.17157287525381 19.5 12 19.5 C 12.82842712474619 19.5 13.5 18.82842712474619 13.5 18 C 13.5 18.82842712474619 14.17157287525381 19.5 15 19.5 C 15.82842712474619 19.5 16.5 18.82842712474619 16.5 18 L 16.5 15.69 C 17.779730133149485 14.46577759712278 18.50245187436557 12.770995113971056 18.5 10.999999999999998 Z" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 -3 -1)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-9, -11)" d="M 7.5 11 C 7.5 11.82842712474619 8.17157287525381 12.5 9 12.5 C 9.82842712474619 12.5 10.5 11.82842712474619 10.5 11 C 10.5 10.17157287525381 9.82842712474619 9.5 9 9.5 C 8.17157287525381 9.5 7.5 10.17157287525381 7.5 11 Z" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 3 -1)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-15, -11)" d="M 13.5 11 C 13.5 11.82842712474619 14.17157287525381 12.5 15 12.5 C 15.82842712474619 12.5 16.5 11.82842712474619 16.5 11 C 16.5 10.17157287525381 15.82842712474619 9.5 15 9.5 C 14.17157287525381 9.5 13.5 10.17157287525381 13.5 11 Z" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 0 3.15)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-12, -15.15)" d="M 13 15.5 C 12.737 15.106 12.54 14.8 12 14.8 C 11.46 14.8 11.263 15.100000000000001 11 15.5" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 -7.95 7.25)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-4.05, -19.25)" d="M 6.877 15 L 3.3 18.58 C 2.564773791125352 18.02814183758611 1.5278898129581644 18.139237009111895 0.9262660329928298 18.83432969143508 C 0.3246422530274953 19.52942237375827 0.3634026322392203 20.571520331879057 1.0149999999999997 21.22 L 2.78 22.987 C 3.4277524119763196 23.64463803305786 4.474924509391174 23.686073512251163 5.172614428340631 23.081673192312753 C 5.870304347290087 22.477272872374343 5.978577232748017 21.434889409912078 5.42 20.7 L 7.6 18.526" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 -7.75 -7.64)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-4.25, -4.36)" d="M 8 5.877 L 5.42 3.3 C 5.97857723274802 2.5651105900879223 5.870304347290093 1.522727127625656 5.172614428340634 0.9183268076872428 C 4.474924509391176 0.3139264877488297 3.4277524119763187 0.3553619669421346 2.7799999999999994 1.013 L 1.013 2.78 C 0.35536196694213507 3.4277524119763196 0.3139264877488298 4.474924509391177 0.9183268076872431 5.172614428340635 C 1.5227271276256564 5.870304347290093 2.565110590087923 5.9785772327480196 3.3000000000000003 5.42 L 6.115 8.236" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 7.95 7.25)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-19.95, -19.25)" d="M 17.123 15 L 20.7 18.58 C 21.435226208874646 18.02814183758611 22.47211018704183 18.13923700911189 23.07373396700717 18.83432969143508 C 23.6753577469725 19.52942237375827 23.63659736776078 20.571520331879057 22.985 21.22 L 21.22 22.987 C 20.57224758802368 23.644638033057863 19.525075490608824 23.686073512251166 18.827385571659367 23.081673192312753 C 18.12969565270991 22.477272872374343 18.02142276725198 21.434889409912078 18.58 20.7 L 16.404999999999998 18.524" stroke-linecap="round" />
+                                </g>
+                                <g transform="matrix(1 0 0 1 7.75 -7.63)" >
+                                <path style="stroke: rgb(0,0,0); stroke-width: 1; stroke-dasharray: none; stroke-linecap: round; stroke-dashoffset: 0; stroke-linejoin: round; stroke-miterlimit: 4; fill: none; fill-rule: nonzero; opacity: 1;" transform=" translate(-19.75, -4.37)" d="M 16 5.877 L 18.58 3.3 C 18.02814183758611 2.564773791125352 18.139237009111895 1.5278898129581653 18.83432969143508 0.9262660329928303 C 19.52942237375827 0.3246422530274953 20.571520331879057 0.3634026322392203 21.22 1.0149999999999997 L 22.987 2.78 C 23.64463803305786 3.4277524119763196 23.686073512251163 4.474924509391173 23.081673192312753 5.17261442834063 C 22.477272872374343 5.870304347290087 21.434889409912078 5.978577232748018 20.7 5.42 L 17.885 8.236" stroke-linecap="round" />
+                                </g>
+                                </g>
+                                </g>
+                            </svg>
+
+                            <a *ngIf="!player.playerObject.dead"><input class="mx-auto text-center mb-2" [(ngModel)]="player.playerObject.name"></a>
+                            <a *ngIf="player.playerObject.dead" class="mx-auto text-center mb-2"><s>{{ player.playerObject.name }}</s></a>
                             <br>
                             <label class="mx-auto text-center">Initiative:</label>
                             <br>
                             <input type="number" class="mx-auto text-center w-10 ml-4" [(ngModel)]="player.playerObject.initiative">
                             <div class="text-green font-bold">
                                 Roll:
-                                <input type="number" class="mx-auto text-center w-10 ml-4" [(ngModel)]="player.initiativeRoll">
+                                <input type="number" class="mx-auto text-center w-10 ml-4 absolute" [(ngModel)]="player.initiativeRoll">
                             </div>
+                            <br>
+                            <button 
+                            class="text-center mx-auto"
+                            (click)="changeSelectedPlayer(index)">
+                                <b>Conditions</b>
+                            </button>
+                            <br>
+                            <span class="text-red-500" *ngFor="let conditions of currentPlayerCondtions(index); let last = last;">
+                                <span *ngIf="!last"><b>{{ conditions | title }}, </b></span>
+                                <span *ngIf="last"><b>{{ conditions | title }}</b></span>
+                            </span>
                             <div class="items-center text-center absolute top-3 right-3">
                                 <svg 
                                 xmlns="http://www.w3.org/2000/svg"

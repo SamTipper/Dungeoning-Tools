@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Monster } from '../interfaces/monster';
 import { Player } from '../interfaces/player';
 import { CampaignLoaderService } from './campaign-loader.service';
 
@@ -75,6 +76,7 @@ export class PlayerService {
     // Stats
     player.health = 0;
     player.proficiency = this.findClosestProficiency(player.level);
+    player.dead = false;
 
     // Ability Scores
     player.stats = {
@@ -187,7 +189,7 @@ export class PlayerService {
     };
   }
 
-  generatePlayerConditions(player: Player){
+  generatePlayerConditions(player: Player | Monster){
     player.conditions = {
       blinded:       false,
       charmed:       false,

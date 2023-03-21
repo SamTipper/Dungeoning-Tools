@@ -33,7 +33,7 @@
                         <br>
                         <span class="mx-auto text-center mt-2">Caster:</span>
                         <select class="mx-auto text-center mt-2" [(ngModel)]="spell.casterName">
-                            <option class="text-center" *ngFor="let player of sortByName(); let index = index;" [value]="index">{{ player.playerObject.name }}</option>
+                            <option class="text-center" *ngFor="let player of players" [value]="player.playerObject.name">{{ player.playerObject.name }}</option>
                         </select>
                         <br>
                         <input type="number" class="mx-auto text-center w-10 mt-2" (blur)="updateSpellOrder()" [(ngModel)]="spell.duration">
@@ -227,7 +227,7 @@
                             </svg>
                             <a *ngIf="!player.playerObject.dead">{{ player.playerObject.name }} (Initiative: {{ player.playerObject.initiative }})</a>
                             <a *ngIf="player.playerObject.dead"><s>{{ player.playerObject.name }} (Initiative: {{ player.playerObject.initiative }})</s></a>
-                            <div class="text-green font-bold">
+                            <div class="text-green font-bold mx-auto">
                                 Roll:
                                 <input type="number" class="text-right text-green font-bold w-10 absolute" [(ngModel)]="player.initiativeRoll">
                             </div>

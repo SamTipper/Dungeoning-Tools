@@ -81,7 +81,7 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
 
   sortByName(){
     const clonedPlayers = [];
-    this.players.forEach(val => clonedPlayers.push(Object.assign({}, val)))
+    this.players.forEach(val => clonedPlayers.push(Object.assign({}, val)));
     return clonedPlayers.sort((a, b) => {
       return a.playerObject.name < b.playerObject.name ? -1 : 1;
     });
@@ -135,7 +135,12 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
     this.activeSpells.splice(index, 1);
   }
 
+  removeSpellOnDeath(playerIndex: number){
+    this.activeSpells = this.activeSpells.filter(spell => spell.casterName !== this.players[playerIndex].playerObject.name);
+  }
+
   onRemovePlayer(index: number){
+    this.removeSpellOnDeath(index);
     this.players.splice(index, 1);
   }
 
@@ -223,7 +228,12 @@ export class InitiativeTrackerComponent implements OnInit, OnDestroy{
   }
 
   killCreature(index: number){
-    this.players[index].playerObject.dead = this.players[index].playerObject.dead ? false : true;
+    if (this.players[index].playerObject.dead){
+      this.players[index].playerObject.dead = false;
+    } else {
+      this.players[index].playerObject.dead = true;
+      this.removeSpellOnDeath(index);
+    }
   }
 
 }

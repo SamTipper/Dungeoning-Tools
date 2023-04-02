@@ -3,8 +3,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
+import { Player } from 'src/app/interfaces/player';
 import { CampaignLoaderService } from 'src/app/services/campaign-loader.service';
 import { HttpService } from 'src/app/services/http.service';
+import { PlayerService } from 'src/app/services/player.service';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy{
     assignDM: false
   };
   dmLoggedIn: boolean;
+  players: Player [];
   subscriptions: Subscription[] = [];
 
   constructor(
@@ -29,6 +32,7 @@ export class HomeComponent implements OnInit, OnDestroy{
     private http: HttpService,
     private campaignLoader: CampaignLoaderService,
     private toastr: ToastrService,
+    private playerService: PlayerService
   ) { }
   
   ngOnInit(){
@@ -36,6 +40,7 @@ export class HomeComponent implements OnInit, OnDestroy{
       this.campaignLoaded = true;
       this.dmCode = this.campaignLoader.dmCode;
       this.dmLoggedIn = this.campaignLoader.dmLoggedIn;
+      this.players = this.campaignLoader.players;
     } else {
       this.existingCampaignForm = new FormGroup({
         'campCode': new FormControl(null, [Validators.required])
@@ -57,6 +62,7 @@ export class HomeComponent implements OnInit, OnDestroy{
           this.campaignLoader.loadCampaign(JSON.parse(res.body), campaignCode);
           this.dmCode = this.campaignLoader.dmCode;
           this.dmLoggedIn = this.campaignLoader.dmLoggedIn;
+          this.players = this.campaignLoader.players;
           this.toastr.success(`${this.campaignLoader.campaignName} successfully loaded!`);
           this.disableForm = false;
           this.campaignLoaded = true;
@@ -95,6 +101,9 @@ export class HomeComponent implements OnInit, OnDestroy{
     if (this.dmPasswords.password !== this.dmPasswords.confirmPassword){
       return true;
     }
+    if (this.dmPasswords.password.length > 15 && this.dmPasswords.confirmPassword.length > 15){
+      return true;
+    }
     if (this.dmPasswords.password.length < 6 && this.dmPasswords.confirmPassword.length < 6){
       return true;
     }
@@ -102,8 +111,13 @@ export class HomeComponent implements OnInit, OnDestroy{
   }
 
   setDMPassword(){
+    let encryptedPassword = this.dmPasswords.password;
+    for (let i = 0; i < 15; i++){
+      encryptedPassword = btoa(encryptedPassword);
+    }
+
     this.subscriptions.push(
-      this.http.updateCampaign(this.campaignLoader.campaignCode, this.campaignLoader.campaignName, JSON.stringify(this.campaignLoader.players), btoa(this.dmPasswords.password))
+      this.http.updateCampaign(this.campaignLoader.campaignCode, this.campaignLoader.campaignName, JSON.stringify(this.campaignLoader.players), encryptedPassword)
         .subscribe(
         (res) => {
           this.campaignLoader.dmCode = btoa(this.dmPasswords.password);
@@ -129,11 +143,37 @@ export class HomeComponent implements OnInit, OnDestroy{
   }
 
   validateDM(){
-    if (this.dmPasswords.password === atob(this.campaignLoader.dmCode)){
+    let decryptedPassword = this.campaignLoader.dmCode;
+    for (let i = 0; i < 15; i++){
+      decryptedPassword = atob(decryptedPassword);
+    }
+
+    if (this.dmPasswords.password === decryptedPassword){
       this.dmPasswords.assignDM = false;
       this.campaignLoader.dmLoggedIn = true;
       this.dmLoggedIn = true;
       this.toastr.success("You have successfully logged in, welcome back!");
     }
   }
+
+  findInsights(player: Player){
+    let insights = {}
+
+    for (const [condition, value] of Object.entries(player.conditions)){
+      if (value){
+        if (!insights['conditions']){
+          insights['conditions'] = [];
+        }
+
+        insights['conditions'].push(this.playerService.title(condition));
+      }
+    }
+
+    if (player.dead){
+      insights['dead'] = "This character is dead.";
+    }
+
+    return insights;
+  }
+
 }

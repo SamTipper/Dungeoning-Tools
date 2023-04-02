@@ -16,6 +16,7 @@ export class DiceRollerComponent implements OnInit{
   rollHistory: number[] = [];
   players: Player[];
   selectedPlayer: number;
+  selectedModifer: string;
   selectedDiceMods: object = {
     abilityScore: 0,
     skills: 0
